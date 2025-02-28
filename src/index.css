@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+::-webkit-scrollbar {
+  scroll-behavior: smooth;
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ea5d26;
+  border-radius: 8px;
+}
+html {
+  background-color: #ffffff;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+}
+@layer utilities {
+  .wrapper {
+    @apply max-w-7xl mx-auto px-4;
+  }
+  .title-heading {
+    @apply text-4xl sm:text-5xl font-bold;
+  }
+  .small-heading {
+    @apply text-3xl font-bold;
+  }
+  .softTitle {
+    @apply text-lg font-semibold;
+  }
+  .hardTitle {
+    @apply text-xl font-bold;
+  }
+  .companyName {
+    @apply text-lg text-primary;
+  }
+  .paddingTop {
+    @apply pt-[3rem];
+  }
+  .paddingBottom {
+    @apply pb-[3rem];
+  }
+}
