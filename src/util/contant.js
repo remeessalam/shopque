@@ -1,6 +1,10 @@
 import teamImage1 from "../assets/images/team/team-image-1.jpeg";
 import teamImage2 from "../assets/images/team/team-image-2.jpeg";
 import teamImage3 from "../assets/images/team/team-image-3.png";
+//icons
+import shipping from "../assets/images/icons/shipping.png";
+import achivements from "../assets/images/icons/achivements.png";
+import secure from "../assets/images/icons/secure.png";
 //categories images
 // import accessories from "../assets/images/categories/accessories.jpeg";
 // import toys from "../assets/images/categories/toys.jpeg";
@@ -8,8 +12,9 @@ import teamImage3 from "../assets/images/team/team-image-3.png";
 // import cloths from "../assets/images/categories/cloths.jpeg";
 export const navLinks = [
   { path: "/", label: "Home" },
-  { path: "/shop", label: "Shop" },
   { path: "/about-us", label: "About Us" },
+  { path: "/products", label: "Products" },
+  { path: "/blog", label: "Blog" },
   { path: "/contact-us", label: "Contact Us" },
 ];
 export const petCareFeatures = [
@@ -33,8 +38,6 @@ export const petCareFeatures = [
   },
 ];
 
-export default petCareFeatures;
-
 export const ourTeam = [
   {
     id: 1,
@@ -56,25 +59,23 @@ export const ourTeam = [
   },
 ];
 
-// export const categories = [
-//   {
-//     name: "Accessories",
-//     products: 84,
-//     image: accessories,
-//   },
-//   {
-//     name: "Toys",
-//     products: 64,
-//     image: toys,
-//   },
-//   {
-//     name: "Food",
-//     products: 22,
-//     image: food,
-//   },
-//   {
-//     name: "Cloths",
-//     products: 16,
-//     image: cloths,
-//   },
-// ];
+export const features = [
+  {
+    id: 1,
+    icon: shipping,
+    title: "Free Shipping",
+    desc: "Upgrade your style today and get FREE shipping on all orders! Don't miss out.",
+  },
+  {
+    id: 2,
+    icon: achivements,
+    title: "Satisfaction Guarantee",
+    desc: "Shop confidently with our Satisfaction Guarantee: Love it or get a refund.",
+  },
+  {
+    id: 3,
+    icon: secure,
+    title: "Secure Payment",
+    desc: "Your security is our priority. Your payments are secure with us.",
+  },
+];

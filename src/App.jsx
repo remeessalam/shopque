@@ -1,17 +1,29 @@
+import { createBrowserRouter } from "react-router-dom";
+import AppLayout from "./Layout/AppLayout";
 import AboutPage from "./Pages/AboutPage";
-// import ForgotPassword from "./Pages/ForGotPassword";
-// import Login from "./Pages/LoginPage";
-// import SignUp from "./Pages/SignupPage";
+import Homepage from "./Pages/Homepage";
+import ProductPage from "./Pages/ProductPage";
+import ProductDetails from "./Pages/ProductDetails";
+// import ContactusPage from "./Pages/ContactusPage";
+// import CartPage from "./Pages/CartPage";
+// import ProductPage from "./Pages/ProductsPage";
+// import ProductDetails from "./Pages/ProductDetails";
+// import WishlistPage from "./Pages/WishlistPage";
 
-function App() {
-  return (
-    <>
-      {/* <Login /> */}
-      {/* <SignUp /> */}
-      {/* <ForgotPassword /> */}
-      <AboutPage />
-    </>
-  );
-}
+const AppRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      { path: "/", element: <Homepage /> },
+      { path: "/about-us", element: <AboutPage /> },
+      // { path: "/contact-us", element: <ContactusPage /> },
+      // { path: "/cartitems", element: <CartPage /> },
+      { path: "/products", element: <ProductPage /> },
+      { path: "/product-details", element: <ProductDetails /> },
+      // { path: "/wishlist", element: <WishlistPage /> },
+    ],
+  },
+]);
 
-export default App;
+export default AppRouter;

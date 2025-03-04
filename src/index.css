@@ -7,7 +7,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #ea5d26;
+  background-color: #c4ac68;
   border-radius: 8px;
 }
 html {
@@ -40,6 +40,9 @@ body {
   }
   .companyName {
     @apply text-lg text-primary;
+  }
+  .primaryButton {
+    @apply bg-black w-fit text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors;
   }
   .paddingTop {
     @apply pt-[3rem];
