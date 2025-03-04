@@ -1,3 +1,5 @@
+import SectionHeader from "../Components/SectionHeader";
+
 const PrivacyPolicy = () => {
   const privacyPolicySections = [
     {
@@ -127,43 +129,47 @@ const PrivacyPolicy = () => {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-2xl font-semibold mb-6">Privacy Policy</h1>
-      <p className="mb-6 text-sm">
-        At Shopout Next LLC, we understand the importance of protecting your
-        personal information, and we are committed to safeguarding your privacy.
-        This Privacy Policy outlines how we collect, use protect, and share your
-        information and your choices. By accessing this site or by interacting
-        with our website, you agree to the terms outlined in this policy.
-      </p>
+    <>
+      <SectionHeader section="privacy Policies" />
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* <h1 className="text-2xl font-semibold mb-6">Privacy Policy</h1> */}
+        <p className="mb-6 text-sm">
+          At Shopout Next LLC, we understand the importance of protecting your
+          personal information, and we are committed to safeguarding your
+          privacy. This Privacy Policy outlines how we collect, use protect, and
+          share your information and your choices. By accessing this site or by
+          interacting with our website, you agree to the terms outlined in this
+          policy.
+        </p>
 
-      {privacyPolicySections.map((section) => (
-        <div key={section.id} className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">
-            {section.id}. {section.title}
-          </h2>
-          <p className="mb-3 text-sm">{section.content}</p>
+        {privacyPolicySections.map((section) => (
+          <div key={section.id} className="mb-6">
+            <h2 className="text-lg font-semibold mb-2">
+              {section.id}. {section.title}
+            </h2>
+            <p className="mb-3 text-sm">{section.content}</p>
 
-          {section.subsections &&
-            section.subsections.map((subsection, index) => (
-              <div key={index} className="mb-3">
-                {subsection.title && (
-                  <h3 className="font-medium text-sm mb-1">
-                    {subsection.title}
-                  </h3>
-                )}
-                <ul className="list-disc pl-6">
-                  {subsection.items.map((item, itemIndex) => (
-                    <li key={itemIndex} className="text-sm mb-2">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-        </div>
-      ))}
-    </div>
+            {section.subsections &&
+              section.subsections.map((subsection, index) => (
+                <div key={index} className="mb-3">
+                  {subsection.title && (
+                    <h3 className="font-medium text-sm mb-1">
+                      {subsection.title}
+                    </h3>
+                  )}
+                  <ul className="list-disc pl-6">
+                    {subsection.items.map((item, itemIndex) => (
+                      <li key={itemIndex} className="text-sm mb-2">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 

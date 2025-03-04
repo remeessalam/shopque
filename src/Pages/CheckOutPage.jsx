@@ -1,23 +1,10 @@
-// import { ShoppingCart } from 'lucide-react';
+import SectionHeader from "../Components/SectionHeader";
 
-import { BiChevronRight } from "react-icons/bi";
-
-// import { BiShoppingBag } from "react-icons/bi";
 function CheckOutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-
-      <div className=" py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900">Checkout</h1>
-          <div className="flex items-center mt-2 text-sm text-gray-600">
-            <span>Ecommerce</span>
-            <BiChevronRight className="h-4 w-4 mx-1" />
-            <span>Checkout</span>
-          </div>
-        </div>
-      </div>
+      <SectionHeader section="Checkout" />
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto py-8 px-4">

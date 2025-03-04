@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { BiChevronRight, BiMinus, BiPlus, BiX } from "react-icons/bi";
+import { BiMinus, BiPlus, BiX } from "react-icons/bi";
+import SectionHeader from "../Components/SectionHeader";
 
 // Sample product images from Unsplash
 const productImages = {
@@ -56,19 +57,10 @@ function CartPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900">Cart</h1>
-          <div className="flex items-center mt-2 text-sm text-gray-600">
-            <span>Ecommerce</span>
-            <BiChevronRight className="h-4 w-4 mx-1" />
-            <span>Cart</span>
-          </div>
-        </div>
-      </div>
+      <SectionHeader section="Cart" />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div className="wrapper pb-24 mt-5">
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-8">

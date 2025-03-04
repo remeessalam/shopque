@@ -9,6 +9,7 @@ import Wishlist from "../Components/ProfileComponents/Wishlist";
 import ShippingAddress from "../Components/ProfileComponents/ShippingAddress";
 import AccountDetails from "../Components/ProfileComponents/AccountDetails";
 import ChangePassword from "../Components/ProfileComponents/ChangePassword";
+import SectionHeader from "../Components/SectionHeader";
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState("orders");
 
@@ -32,17 +33,7 @@ function ProfilePage() {
   return (
     <div className=" bg-gray-50">
       {/* Header Section */}
-      <div className="bg-white py-6 px-4 md:px-8 shadow-sm">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900">My Account</h1>
-          <div className="flex items-center text-sm mt-2 text-gray-600">
-            <span>Ecommerce</span>
-            <span className="mx-2">›</span>
-            <span className="font-medium">My Account</span>
-          </div>
-        </div>
-      </div>
-
+      <SectionHeader section="My Account" />
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
         <div className="flex flex-col md:flex-row gap-8">

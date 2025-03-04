@@ -1,25 +1,16 @@
 import ordersuccess from "../assets/images/icons/order-success.png";
 import orderfailed from "../assets/images/icons/order-failed.svg";
 import { FaArrowRight } from "react-icons/fa";
+import SectionHeader from "../Components/SectionHeader";
 //eslint-disable-next-line
 function OrderStatusPage({ orderPlaced }) {
   return (
     <div className="min-h-screen ">
       {/* Header section */}
-      <div className={`${orderPlaced ? `bg-[#D5E5D7]` : `bg-[#FBD9D0]`}`}>
-        <div className="container mx-auto px-4 py-8 ">
-          <div className="mb-2">
-            <h1 className="text-2xl md:text-3xl font-bold text-[#1a2e1a]">
-              {orderPlaced ? "Successful Order" : "Failed Order"}
-            </h1>
-          </div>
-          <div className="flex items-center text-sm text-gray-600 space-x-2">
-            <span>Ecommerce</span>
-            <span className="text-gray-400">&gt;</span>
-            <span>{orderPlaced ? "Successful Order" : "Failed Order"}</span>
-          </div>
-        </div>
-      </div>
+      <SectionHeader
+        section={orderPlaced ? `Successful Order` : `Failed Order`}
+        bgcolor={orderPlaced ? `bg-[#D5E5D7]` : `bg-[#FBD9D0]`}
+      />
 
       {/* Main content */}
       <div className="container mx-auto px-4 flex flex-col items-center justify-center py-16">
