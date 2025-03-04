@@ -2,6 +2,7 @@ import { useState } from "react";
 import ProductGrid from "../Components/ProductGrid";
 import { products } from "../util/productDetails";
 import JoinSection from "../Components/JoinSection";
+import { MdChevronRight } from "react-icons/md";
 
 function ProductPage() {
   const [filters, setFilters] = useState({
@@ -40,7 +41,7 @@ function ProductPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-sm text-gray-600">
             <span>Ecommerce</span>
-            <span className="mx-2">{">"}</span>
+            <MdChevronRight className="text-2xl" />
             <span>Search</span>
           </div>
         </div>
