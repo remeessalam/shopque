@@ -11,6 +11,7 @@ import AccountDetails from "../Components/ProfileComponents/AccountDetails";
 import ChangePassword from "../Components/ProfileComponents/ChangePassword";
 import SectionHeader from "../Components/SectionHeader";
 import ShippingAddressAll from "../Components/ProfileComponents/ShippingAddressAll";
+import ShowOdersPage from "../Components/ReturnOrderComponents/ShowOrdersPage";
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState("orders");
 
@@ -70,6 +71,7 @@ function ProfilePage() {
           {selectedTab === "shipping address" && <ShippingAddressAll />}
           {selectedTab === "account detail" && <AccountDetails />}
           {selectedTab === "password" && <ChangePassword />}
+          {selectedTab === "return" && <ShowOdersPage />}
         </div>
       </div>
     </div>
