@@ -10,6 +10,7 @@ import OrderStatusPage from "./Pages/OrderStatusPage";
 import ProfilePage from "./Pages/ProfilePage";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsAndConditions from "./Pages/TermsAndCondition";
+import BlogPage from "./Pages/BlogPage";
 // import ContactusPage from "./Pages/ContactusPage";
 // import CartPage from "./Pages/CartPage";
 // import ProductPage from "./Pages/ProductsPage";
@@ -29,6 +30,7 @@ const AppRouter = createBrowserRouter([
       { path: "/product-details", element: <ProductDetails /> },
       { path: "/checkout", element: <CheckOutPage /> },
       { path: "/profile", element: <ProfilePage /> },
+      { path: "/blogs", element: <BlogPage /> },
       {
         path: "/order-success",
         element: <OrderStatusPage orderPlaced={true} />,
