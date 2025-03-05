@@ -11,6 +11,7 @@ import ProfilePage from "./Pages/ProfilePage";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsAndConditions from "./Pages/TermsAndCondition";
 import BlogPage from "./Pages/BlogPage";
+import ContactUsPage from "./Pages/ContactUsPage";
 // import ContactusPage from "./Pages/ContactusPage";
 // import CartPage from "./Pages/CartPage";
 // import ProductPage from "./Pages/ProductsPage";
@@ -24,7 +25,7 @@ const AppRouter = createBrowserRouter([
     children: [
       { path: "/", element: <Homepage /> },
       { path: "/about-us", element: <AboutPage /> },
-      // { path: "/contact-us", element: <ContactusPage /> },
+      { path: "/contact-us", element: <ContactUsPage /> },
       { path: "/cartitems", element: <CartPage /> },
       { path: "/products", element: <ProductPage /> },
       { path: "/product-details", element: <ProductDetails /> },

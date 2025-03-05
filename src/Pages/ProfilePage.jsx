@@ -10,6 +10,7 @@ import ShippingAddress from "../Components/ProfileComponents/ShippingAddress";
 import AccountDetails from "../Components/ProfileComponents/AccountDetails";
 import ChangePassword from "../Components/ProfileComponents/ChangePassword";
 import SectionHeader from "../Components/SectionHeader";
+import ShippingAddressAll from "../Components/ProfileComponents/ShippingAddressAll";
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState("orders");
 
@@ -24,6 +25,11 @@ function ProfilePage() {
       id: "account detail",
       label: "Account Detail",
       icon: <CiUser size={20} />,
+    },
+    {
+      id: "shipping address",
+      label: "Shipping Address",
+      icon: <CiDeliveryTruck size={20} />,
     },
     { id: "logout", label: "Logout", icon: <IoIosLogOut size={20} /> },
   ];
@@ -61,6 +67,7 @@ function ProfilePage() {
           {selectedTab === "orders" && <OrderDetails isOrders={order} />}
           {selectedTab === "wishlist" && <Wishlist />}
           {selectedTab === "address" && <ShippingAddress />}
+          {selectedTab === "shipping address" && <ShippingAddressAll />}
           {selectedTab === "account detail" && <AccountDetails />}
           {selectedTab === "password" && <ChangePassword />}
         </div>
