@@ -85,13 +85,13 @@ const Header = () => {
           <div className="flex items-center gap-4">
             <Link to={"/cartitems"} className="relative ">
               <GiShoppingCart size={24} />
-              <span className="absolute -top-2 -right-2 bg-primary bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-primary  text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {cartItems.length}
               </span>
             </Link>
             <Link to={"/wishlist"} className="relative">
               <CiHeart size={24} />
-              <span className="absolute -top-2 -right-2 bg-primary bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-primary  text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {wishlist.length}
               </span>
             </Link>
