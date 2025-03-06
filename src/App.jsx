@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "./Layout/AppLayout";
 import AboutPage from "./Pages/AboutPage";
 import Homepage from "./Pages/Homepage";
-import ProductPage from "./Pages/ProductPage";
+import ProductPage from "./AdminPages/ProductPage";
 import ProductDetails from "./Pages/ProductDetails";
 import CartPage from "./Pages/CartPage";
 import CheckOutPage from "./Pages/CheckOutPage";
@@ -13,6 +13,13 @@ import TermsAndConditions from "./Pages/TermsAndCondition";
 import BlogPage from "./Pages/BlogPage";
 import ContactUsPage from "./Pages/ContactUsPage";
 import FAQPage from "./Pages/FAQPage";
+import AdminDashboard from "./AdminPages/AdminDashboard";
+import AdminLayout from "./Layout/Admin/AdminLayout";
+import AddProductForm from "./AdminComponents/AddProductForm";
+import OrderPage from "./AdminPages/OrderPage";
+import CustomerDetails from "./AdminPages/CustomerDetails";
+import ReviewsPage from "./AdminPages/ReviewsPage";
+import SettingPage from "./AdminPages/SettingPage";
 // import ContactusPage from "./Pages/ContactusPage";
 // import CartPage from "./Pages/CartPage";
 // import ProductPage from "./Pages/ProductsPage";
@@ -50,6 +57,19 @@ const AppRouter = createBrowserRouter([
         path: "/termsandconditions",
         element: <TermsAndConditions />,
       },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      { path: "/admin", element: <AdminDashboard /> },
+      { path: "products", element: <ProductPage /> },
+      { path: "add-product-form", element: <AddProductForm /> },
+      { path: "orders", element: <OrderPage /> },
+      { path: "customer-details", element: <CustomerDetails /> },
+      { path: "reveiws", element: <ReviewsPage /> },
+      { path: "settings", element: <SettingPage /> },
     ],
   },
 ]);

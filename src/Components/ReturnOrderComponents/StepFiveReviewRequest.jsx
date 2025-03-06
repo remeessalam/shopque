@@ -1,5 +1,3 @@
-import React from "react";
-
 const StepFiveReviewRequest = () => {
   return (
     <div className="">
