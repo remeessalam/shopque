@@ -20,6 +20,10 @@ import OrderPage from "./AdminPages/OrderPage";
 import CustomerDetails from "./AdminPages/CustomerDetails";
 import ReviewsPage from "./AdminPages/ReviewsPage";
 import SettingPage from "./AdminPages/SettingPage";
+import Login from "./Pages/LoginPage";
+import SignUp from "./Pages/SignupPage";
+import ForgotPassword from "./Pages/ForGotPassword";
+import OTPVerification from "./Pages/OTPVerification";
 // import ContactusPage from "./Pages/ContactusPage";
 // import CartPage from "./Pages/CartPage";
 // import ProductPage from "./Pages/ProductsPage";
@@ -27,6 +31,10 @@ import SettingPage from "./AdminPages/SettingPage";
 // import WishlistPage from "./Pages/WishlistPage";
 
 const AppRouter = createBrowserRouter([
+  { path: "/login", element: <Login /> },
+  { path: "/signup", element: <SignUp /> },
+  { path: "/forgot-password", element: <ForgotPassword /> },
+  { path: "/otp-verification", element: <OTPVerification /> },
   {
     path: "/",
     element: <AppLayout />,

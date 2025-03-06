@@ -9,6 +9,7 @@ import StepTwoSelectedOrder from "./StepTwoSelectedOrder";
 import StepThreeReturnMethod from "./StepThreeReturnMethod";
 import StepFourPaymentMethod from "./StepFourPaymentMethod";
 import StepFiveReviewRequest from "./StepFiveReviewRequest";
+import StepSixReturnOrder from "./StepSixReturnOrder";
 
 function ShowOdersPage() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -33,7 +34,7 @@ function ShowOdersPage() {
             <div key={index} className="flex flex-col items-center flex-1 ">
               <div
                 className={`w-10 h-10 rounded-full border  flex items-center justify-center z-10 ${
-                  index + 1 === currentStep
+                  index + 1 <= currentStep
                     ? "bg-[#7f56D9] text-white"
                     : "bg-white"
                 }`}
@@ -49,22 +50,33 @@ function ShowOdersPage() {
         {currentStep === 1 && <StepTwoSelectedOrder />}
         {currentStep === 2 && <StepThreeReturnMethod />}
         {currentStep === 3 && <StepFourPaymentMethod />}
-        {currentStep === 4 && <StepFiveReviewRequest />}
+        {currentStep === 4 && (
+          <StepFiveReviewRequest setCurrentStep={setCurrentStep} />
+        )}
+        {currentStep === 5 && <StepSixReturnOrder />}
 
         {/* Navigation Buttons */}
         <div className="flex justify-end gap-5 mt-5">
-          <button
-            onClick={() => setCurrentStep(currentStep - 1)}
-            className="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50"
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => setCurrentStep(currentStep + 1)}
-            className="px-4 py-2 bg-[#7f56D9] text-white rounded-md hover:bg-purple-700"
-          >
-            Next
-          </button>
+          {currentStep <= 3 && (
+            <>
+              <button
+                onClick={() =>
+                  setCurrentStep(currentStep === 0 ? 0 : currentStep - 1)
+                }
+                className={`px-4 py-2 border rounded-md ${
+                  currentStep === 0 && `cursor-not-allowed`
+                } text-gray-600 hover:bg-gray-50`}
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-4 py-2 bg-[#7f56D9] text-white rounded-md hover:bg-purple-700"
+              >
+                Next
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

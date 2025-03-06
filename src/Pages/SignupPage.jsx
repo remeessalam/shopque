@@ -1,5 +1,7 @@
 import { useState } from "react";
+import logo from "../assets/images/logo/logo.png";
 import signupimage from "../assets/images/signuppageimage.jpeg";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -25,12 +27,12 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="h-screen flex flex-col md:flex-row">
       {/* Left Section - Image */}
       <div className="md:w-1/2 relative">
         <div className="absolute top-6 left-6">
           <div className="flex items-center gap-2 text-amber-700">
-            <div className="font-semibold text-xl">SHOPQUE NEST LLP</div>
+            <img src={logo} alt="Shopque Nest LLP" className="h-16" />
           </div>
         </div>
         <img
@@ -135,9 +137,9 @@ const SignUp = () => {
 
           <p className="text-center text-sm text-gray-600">
             Already have an account?{" "}
-            <a href="#" className="text-amber-600 hover:text-amber-500">
+            <Link to="/login" className="text-amber-600 hover:text-amber-500">
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>

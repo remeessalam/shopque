@@ -1,5 +1,7 @@
 import { useState } from "react";
 import loginimage from "../assets/images/loginpageimage.jpeg";
+import logo from "../assets/images/logo/logo.png";
+import { Link } from "react-router-dom";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -27,7 +29,7 @@ const Login = () => {
       <div className="md:w-1/2 relative">
         <div className="absolute top-6 left-6">
           <div className="flex items-center gap-2 text-amber-700">
-            <div className="font-semibold text-xl">SHOPQUE NEST LLP</div>
+            <img src={logo} alt="Shopque Nest LLP" className="h-16" />
           </div>
         </div>
         <img
@@ -83,12 +85,12 @@ const Login = () => {
                 />
                 <span className="text-sm">Remember Me</span>
               </label>
-              <a
-                href="#"
+              <Link
+                to="/forgot-password"
                 className="text-sm text-amber-600 hover:text-amber-500"
               >
                 Forgot Password?
-              </a>
+              </Link>
             </div>
 
             <button
@@ -101,9 +103,9 @@ const Login = () => {
 
           <p className="text-center text-sm text-gray-600">
             New here? Click here to{" "}
-            <a href="#" className="text-amber-600 hover:text-amber-500">
+            <Link to="/signup" className="text-amber-600 hover:text-amber-500">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>

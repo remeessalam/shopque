@@ -1,4 +1,5 @@
-const StepFiveReviewRequest = () => {
+//eslint-disable-next-line
+const StepFiveReviewRequest = ({ setCurrentStep }) => {
   return (
     <div className="">
       <div className="max-w-4xl mx-auto  rounded-lg  p-6 md:p-8">
@@ -41,6 +42,46 @@ const StepFiveReviewRequest = () => {
               </tr>
             </tbody>
           </table>
+        </div>
+        <div>
+          <ul className="flex flex-col gap-4">
+            <li>
+              <h1>
+                Current state of the product:{" "}
+                <span className="font-medium">
+                  I would like to return a sealed product.
+                </span>
+              </h1>
+            </li>
+            <li>
+              <h1>
+                Main reason for returning the product::{" "}
+                <span className="font-medium">
+                  The product quality is unsatisfactory.
+                </span>
+              </h1>
+            </li>
+            <li>
+              <h1>
+                Method for returning the product::{" "}
+                <span className="font-medium">Standard Shipping - $40</span>
+              </h1>
+            </li>
+            <li>
+              <h1>
+                Method for receiving the product::{" "}
+                <span className="font-medium">
+                  I would like a store voucher
+                </span>
+              </h1>
+            </li>
+          </ul>
+          <button
+            className="mt-4 font-medium text-[#7f56D9] p-2"
+            onClick={() => setCurrentStep(5)}
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import forgotPasswordImage from "../assets/images/forgotpageimage.jpeg";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/images/logo/logo.png";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle OTP sending logic here
@@ -16,7 +18,7 @@ const ForgotPassword = () => {
       <div className="md:w-1/2 relative">
         <div className="absolute top-6 left-6">
           <div className="flex items-center gap-2 text-amber-700">
-            <div className="font-semibold text-xl">SHOPQUE NEST LLP</div>
+            <img src={logo} alt="Shopque Nest LLP" className="h-16" />
           </div>
         </div>
         <img
@@ -30,8 +32,8 @@ const ForgotPassword = () => {
       <div className="md:w-1/2 flex items-center justify-center p-8 md:p-16">
         <div className="w-full max-w-md space-y-8">
           {/* Back Button */}
-          <div>
-            <a href="#" className="flex items-center text-black">
+          <div className="w-fit">
+            <Link to="/login" className="flex items-center text-black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 mr-1"
@@ -45,7 +47,7 @@ const ForgotPassword = () => {
                 />
               </svg>
               Back
-            </a>
+            </Link>
           </div>
 
           <div className="space-y-2">
@@ -71,6 +73,7 @@ const ForgotPassword = () => {
 
             <button
               type="submit"
+              onClick={() => navigate("/otp-verification")}
               className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
             >
               Send OTP
@@ -79,9 +82,9 @@ const ForgotPassword = () => {
 
           <p className="text-center text-sm text-gray-600">
             Remember your password?{" "}
-            <a href="#" className="text-amber-600 hover:text-amber-500">
+            <Link to="/login" className="text-amber-600 hover:text-amber-500">
               Login here
-            </a>
+            </Link>
           </p>
         </div>
       </div>
