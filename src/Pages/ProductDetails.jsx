@@ -10,8 +10,10 @@ import { products } from "../util/productDetails";
 import dogfooddispencer from "../assets/images/products/dog-food-dispencer.jpeg";
 // import { MdChevronRight } from "react-icons/md";
 import SectionHeader from "../Components/SectionHeader";
+import ShareModal from "../Components/ShareModal";
 function ProductDetails() {
   // Product data object with all details
+  const [showShare, setShowShare] = useState(false);
   const productData = {
     name: "Dog Food Dispencer",
     rating: 4.2,
@@ -69,11 +71,12 @@ function ProductDetails() {
       setQuantity(quantity - 1);
     }
   };
-
+  console.log(showShare, "asdfsadfsdf");
   return (
     <>
-      <SectionHeader section={productData.name} />
+      <ShareModal showShare={showShare} setShowShare={setShowShare} />
 
+      <SectionHeader section={productData.name} />
       {/* <div className="bg-gray-100 py-4 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-sm text-gray-60 flex items-center">
@@ -104,7 +107,10 @@ function ProductDetails() {
           <div className="w-full md:w-1/2">
             <div className="flex justify-between items-start">
               <h1 className="text-2xl font-bold">Dog Food Dispencer</h1>
-              <FiShare2 className="w-5 h-5 text-gray-500" />
+              <FiShare2
+                className="w-5 h-5 text-gray-500"
+                onClick={() => setShowShare(!showShare)}
+              />
             </div>
 
             <div className="flex items-center mt-2 ">
@@ -239,6 +245,8 @@ function ProductDetails() {
         <ProductGrid products={products.slice(0, 4)} cardslength={4} />
       </div>
       <JoinSection isShowCategory={true} />
+      {/* {showShare && ( */}
+      {/* )} */}
     </>
   );
 }

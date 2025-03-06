@@ -2,6 +2,7 @@ import ordersuccess from "../assets/images/icons/order-success.png";
 import orderfailed from "../assets/images/icons/order-failed.svg";
 import { FaArrowRight } from "react-icons/fa";
 import SectionHeader from "../Components/SectionHeader";
+import { Link } from "react-router-dom";
 //eslint-disable-next-line
 function OrderStatusPage({ orderPlaced }) {
   return (
@@ -40,10 +41,12 @@ function OrderStatusPage({ orderPlaced }) {
           </p>
 
           {/* Go to account button */}
-          <button className="bg-[#111827] text-white px-6 py-3 rounded flex items-center justify-center space-x-2 hover:bg-[#1f2937] transition-colors">
-            <span>{orderPlaced ? "Go to my account" : "Reorder"}</span>
-            <FaArrowRight size={18} />
-          </button>
+          <Link to={"/products"}>
+            <button className="bg-[#111827] text-white px-6 py-3 rounded flex items-center justify-center space-x-2 hover:bg-[#1f2937] transition-colors">
+              <span>{orderPlaced ? "Go to my account" : "Reorder"}</span>
+              <FaArrowRight size={18} />
+            </button>
+          </Link>
         </div>
       </div>
     </div>

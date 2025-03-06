@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SectionHeader from "../Components/SectionHeader";
 
 function CheckOutPage() {
@@ -172,10 +173,11 @@ function CheckOutPage() {
                   <span className="font-bold">$ 78.00</span>
                 </div>
               </div>
-
-              <button className="w-full bg-gray-900 text-white py-3 rounded font-medium hover:bg-gray-800 transition-colors">
-                Place Order
-              </button>
+              <Link to={"/order-success"}>
+                <button className="w-full bg-gray-900 text-white py-3 rounded font-medium hover:bg-gray-800 transition-colors">
+                  Place Order
+                </button>
+              </Link>
             </div>
           </div>
         </div>

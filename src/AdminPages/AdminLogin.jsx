@@ -1,6 +1,5 @@
 import { useState } from "react";
 import logo from "../assets/images/logo/logo.png";
-import { BsLock, BsMailbox } from "react-icons/bs";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");

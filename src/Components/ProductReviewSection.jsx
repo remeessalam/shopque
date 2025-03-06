@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { FiStar } from "react-icons/fi";
+import WriteReview from "./WriteReview";
 function ProductReviewSection() {
   // Sample reviews data
+  const [showReview, setShowReview] = useState(false);
+
   const [reviews] = useState([
     {
       id: 1,
@@ -52,7 +55,10 @@ function ProductReviewSection() {
 
         {/* Write a review button */}
         <div>
-          <button className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button
+            onClick={() => setShowReview(true)}
+            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
             Write a review
           </button>
         </div>
@@ -143,6 +149,7 @@ function ProductReviewSection() {
           Load more reviews
         </button>
       </div>
+      <WriteReview showReview={showReview} setShowReview={setShowReview} />
     </div>
   );
 }

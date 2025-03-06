@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BiMinus, BiPlus, BiX } from "react-icons/bi";
 import SectionHeader from "../Components/SectionHeader";
+import { Link } from "react-router-dom";
 
 // Sample product images from Unsplash
 const productImages = {
@@ -161,20 +162,23 @@ function CartPage() {
                   </div>
                 </dl>
                 <div className="mt-6">
-                  <button
-                    type="button"
-                    className="w-full bg-gray-900 border border-transparent rounded-md py-3 px-4 text-base font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                  >
-                    Checkout
-                  </button>
+                  <Link to={"/checkout"}>
+                    <button
+                      type="button"
+                      className="w-full bg-gray-900 border border-transparent rounded-md py-3 px-4 text-base font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    >
+                      Checkout
+                    </button>
+                  </Link>
                 </div>
                 <div className="mt-6 text-center">
-                  <button
+                  <Link
+                    to={"/products"}
                     type="button"
                     className="text-sm font-medium text-gray-600 hover:text-gray-500"
                   >
                     Continue Shopping
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
