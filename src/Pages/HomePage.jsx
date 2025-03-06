@@ -46,11 +46,11 @@ const Homepage = () => {
               Start Browsing <LuArrowRight />
             </button>
           </div>
-          <div className=" bg-no-repeat bg-contain h-fit bg-bottom flex flex-col justify-end">
+          <div className=" bg-no-repeat bg-contain h-full bg-bottom flex flex-col justify-end">
             <img
               src={petimage}
               alt="banner-image"
-              className="rounded-3xl h-full object-contain"
+              className="rounded-3xl h-full object-cover"
             />
           </div>
         </div>
@@ -80,7 +80,7 @@ const Homepage = () => {
             Latest
           </h1>
         </div>
-        <ProductGrid products={products.slice(0, 8)} />
+        <ProductGrid products={products.slice(0, 8)} cardslength={4} />
       </div>
       <Testimonials />
       <Blogs />

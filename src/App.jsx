@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "./Layout/AppLayout";
 import AboutPage from "./Pages/AboutPage";
 import Homepage from "./Pages/Homepage";
-import ProductPage from "./AdminPages/ProductPage";
 import ProductDetails from "./Pages/ProductDetails";
 import CartPage from "./Pages/CartPage";
 import CheckOutPage from "./Pages/CheckOutPage";
@@ -24,17 +23,17 @@ import Login from "./Pages/LoginPage";
 import SignUp from "./Pages/SignupPage";
 import ForgotPassword from "./Pages/ForGotPassword";
 import OTPVerification from "./Pages/OTPVerification";
-// import ContactusPage from "./Pages/ContactusPage";
-// import CartPage from "./Pages/CartPage";
-// import ProductPage from "./Pages/ProductsPage";
-// import ProductDetails from "./Pages/ProductDetails";
-// import WishlistPage from "./Pages/WishlistPage";
+import AdminProductPage from "./AdminPages/AdminProductPage";
+import ProductPage from "./Pages/ProductPage";
+import WishlistPage from "./Pages/WishlistPage";
+import AdminLogin from "./AdminPages/AdminLogin";
 
 const AppRouter = createBrowserRouter([
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/otp-verification", element: <OTPVerification /> },
+  { path: "/admin/login", element: <AdminLogin /> },
   {
     path: "/",
     element: <AppLayout />,
@@ -49,6 +48,7 @@ const AppRouter = createBrowserRouter([
       { path: "/profile", element: <ProfilePage /> },
       { path: "/blogs", element: <BlogPage /> },
       { path: "/faq", element: <FAQPage /> },
+      { path: "/wishlist", element: <WishlistPage /> },
       {
         path: "/order-success",
         element: <OrderStatusPage orderPlaced={true} />,
@@ -72,12 +72,12 @@ const AppRouter = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       { path: "/admin", element: <AdminDashboard /> },
-      { path: "products", element: <ProductPage /> },
-      { path: "add-product-form", element: <AddProductForm /> },
-      { path: "orders", element: <OrderPage /> },
-      { path: "customer-details", element: <CustomerDetails /> },
-      { path: "reveiws", element: <ReviewsPage /> },
-      { path: "settings", element: <SettingPage /> },
+      { path: "/admin/products", element: <AdminProductPage /> },
+      { path: "/admin/add-product-form", element: <AddProductForm /> },
+      { path: "/admin/orders", element: <OrderPage /> },
+      { path: "/admin/customer-details", element: <CustomerDetails /> },
+      { path: "/admin/reveiws", element: <ReviewsPage /> },
+      { path: "/admin/settings", element: <SettingPage /> },
     ],
   },
 ]);

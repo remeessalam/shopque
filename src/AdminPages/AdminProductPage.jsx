@@ -6,7 +6,7 @@ import {
 } from "react-icons/fi";
 import AdminPageHeader from "../AdminComponents/AdminPageHeader";
 
-function ProductPage() {
+function AdminProductPage() {
   const products = [
     {
       id: 1,
@@ -214,4 +214,4 @@ function ProductPage() {
   );
 }
 
-export default ProductPage;
+export default AdminProductPage;

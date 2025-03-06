@@ -1,18 +1,20 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import logo from "../assets/images/logo/logo.png";
+import amex from "../assets/images/amex.png";
+import visa from "../assets/images/visa.png";
+import master from "../assets/images/mastercard.png";
 const Footer = () => {
+  const images = [master, amex, visa];
   return (
     <footer className="relative bg-white py-[7rem] overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 justify-items-center">
           {/* Company Info */}
           <div className="">
-            <h2 className="text-2xl font-bold mb-4">Zippty</h2>
+            <img src={logo} alt="Shopque Nest LLP" className="h-16 mb-4" />
             <p className="text-gray-600 mb-6 max-w-[18rem]">
-              At Zippty, we know your pets are more than just
-              animals—they&apos;re family. Whether you have a curious kitten or
-              an energetic dog,
+              DevCut is a YouTube channel for practical project-based learning.
             </p>
             <div className="flex space-x-4">
               <Link to="#" className="text-gray-600 hover:text-gray-900">
@@ -32,7 +34,34 @@ const Footer = () => {
 
           {/* Company Links */}
           <div className="flex flex-col items-start">
-            <h3 className="font-semibold text-lg mb-4">Company</h3>
+            <h3 className="font-light text-gray-500 text-lg mb-4">SUPPORT</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/faq" className="text-gray-600 hover:text-gray-900">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/termsandconditions"
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Terms of use
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacypolicy"
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+            </ul>
+          </div>
+          {/* Company Links */}
+          <div className="flex flex-col items-start">
+            <h3 className="font-light text-gray-500 text-lg mb-4">COMPANY</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -60,19 +89,54 @@ const Footer = () => {
                   Shop
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/contact-us"
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Contact Us
+                </Link>
+              </li>
+            </ul>
+          </div>
+          {/* Shop */}
+          <div className="flex flex-col items-start">
+            <h3 className="font-light text-gray-500 text-lg mb-4">SHOP</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/profile"
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  MY Account
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/checkout"
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Checkout
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Store Info */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Store</h3>
-            <ul className="space-y-2">
-              <li className="text-gray-600">
-                JP Colony, Shastri Nagar, Jaipur, Rajasthan - 302016
-              </li>
-              <li className="text-gray-600">+91-XXXXX XXXXX</li>
-              <li className="text-gray-600">info@domain.com</li>
-            </ul>
+            <h3 className="font-light text-gray-500 text-lg mb-4">
+              ACCEPTED PAYMENTS
+            </h3>
+            <div className="flex gap-2">
+              {images.map((obj, i) => (
+                <img
+                  key={i}
+                  src={obj}
+                  alt="payment-method"
+                  className="grayscale"
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

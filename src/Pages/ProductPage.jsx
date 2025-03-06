@@ -2,9 +2,12 @@ import { useState } from "react";
 import ProductGrid from "../Components/ProductGrid";
 import { products } from "../util/productDetails";
 import JoinSection from "../Components/JoinSection";
-import { MdChevronRight } from "react-icons/md";
+// import { MdChevronRight } from "react-icons/md";
+import SectionHeader from "../Components/SectionHeader";
 
-function ProductPage() {
+const ProductPage = () => {
+  const [selectedSize, setSelectedSize] = useState("M");
+
   const [filters, setFilters] = useState({
     categories: ["Pet Dog Products"],
     size: ["M"],
@@ -26,26 +29,27 @@ function ProductPage() {
   };
 
   const petCategories = [
-    { id: "pet-dog-products", label: "Pet Dog Products", checked: true },
+    { id: "pet-dog-products", label: "Pet Dog Products" },
     { id: "pet-cat-products", label: "Pet Cat Products" },
     { id: "pet-dog-food", label: "Pet Dog Food" },
     { id: "pet-cat-food", label: "Pet Cat Food" },
     { id: "pet-cloths", label: "Pet Cloths" },
     { id: "pet-toys", label: "Pet Toys" },
   ];
-
+  const sizes = ["S", "M", "L", "XL", "XXL"];
   return (
     <div className="min-h-screen ">
       {/* Navigation */}
-      <div className="bg-gray-100 py-4 px-4 md:px-8">
+      <SectionHeader section="Search" />
+      {/* <div className="bg-gray-100 py-4 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-gray-600 flex items-center">
             <span>Ecommerce</span>
             <MdChevronRight className="text-2xl" />
             <span>Search</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Content */}
       <div className="wrapper py-6 ">
@@ -57,11 +61,11 @@ function ProductPage() {
                 <h3 className="font-medium mb-3">Categories</h3>
                 <div className="space-y-2">
                   {petCategories.map(({ id, label, checked }) => (
-                    <div key={id} className="flex items-center">
+                    <div key={id} className="flex items-center border-b py-3">
                       <input
                         type="checkbox"
                         id={id}
-                        className="mr-2"
+                        className="mr-2 accent-black h-5 w-5"
                         defaultChecked={checked}
                       />
                       <label htmlFor={id} className="text-sm">
@@ -85,21 +89,19 @@ function ProductPage() {
               <div className="mb-6">
                 <h3 className="font-medium mb-3">Size</h3>
                 <div className="flex flex-wrap gap-2">
-                  <button className="border border-gray-300 px-3 py-1 text-sm rounded">
-                    S
-                  </button>
-                  <button className="border border-gray-300 px-3 py-1 text-sm rounded bg-gray-100">
-                    M
-                  </button>
-                  <button className="border border-gray-300 px-3 py-1 text-sm rounded">
-                    L
-                  </button>
-                  <button className="border border-gray-300 px-3 py-1 text-sm rounded">
-                    XL
-                  </button>
-                  <button className="border border-gray-300 px-3 py-1 text-sm rounded mt-2">
-                    XXL
-                  </button>
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`border px-3 py-1 text-sm rounded transition ${
+                        selectedSize === size
+                          ? "border-black bg-gray-100"
+                          : "border-gray-300"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -111,14 +113,14 @@ function ProductPage() {
                     min="0"
                     max="1000"
                     value={filters.price}
-                    className="w-full"
+                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
                     onChange={(e) =>
                       setFilters({ ...filters, price: e.target.value })
                     }
                   />
                 </div>
-                <div className="text-right bg-gray-800 text-white text-xs px-2 py-1 inline-block rounded">
-                  $ {filters.price}.00
+                <div className="text-right bg-black text-white text-xs px-3 py-1.5 inline-block rounded-md font-medium">
+                  ${filters.price}.00
                 </div>
               </div>
             </div>
@@ -184,6 +186,6 @@ function ProductPage() {
       <JoinSection />
     </div>
   );
-}
+};
 
 export default ProductPage;

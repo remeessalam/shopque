@@ -8,7 +8,8 @@ import JoinSection from "../Components/JoinSection";
 import ProductGrid from "../Components/ProductGrid";
 import { products } from "../util/productDetails";
 import dogfooddispencer from "../assets/images/products/dog-food-dispencer.jpeg";
-import { MdChevronRight } from "react-icons/md";
+// import { MdChevronRight } from "react-icons/md";
+import SectionHeader from "../Components/SectionHeader";
 function ProductDetails() {
   // Product data object with all details
   const productData = {
@@ -71,7 +72,9 @@ function ProductDetails() {
 
   return (
     <>
-      <div className="bg-gray-100 py-4 px-4 md:px-8">
+      <SectionHeader section={productData.name} />
+
+      {/* <div className="bg-gray-100 py-4 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-sm text-gray-60 flex items-center">
             <span>Ecommerce</span>
@@ -79,7 +82,7 @@ function ProductDetails() {
             <span>{productData.name}</span>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="wrapper">
         <div className="flex flex-col md:flex-row gap-8 mt-8">
           {/* Product Image Section */}
@@ -104,12 +107,14 @@ function ProductDetails() {
               <FiShare2 className="w-5 h-5 text-gray-500" />
             </div>
 
-            <div className="flex items-center mt-2">
-              <FiStar className="w-4 h-4 fill-current text-gray-700" />
-              <span className="ml-1 text-sm text-gray-700">
-                {productData.rating} — {productData.reviews} Reviews
-              </span>
-              <span className="ml-4 text-sm text-red-500">
+            <div className="flex items-center mt-2 ">
+              <div className="flex  bg-gray-200 px-4 items-center py-1 rounded-full">
+                <FiStar className="w-4 h-4 fill-current text-gray-700" />
+                <span className="ml-1 text-sm text-gray-700">
+                  {productData.rating} — {productData.reviews} Reviews
+                </span>
+              </div>
+              <span className="ml-4 text-sm text-red-500 border  px-4 py-1 rounded-full">
                 {productData.availability}
               </span>
             </div>

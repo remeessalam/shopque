@@ -151,7 +151,7 @@ const Sponsors = () => {
 const SearchBar = () => {
   return (
     <div className="mb-8">
-      <h3 className="text-lg font-medium mb-2">Search</h3>
+      <h3 className="text-lg font-medium mb-2 text-primary">Search</h3>
       <input
         type="text"
         className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary"
@@ -173,14 +173,16 @@ const Categories = () => {
 
   return (
     <div className="mb-8">
-      <h3 className="text-lg font-medium mb-3">Categories</h3>
-      <div className="space-y-2">
+      <h3 className="text-lg font-medium mb-3 text-primary">Categories</h3>
+      <div className="grid sm:grid-cols-2 gap-2">
         {categories.map((category, index) => (
-          <div key={index} className="flex justify-between">
-            <span className="text-primary hover:underline cursor-pointer">
+          <div key={index} className="flex flex-row flex-wrap group w-fit">
+            <h1 className="text-black w-fit group-hover:bg-primary rounded-lg group-hover:text-white px-3 py-1 cursor-pointer">
               {category.name}
-            </span>
-            <span className="text-gray-500">({category.count})</span>
+              <span className="text-gray-500 group-hover:text-gray-200">
+                ({category.count})
+              </span>
+            </h1>
           </div>
         ))}
       </div>

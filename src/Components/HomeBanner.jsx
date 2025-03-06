@@ -1,6 +1,7 @@
 import { LuArrowRight } from "react-icons/lu";
 import homebanner from "../assets/images/homebanner.png";
 import backgroundimage from "../assets/images/backgroundimage.png";
+import { Link } from "react-router-dom";
 
 const HomeBanner = () => {
   return (
@@ -11,9 +12,12 @@ const HomeBanner = () => {
             <h1 className="small-heading">Fresh Arrivals Online</h1>
             <p className="font-light">Discover Our Newest Collection Today.</p>
           </div>
-          <button className="primaryButton flex items-center gap-2">
+          <Link
+            to={"/products"}
+            className="primaryButton flex items-center gap-2"
+          >
             View Collection <LuArrowRight />
-          </button>
+          </Link>
         </div>
         <div
           className=" bg-no-repeat bg-contain h-full bg-bottom flex flex-col justify-end"
