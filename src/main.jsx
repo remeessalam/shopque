@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import AppRouter from "./App";
 import { RouterProvider } from "react-router-dom";
-import { CartProvider } from "./Store/cartContext";
-import { WishlistProvider } from "./Store/wishlistContext";
+import { CartProvider } from "./Store/CartContext";
+import { WishlistProvider } from "./Store/WishlistContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -1,7 +1,7 @@
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useWishlist } from "../Store/wishlistContext";
+import { useWishlist } from "../Store/WishlistContext";
 //eslint-disable-next-line
 const ProductGrid = ({ products, cardslength }) => {
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();

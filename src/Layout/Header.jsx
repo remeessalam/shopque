@@ -3,7 +3,7 @@ import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 import logo from "../assets/images/logo/logo.png";
-import { useWishlist } from "../Store/wishlistContext";
+import { useWishlist } from "../Store/WishlistContext";
 import { useCart } from "../Store/cartContext";
 import { navLinks } from "../util/contant";
 import { GiShoppingCart } from "react-icons/gi";
