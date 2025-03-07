@@ -30,11 +30,11 @@ const Homepage = () => {
       </div>
       <div>
         <h1 className="title-heading text-center">Best selling </h1>
-        <ProductGrid products={products.slice(0, 4)} cardslength={4} />
+        <ProductGrid products={products.slice(0, 4)} cardslength={3} />
       </div>
-      <div className="bg-bgColor md:h-[41vh] md:pt-0 pt-[3rem] md:pb-0 pb-[3rem]">
-        <div className="wrapper h-full grid md:grid-cols-2 gap-5">
-          <div className="h-full flex flex-col justify-evenly">
+      <div className="bg-bgColor md:max-h-[22rem]  md:pt-0 pt-[3rem] md:pb-0 pb-[3rem]">
+        <div className="wrapper  grid md:grid-cols-2 gap-5">
+          <div className=" flex flex-col justify-evenly">
             <div className="flex flex-col gap-9">
               <h1 className="small-heading">Browse Our Unique Paradise!</h1>
               <p className="font-light">
@@ -46,11 +46,11 @@ const Homepage = () => {
               Start Browsing <LuArrowRight />
             </button>
           </div>
-          <div className=" bg-no-repeat bg-contain h-full bg-bottom flex flex-col justify-end">
+          <div className=" bg-no-repeat bg-contain bg-bottom flex flex-col justify-end">
             <img
               src={petimage}
               alt="banner-image"
-              className="rounded-3xl h-full object-cover"
+              className="rounded-3xl md:max-h-[22rem] object-cover"
             />
           </div>
         </div>
@@ -80,7 +80,7 @@ const Homepage = () => {
             Latest
           </h1>
         </div>
-        <ProductGrid products={products.slice(0, 8)} cardslength={4} />
+        <ProductGrid products={products.slice(0, 8)} cardslength={3} />
       </div>
       <Testimonials />
       <Blogs />

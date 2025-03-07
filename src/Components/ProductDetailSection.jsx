@@ -7,7 +7,7 @@ const ProductDetailSection = ({ productData }) => {
 
       <h3 className="font-bold mb-2">Key Features:</h3>
       <ul className="mb-6">
-        {productData.keyFeatures.map((feature, index) => (
+        {productData?.keyFeatures?.map((feature, index) => (
           <li key={index} className="flex items-start mb-2">
             <span className="inline-block w-5 h-5 bg-green-500 text-white rounded-sm text-xs flex items-center justify-center mr-2 mt-0.5">
               ✓
@@ -19,7 +19,7 @@ const ProductDetailSection = ({ productData }) => {
 
       <h3 className="font-bold mb-2">Why Choose This Food Dispenser?</h3>
       <ul className="mb-6">
-        {productData.whyChoose.map((reason, index) => (
+        {productData?.whyChoose?.map((reason, index) => (
           <li key={index} className="flex items-start mb-2">
             <span className="mr-2">✓</span>
             <span>{reason}</span>

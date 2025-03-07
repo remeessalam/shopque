@@ -23,21 +23,21 @@ const ProductGrid = ({ products, cardslength }) => {
           //eslint-disable-next-line
           products?.map((product) => (
             <div
-              key={product.title}
+              key={product.id}
               className="group relative border rounded-lg overflow-hidden"
             >
-              <Link to="/product-details">
+              <Link to={`/product-details/${product.id}`}>
                 <div className="aspect-square overflow-hidden">
                   <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.title}
+                    src={product.images[0] || "/placeholder.svg"}
+                    alt={product.name}
                     className="w-full h-full object-cover transition-transform group-hover:scale-105"
                   />
                 </div>
                 <div className="p-4">
                   <div className="flex justify-between items-center">
                     <h3 className="font-medium text-sm line-clamp-2">
-                      {product.title}
+                      {product.name}
                     </h3>
                     <button
                       onClick={(e) => {
@@ -53,13 +53,18 @@ const ProductGrid = ({ products, cardslength }) => {
                       )}
                     </button>
                   </div>
-                  <p className="font-bold mt-2">
-                    {!product.stock ? (
-                      <span className="text-red-500">Unavailable</span>
-                    ) : (
-                      `$` + product.price.toFixed(2)
+                  <div
+                    className={`flex h-full items-center mt-2 ${
+                      !product.stock ? `justify-between` : `justify-end`
+                    }`}
+                  >
+                    {!product.stock && (
+                      <p className=" border px-3 py-1 rounded-full text-red-500">
+                        Unavailable
+                      </p>
                     )}
-                  </p>
+                    <p>{`₹` + product.price}</p>
+                  </div>
                 </div>
               </Link>
             </div>

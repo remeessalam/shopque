@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import ProductGrid from "../Components/ProductGrid";
 import { products } from "../util/productDetails";
 import JoinSection from "../Components/JoinSection";
@@ -6,37 +6,37 @@ import JoinSection from "../Components/JoinSection";
 import SectionHeader from "../Components/SectionHeader";
 
 const ProductPage = () => {
-  const [selectedSize, setSelectedSize] = useState("M");
+  // const [selectedSize, setSelectedSize] = useState("M");
 
-  const [filters, setFilters] = useState({
-    categories: ["Pet Dog Products"],
-    size: ["M"],
-    price: 890,
-  });
+  // const [filters, setFilters] = useState({
+  //   categories: ["Pet Dog Products"],
+  //   size: ["M"],
+  //   price: 890,
+  // });
 
-  const removeFilter = (type, value) => {
-    if (type === "category") {
-      setFilters({
-        ...filters,
-        categories: filters.categories.filter((cat) => cat !== value),
-      });
-    } else if (type === "size") {
-      setFilters({
-        ...filters,
-        size: filters.size.filter((s) => s !== value),
-      });
-    }
-  };
+  // const removeFilter = (type, value) => {
+  //   if (type === "category") {
+  //     setFilters({
+  //       ...filters,
+  //       categories: filters.categories.filter((cat) => cat !== value),
+  //     });
+  //   } else if (type === "size") {
+  //     setFilters({
+  //       ...filters,
+  //       size: filters.size.filter((s) => s !== value),
+  //     });
+  //   }
+  // };
 
-  const petCategories = [
-    { id: "pet-dog-products", label: "Pet Dog Products" },
-    { id: "pet-cat-products", label: "Pet Cat Products" },
-    { id: "pet-dog-food", label: "Pet Dog Food" },
-    { id: "pet-cat-food", label: "Pet Cat Food" },
-    { id: "pet-cloths", label: "Pet Cloths" },
-    { id: "pet-toys", label: "Pet Toys" },
-  ];
-  const sizes = ["S", "M", "L", "XL", "XXL"];
+  // const petCategories = [
+  //   { id: "pet-dog-products", label: "Pet Dog Products" },
+  //   { id: "pet-cat-products", label: "Pet Cat Products" },
+  //   { id: "pet-dog-food", label: "Pet Dog Food" },
+  //   { id: "pet-cat-food", label: "Pet Cat Food" },
+  //   { id: "pet-cloths", label: "Pet Cloths" },
+  //   { id: "pet-toys", label: "Pet Toys" },
+  // ];
+  // const sizes = ["S", "M", "L", "XL", "XXL"];
   return (
     <div className="min-h-screen ">
       {/* Navigation */}
@@ -55,7 +55,7 @@ const ProductPage = () => {
       <div className="wrapper py-6 ">
         <div className="flex flex-col md:flex-row">
           {/* Sidebar */}
-          <div className="w-full md:w-1/4 mb-6 md:mb-0">
+          {/* <div className="w-full md:w-1/4 mb-6 md:mb-0">
             <div className="border border-gray-200 p-4 rounded-md">
               <div className="mb-6">
                 <h3 className="font-medium mb-3">Categories</h3>
@@ -124,12 +124,12 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Main Content */}
           <div className="w-full md:w-3/4 md:pl-6">
             {/* Applied Filters */}
-            <div className="mb-6">
+            {/* <div className="mb-6">
               <h3 className="font-medium mb-3">Applied Filters:</h3>
               <div className="flex flex-wrap gap-2">
                 {filters.categories.map((category) => (
@@ -161,10 +161,10 @@ const ProductPage = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Results Count and Sort */}
-            <div className="flex justify-between items-center mb-6">
+            {/* <div className="flex justify-between items-center mb-6">
               <div className="text-sm text-gray-600">
                 Showing 1-9 Of 36 Results.
               </div>
@@ -174,7 +174,7 @@ const ProductPage = () => {
                   <span className="mr-1">▼</span>
                 </button>
               </div>
-            </div>
+            </div> */}
 
             {/* Products Grid */}
             <div>

@@ -10,7 +10,7 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
       if (existingItem) {
-        return prevCart.map((item) =>
+        return prevCart?.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -26,7 +26,7 @@ export const CartProvider = ({ children }) => {
 
   const updateQuantity = (id, quantity) => {
     setCartItems((prevCart) =>
-      prevCart.map((item) =>
+      prevCart?.map((item) =>
         item.id === id ? { ...item, quantity: Number(quantity) } : item
       )
     );

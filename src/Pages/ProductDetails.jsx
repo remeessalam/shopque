@@ -1,58 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiStar, FiHeart, FiShare2, FiMinus, FiPlus } from "react-icons/fi";
 import ProductDetailSection from "../Components/ProductDetailSection";
 import ProductReviewSection from "../Components/ProductReviewSection";
 import JoinSection from "../Components/JoinSection";
 import ProductGrid from "../Components/ProductGrid";
 import { products } from "../util/productDetails";
-import dogfooddispencer from "../assets/images/products/dog-food-dispencer.jpeg";
+// import dogfooddispencer from "../assets/images/products/dog-food-dispencer.jpeg";
 // import { MdChevronRight } from "react-icons/md";
 import SectionHeader from "../Components/SectionHeader";
 import ShareModal from "../Components/ShareModal";
+import { useParams } from "react-router-dom";
+import ImageCarousal from "../Components/ImageCarousal";
 function ProductDetails() {
   // Product data object with all details
   const [showShare, setShowShare] = useState(false);
-  const productData = {
-    name: "Dog Food Dispencer",
-    rating: 4.2,
-    reviews: 54,
-    availability: "Unavailable",
-    price: 75.0,
-    colors: [
-      { name: "Blue", value: "#6B8CDE", selected: true },
-      { name: "Beige", value: "#F8D49A", selected: false },
-      { name: "Green", value: "#7BAF83", selected: false },
-    ],
-    sizes: [
-      { name: "S", selected: true },
-      { name: "M", selected: false },
-      { name: "X", selected: false },
-      { name: "XL", selected: false },
-      { name: "XXL", selected: false },
-    ],
-    image: dogfooddispencer,
-    description:
-      "The Automatic Pet Dog Food Dispenser from Shopque Nest LLP is designed to make feeding your furry friend easier, more convenient, and mess-free. Whether you're at home or away, this smart dispenser ensures your pet gets the right amount of food at the right time.",
-    keyFeatures: [
-      "Automatic Feeding – Set a schedule to dispense food at specific times to maintain a healthy feeding routine.",
-      "Adjustable Portion Control – Customize the portion size to prevent overfeeding and maintain your pet's diet.",
-      "Large Capacity Storage – Holds a generous amount of dry food, reducing the need for frequent refills.",
-      "Anti-Clog Design – Ensures smooth dispensing of kibble without blockages.",
-      "Battery & Power Operated – Works with both batteries and an adapter, ensuring uninterrupted functionality.",
-      "LCD Screen & Easy Controls – User-friendly interface for easy programming of meal times and portion sizes.",
-      "Voice Recording Feature – Record a custom voice message to call your pet for meals.",
-      "Transparent Storage Bin – Allows you to monitor food levels and refill when needed.",
-      "Durable & Pet-Safe Material – Made from high-quality, BPA-free plastic to ensure safety and longevity.",
-    ],
-    whyChoose: [
-      "Perfect for busy pet owners.",
-      "Keeps food fresh and prevents contamination.",
-      "Encourages a healthy eating schedule for your dog.",
-      "Suitable for small, medium, and large breeds.",
-    ],
-  };
+
+  const { id } = useParams(); // Get the product ID from the route
+  const productData = products.find((product) => product.id === parseInt(id));
+  console.log(productData, "asdfjaksdflajshdf");
+  // const productData = {
+  //   name: "Dog Food Dispencer",
+  //   rating: 4.2,
+  //   reviews: 54,
+  //   availability: "Unavailable",
+  //   price: 75.0,
+  //   colors: [
+  //     { name: "Blue", value: "#6B8CDE", selected: true },
+  //     { name: "Beige", value: "#F8D49A", selected: false },
+  //     { name: "Green", value: "#7BAF83", selected: false },
+  //   ],
+  //   sizes: [
+  //     { name: "S", selected: true },
+  //     { name: "M", selected: false },
+  //     { name: "X", selected: false },
+  //     { name: "XL", selected: false },
+  //     { name: "XXL", selected: false },
+  //   ],
+  //   image: dogfooddispencer,
+  //   description:
+  //     "The Automatic Pet Dog Food Dispenser from Shopque Nest LLP is designed to make feeding your furry friend easier, more convenient, and mess-free. Whether you're at home or away, this smart dispenser ensures your pet gets the right amount of food at the right time.",
+  //   keyFeatures: [
+  //     "Automatic Feeding – Set a schedule to dispense food at specific times to maintain a healthy feeding routine.",
+  //     "Adjustable Portion Control – Customize the portion size to prevent overfeeding and maintain your pet's diet.",
+  //     "Large Capacity Storage – Holds a generous amount of dry food, reducing the need for frequent refills.",
+  //     "Anti-Clog Design – Ensures smooth dispensing of kibble without blockages.",
+  //     "Battery & Power Operated – Works with both batteries and an adapter, ensuring uninterrupted functionality.",
+  //     "LCD Screen & Easy Controls – User-friendly interface for easy programming of meal times and portion sizes.",
+  //     "Voice Recording Feature – Record a custom voice message to call your pet for meals.",
+  //     "Transparent Storage Bin – Allows you to monitor food levels and refill when needed.",
+  //     "Durable & Pet-Safe Material – Made from high-quality, BPA-free plastic to ensure safety and longevity.",
+  //   ],
+  //   whyChoose: [
+  //     "Perfect for busy pet owners.",
+  //     "Keeps food fresh and prevents contamination.",
+  //     "Encourages a healthy eating schedule for your dog.",
+  //     "Suitable for small, medium, and large breeds.",
+  //   ],
+  // };
 
   // State for quantity
   const [quantity, setQuantity] = useState(1);
@@ -72,11 +78,12 @@ function ProductDetails() {
     }
   };
   console.log(showShare, "asdfsadfsdf");
+
   return (
     <>
       <ShareModal showShare={showShare} setShowShare={setShowShare} />
 
-      <SectionHeader section={productData.name} />
+      <SectionHeader section={productData?.name} />
       {/* <div className="bg-gray-100 py-4 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-sm text-gray-60 flex items-center">
@@ -87,26 +94,49 @@ function ProductDetails() {
         </div>
       </div> */}
       <div className="wrapper">
-        <div className="flex flex-col md:flex-row gap-8 mt-8">
+        <div className=" grid md:grid-cols-2 gap-8 mt-8">
           {/* Product Image Section */}
-          <div className="w-full md:w-1/2 bg-gray-50 p-4 rounded-lg">
-            <img
-              src={productData.image || "/placeholder.svg"}
-              alt="Dog Food Dispenser"
-              className="w-full h-auto object-contain"
-            />
-            <div className="flex justify-center mt-4 gap-2">
-              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-              <div className="w-2 h-2 rounded-full bg-gray-800"></div>
+          {/* <div className="w-full h-full bg-gray-50 p-4 rounded-lg mx-auto">
+            <div
+              ref={carouselRef}
+              className="relative overflow-hidden h-full cursor-grab"
+              onMouseDown={handleDragStart}
+              onMouseMove={handleDragMove}
+              onMouseUp={handleDragEnd}
+              onMouseLeave={handleDragEnd}
+            >
+              <div
+                className="flex transition-transform h-full duration-300 ease-out"
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              >
+                {productData?.images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`Image ${index + 1}`}
+                    className="w-full h-full object-cover flex-shrink-0"
+                  />
+                ))}
+              </div>
             </div>
-          </div>
 
+            <div className="flex justify-center mt-4 gap-2">
+              {productData?.images.map((_, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  className={`w-2 h-2 rounded-full cursor-pointer ${
+                    index === currentIndex ? "bg-gray-800" : "bg-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+          </div> */}
+          <ImageCarousal productData={productData} />
           {/* Product Details Section */}
-          <div className="w-full md:w-1/2">
+          <div className="w-full h-full">
             <div className="flex justify-between items-start">
-              <h1 className="text-2xl font-bold">Dog Food Dispencer</h1>
+              <h1 className="text-2xl font-bold">{productData?.name}</h1>
               <FiShare2
                 className="w-5 h-5 text-gray-500"
                 onClick={() => setShowShare(!showShare)}
@@ -117,17 +147,21 @@ function ProductDetails() {
               <div className="flex  bg-gray-200 px-4 items-center py-1 rounded-full">
                 <FiStar className="w-4 h-4 fill-current text-gray-700" />
                 <span className="ml-1 text-sm text-gray-700">
-                  {productData.rating} — {productData.reviews} Reviews
+                  {productData?.rating} — {productData?.reviews} Reviews
                 </span>
               </div>
-              <span className="ml-4 text-sm text-red-500 border  px-4 py-1 rounded-full">
-                {productData.availability}
+              <span
+                className={`ml-4 text-sm ${
+                  productData?.stock ? `text-green-500` : `text-red-500`
+                } border  px-4 py-1 rounded-full`}
+              >
+                {productData?.stock ? "Available" : "UnAvailable"}
               </span>
             </div>
 
             <div className="mt-6">
               <span className="text-xl font-bold">
-                ${productData.price.toFixed(2)}
+                ${productData?.actualPrice?.toFixed(2)}
               </span>
             </div>
 
@@ -136,7 +170,7 @@ function ProductDetails() {
                 Available Colors
               </h3>
               <div className="flex mt-2 gap-2">
-                {productData.colors.map((color, index) => (
+                {productData?.colors?.map((color, index) => (
                   <div
                     key={index}
                     className={`w-8 h-8 rounded-full cursor-pointer ${
@@ -151,7 +185,7 @@ function ProductDetails() {
             <div className="mt-6">
               <h3 className="text-sm text-gray-500 uppercase">Select Size</h3>
               <div className="flex mt-2 gap-2">
-                {productData.sizes.map((size, index) => (
+                {productData?.sizes?.map((size, index) => (
                   <div
                     key={index}
                     className={`w-10 h-10 flex items-center justify-center border rounded-md cursor-pointer ${
