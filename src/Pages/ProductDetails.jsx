@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { FiStar, FiHeart, FiShare2, FiMinus, FiPlus } from "react-icons/fi";
 import ProductDetailSection from "../Components/ProductDetailSection";
 import ProductReviewSection from "../Components/ProductReviewSection";
@@ -11,11 +11,13 @@ import { products } from "../util/productDetails";
 // import { MdChevronRight } from "react-icons/md";
 import SectionHeader from "../Components/SectionHeader";
 import ShareModal from "../Components/ShareModal";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ImageCarousal from "../Components/ImageCarousal";
+import { useCart } from "../Store/CartContext";
 function ProductDetails() {
   // Product data object with all details
   const [showShare, setShowShare] = useState(false);
+  const { addToCart, cartItems } = useCart();
 
   const { id } = useParams(); // Get the product ID from the route
   const productData = products.find((product) => product.id === parseInt(id));
@@ -77,7 +79,18 @@ function ProductDetails() {
       setQuantity(quantity - 1);
     }
   };
+  const handleAddToCart = () => {
+    // Create a product object with the selected options and quantity
+    const productToAdd = {
+      ...productData,
+      quantity: quantity, // Add the selected quantity
+      // You might want to add selected color/size here if implemented
+    };
+
+    addToCart(productToAdd);
+  };
   console.log(showShare, "asdfsadfsdf");
+  const isInCart = cartItems.some((item) => item.id === productData?.id);
 
   return (
     <>
@@ -220,9 +233,21 @@ function ProductDetails() {
             </div>
 
             <div className="mt-6 flex gap-2">
-              <button className="bg-gray-900 text-white py-3 px-4 rounded w-full">
-                Add to cart
-              </button>
+              {isInCart ? (
+                <Link
+                  to={"/cartitems"}
+                  className="bg-gray-900 text-white text-center py-3 px-4 rounded w-full"
+                >
+                  Go To Cart
+                </Link>
+              ) : (
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-gray-900 text-white py-3 px-4 rounded w-full"
+                >
+                  Add to cart
+                </button>
+              )}
               <button className="border border-gray-300 p-3 rounded">
                 <FiHeart className="w-5 h-5" />
               </button>

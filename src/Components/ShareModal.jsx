@@ -14,14 +14,14 @@ const ShareModal = ({ showShare, setShowShare }) => {
   return (
     <>
       {showShare && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div className="fixed w-full h-full inset-0 z-50 bg-black/60  flex items-center justify-center p-4">
           {/* Share Section */}
-          <div className="max-w-md mx-auto w-full bg-white rounded-lg p-5 mb-6">
+          <div className="max-w-md mx-auto  w-full bg-white rounded-lg p-5 mb-6">
             <div className="flex justify-between items-center p-2 border-b">
               <p className="text-sm font-medium mb-2">Copy Link</p>
               <button
                 onClick={() => setShowShare(!showShare)}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="p-1 hover:bg-gray-100 rounded cursor-pointer"
               >
                 <CgClose size={20} />
               </button>

@@ -3,8 +3,8 @@ import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 import logo from "../assets/images/logo/logo.png";
-// import { useWishlist } from "../Store/WishlistContext";
-// import { useCart } from "../Store/cartContext";
+import { useWishlist } from "../Store/WishlistContext";
+import { useCart } from "../Store/CartContext";
 import { navLinks } from "../util/contant";
 import { GiShoppingCart } from "react-icons/gi";
 import { CiHeart } from "react-icons/ci";
@@ -15,8 +15,8 @@ const Header = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
   const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
-  const wishlist = 0;
-  const cartItems = 0;
+  const { cartItems } = useCart();
+  const { wishlist } = useWishlist();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

@@ -2,36 +2,32 @@ import { useState } from "react";
 import { BiMinus, BiPlus, BiX } from "react-icons/bi";
 import SectionHeader from "../Components/SectionHeader";
 import { Link } from "react-router-dom";
-
-// Sample product images from Unsplash
-const productImages = {
-  dogFood:
-    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
-  petFood:
-    "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
-};
+import { useCart } from "../Store/CartContext";
+import { CgShoppingCart } from "react-icons/cg";
 
 function CartPage() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: "1",
-      name: "Dog Food Dispenser",
-      price: 75.0,
-      quantity: 1,
-      color: "Color:",
-      size: "Size: M",
-      image: productImages.dogFood,
-    },
-    {
-      id: "2",
-      name: "Rotatable Pet Food",
-      price: 22.0,
-      quantity: 1,
-      color: "Color:",
-      size: "Size: M",
-      image: productImages.petFood,
-    },
-  ]);
+  const { cartItems, removeFromCart } = useCart();
+
+  // const [cartItems, setCartItems] = useState([
+  //   {
+  //     id: "1",
+  //     name: "Dog Food Dispenser",
+  //     price: 75.0,
+  //     quantity: 1,
+  //     color: "Color:",
+  //     size: "Size: M",
+  //     image: productImages.dogFood,
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "Rotatable Pet Food",
+  //     price: 22.0,
+  //     quantity: 1,
+  //     color: "Color:",
+  //     size: "Size: M",
+  //     image: productImages.petFood,
+  //   },
+  // ]);
 
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -41,19 +37,19 @@ function CartPage() {
   const total = subtotal + tax;
   const shipping = "Free";
 
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
+  // const updateQuantity = (id, newQuantity) => {
+  //   if (newQuantity < 1) return;
 
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
+  //   setCartItems(
+  //     cartItems.map((item) =>
+  //       item.id === id ? { ...item, quantity: newQuantity } : item
+  //     )
+  //   );
+  // };
 
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
+  // const removeItem = (id) => {
+  //   setCartItems(cartItems.filter((item) => item.id !== id));
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -68,64 +64,82 @@ function CartPage() {
             <h2 className="text-lg font-medium text-gray-900 mb-6">
               Your cart
             </h2>
-            <div className="border-t border-gray-200">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="py-6 flex items-center border-b border-gray-200"
-                >
-                  <div className="flex-shrink-0 w-24 h-24 rounded-md overflow-hidden">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-center object-cover"
-                    />
-                  </div>
-                  <div className="ml-4 flex-1">
-                    <div className="flex justify-between">
-                      <h3 className="text-base font-medium text-gray-900">
-                        {item.name}
-                      </h3>
-                      <p className="text-base font-medium text-gray-900">
-                        ${item.price.toFixed(2)}
-                      </p>
+            {!cartItems.length ? (
+              <div className="flex flex-col items-center justify-center h-64 text-gray-600">
+                <CgShoppingCart size={48} className="mb-4 text-gray-400" />
+                <h2 className="text-xl font-semibold">Your cart is empty</h2>
+                <p className="text-gray-500">
+                  Browse our products and add items to your cart.
+                </p>
+                <Link to={"/products"}>
+                  <button
+                    type="button"
+                    className="w-full bg-gray-900 border border-transparent rounded-md py-2 mt-4 px-4 text-base font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  >
+                    Products
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <div className="border-t border-gray-200">
+                {cartItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="py-6 flex items-center border-b border-gray-200"
+                  >
+                    <div className="flex-shrink-0 w-24 h-24 rounded-md overflow-hidden">
+                      <img
+                        src={item.images[0]}
+                        alt={item.name}
+                        className="w-full h-full object-center object-cover"
+                      />
                     </div>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {item.color} {item.size}
-                    </p>
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="flex items-center border border-gray-300 rounded-md">
-                        <button
+                    <div className="ml-4 flex-1">
+                      <div className="flex justify-between">
+                        <h3 className="text-base font-medium text-gray-900">
+                          {item.name}
+                        </h3>
+                        <p className="text-base font-medium text-gray-900">
+                          ${item.price.toFixed(2)}
+                        </p>
+                      </div>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {item.color} {item.size}
+                      </p>
+                      <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center border border-gray-300 rounded-md">
+                          {/* <button
                           onClick={() =>
                             updateQuantity(item.id, item.quantity - 1)
                           }
                           className="p-2 text-gray-600 hover:text-gray-500"
                         >
                           <BiMinus className="h-4 w-4" />
-                        </button>
-                        <span className="px-4 py-1 text-gray-900">
-                          {item.quantity}
-                        </span>
-                        <button
+                        </button> */}
+                          <span className="px-4 py-1 text-gray-900">
+                            {item.quantity}
+                          </span>
+                          {/* <button
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
                           className="p-2 text-gray-600 hover:text-gray-500"
                         >
                           <BiPlus className="h-4 w-4" />
+                        </button> */}
+                        </div>
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="p-2 text-gray-400 hover:text-gray-500 rounded-md"
+                        >
+                          <BiX className="h-5 w-5" />
                         </button>
                       </div>
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="p-2 text-gray-400 hover:text-gray-500 rounded-md"
-                      >
-                        <BiX className="h-5 w-5" />
-                      </button>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Order Summary */}

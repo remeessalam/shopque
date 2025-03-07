@@ -1,9 +1,22 @@
-// src/App.js
 import { FiShoppingCart, FiX } from "react-icons/fi";
-import { imagetwo } from "../util/productDetails";
 import SectionHeader from "../Components/SectionHeader";
+import { useWishlist } from "../Store/WishlistContext";
+import { useCart } from "../Store/CartContext";
 
 function WishlistPage() {
+  const { wishlist, removeFromWishlist } = useWishlist();
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (product) => {
+    // Create a product object with the selected options and quantity
+    const productToAdd = {
+      ...product,
+      quantity: 1, // Add the selected quantity
+      // You might want to add selected color/size here if implemented
+    };
+
+    addToCart(productToAdd);
+  };
   return (
     <>
       <SectionHeader section={"Wishlist"} />
@@ -13,7 +26,7 @@ function WishlistPage() {
             <h1 className="text-xl font-medium">Wishlist</h1>
           </div>
 
-          <div className="bg-gray-100">
+          <div className="bg-gray-100 hidden md:block">
             <div className="grid grid-cols-12 py-3 px-4">
               <div className="col-span-6 font-medium text-gray-700 text-sm">
                 PRODUCTS
@@ -31,165 +44,91 @@ function WishlistPage() {
           </div>
 
           <div className="divide-y divide-gray-200">
-            {/* Bose Sport Earbuds */}
-            <div className="grid grid-cols-12 py-4 px-4 items-center">
-              <div className="col-span-6 flex items-center gap-4">
-                <div className="w-16 h-16 flex-shrink-0">
-                  <img
-                    src={imagetwo}
-                    alt="Bose Sport Earbuds"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="text-sm">
-                  Bose Sport Earbuds -Wireless Earphones -Bluetooth In Ear
-                  Headphones for Workouts and Running, Triple Black
-                </div>
+            {wishlist.length === 0 ? (
+              <div className="py-8 px-4 text-center text-gray-500">
+                Your wishlist is empty
               </div>
-              <div className="col-span-2">
-                <div className="text-sm line-through text-gray-500">$1299</div>
-                <div className="font-medium">$999</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-red-500 text-sm">Unavailable</div>
-              </div>
-              <div className="col-span-2 flex items-center justify-between">
-                <button className="bg-orange-400 text-white px-3 py-2 rounded flex items-center text-sm">
-                  ADD TO CARD <FiShoppingCart className="ml-2" />
-                </button>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <FiX size={20} />
-                </button>
-              </div>
-            </div>
+            ) : (
+              wishlist.map((product, index) => (
+                <div
+                  key={product.id}
+                  className={`grid grid-cols-1 md:grid-cols-12 py-4 px-4 items-center ${
+                    index % 2 === 0 ? "" : "bg-gray-50"
+                  }`}
+                >
+                  {/* Product Info - Full width on mobile, 6 cols on desktop */}
+                  <div className="col-span-1 md:col-span-6 flex items-center gap-4 mb-4 md:mb-0">
+                    <div className="w-16 h-16 flex-shrink-0">
+                      <img
+                        src={product.images && product.images[0]}
+                        alt={product.name}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="text-sm">{product.name}</div>
+                  </div>
 
-            {/* Simple Mobile 5G LTE Galaxy */}
-            <div className="grid grid-cols-12 py-4 px-4 items-center">
-              <div className="col-span-6 flex items-center gap-4">
-                <div className="w-16 h-16 flex-shrink-0">
-                  <img
-                    src={imagetwo}
-                    alt="Simple Mobile 5G LTE Galaxy"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="text-sm">
-                  Simple Mobile 5G LTE Galexy 12 Mini 512GB Gaming Phone
-                </div>
-              </div>
-              <div className="col-span-2">
-                <div className="font-medium">$2,300.00</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-red-500 text-sm">Unavailable</div>
-              </div>
-              <div className="col-span-2 flex items-center justify-between">
-                <button className="bg-orange-400 text-white px-3 py-2 rounded flex items-center text-sm">
-                  ADD TO CARD <FiShoppingCart className="ml-2" />
-                </button>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <FiX size={20} />
-                </button>
-              </div>
-            </div>
+                  {/* Mobile layout for price, stock and actions */}
+                  <div className="grid grid-cols-3 md:hidden gap-2 mb-2">
+                    <div className="text-xs font-medium text-gray-700">
+                      PRICE
+                    </div>
+                    <div className="text-xs font-medium text-gray-700">
+                      STOCK
+                    </div>
+                    <div className="text-xs font-medium text-gray-700">
+                      ACTIONS
+                    </div>
+                  </div>
 
-            {/* Portable Washing Machine */}
-            <div className="grid grid-cols-12 py-4 px-4 items-center bg-gray-50">
-              <div className="col-span-6 flex items-center gap-4">
-                <div className="w-16 h-16 flex-shrink-0">
-                  <img
-                    src={imagetwo}
-                    alt="Portable Washing Machine"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="text-sm">
-                  Portable Wshing Machine, 11lbs capacity Model 18NMF1AM
-                </div>
-              </div>
-              <div className="col-span-2">
-                <div className="font-medium">$70.00</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-red-500 text-sm">Unavailable</div>
-              </div>
-              <div className="col-span-2 flex items-center justify-between">
-                <button className="bg-orange-400 text-white px-3 py-2 rounded flex items-center text-sm">
-                  ADD TO CARD <FiShoppingCart className="ml-2" />
-                </button>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <FiX size={20} />
-                </button>
-              </div>
-            </div>
+                  {/* Price - Desktop layout */}
+                  <div className="md:col-span-2 mb-2 md:mb-0">
+                    {product.originalPrice && (
+                      <div className="text-sm line-through text-gray-500">
+                        ${product.originalPrice}
+                      </div>
+                    )}
+                    <div className="font-medium">
+                      ${product.price?.toFixed(2) || "N/A"}
+                    </div>
+                  </div>
 
-            {/* TOZO T6 True Wireless Earbuds */}
-            <div className="grid grid-cols-12 py-4 px-4 items-center">
-              <div className="col-span-6 flex items-center gap-4">
-                <div className="w-16 h-16 flex-shrink-0">
-                  <img
-                    src={imagetwo}
-                    alt="TOZO T6 True Wireless Earbuds"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="text-sm">
-                  TOZO T6 True Wireless Earbuds Bluetooth Headphones Touch
-                  Control with Wireless Charging Case IPX8 Waterproof Stereo
-                  Earphones in-Ear
-                </div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-sm line-through text-gray-500">
-                  $250.00
-                </div>
-                <div className="font-medium">$220.00</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-orange-500 text-sm font-medium">
-                  OUT OF STOCK
-                </div>
-              </div>
-              <div className="col-span-2 flex items-center justify-between">
-                <button className="bg-gray-400 text-white px-3 py-2 rounded flex items-center text-sm">
-                  ADD TO CARD <FiShoppingCart className="ml-2" />
-                </button>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <FiX size={20} />
-                </button>
-              </div>
-            </div>
+                  {/* Stock Status - Desktop layout */}
+                  <div className="md:col-span-2 mb-2 md:mb-0">
+                    {product.stock ? (
+                      <div className="text-green-500 text-sm font-medium">
+                        IN STOCK
+                      </div>
+                    ) : (
+                      <div className="text-red-500 text-sm">OUT OF STOCK</div>
+                    )}
+                  </div>
 
-            {/* Wyze Cam Pan v2 */}
-            <div className="grid grid-cols-12 py-4 px-4 items-center bg-gray-50">
-              <div className="col-span-6 flex items-center gap-4">
-                <div className="w-16 h-16 flex-shrink-0">
-                  <img
-                    src={imagetwo}
-                    alt="Wyze Cam Pan v2"
-                    className="w-full h-full object-contain"
-                  />
+                  {/* Actions - Desktop layout */}
+                  <div className="md:col-span-2 flex items-center justify-between">
+                    <button
+                      className={`${
+                        product.stock
+                          ? "bg-orange-400 hover:bg-orange-500"
+                          : "bg-gray-400"
+                      } text-white px-3 py-2 rounded flex items-center text-sm`}
+                      disabled={!product.stock}
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      ADD TO CART <FiShoppingCart className="ml-2" />
+                    </button>
+                    <button
+                      className="text-gray-400 hover:text-gray-600"
+                      onClick={() =>
+                        removeFromWishlist && removeFromWishlist(product.id)
+                      }
+                    >
+                      <FiX size={20} />
+                    </button>
+                  </div>
                 </div>
-                <div className="text-sm">
-                  Wyze Cam Pan v2 1080p Pan/Tilt/Zoom Wi-Fi Indoor Smart Home
-                  Camera with Color Night Vision, 2-Way Audio
-                </div>
-              </div>
-              <div className="col-span-2">
-                <div className="font-medium">$1,499.99</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-red-500 text-sm">Unavailable</div>
-              </div>
-              <div className="col-span-2 flex items-center justify-between">
-                <button className="bg-orange-400 text-white px-3 py-2 rounded flex items-center text-sm">
-                  ADD TO CARD <FiShoppingCart className="ml-2" />
-                </button>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <FiX size={20} />
-                </button>
-              </div>
-            </div>
+              ))
+            )}
           </div>
         </div>
       </div>
