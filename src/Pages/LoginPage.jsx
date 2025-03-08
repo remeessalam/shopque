@@ -1,26 +1,56 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import loginimage from "../assets/images/loginpageimage.jpeg";
 import logo from "../assets/images/logo/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { checkUserTocken } from "../util/helper";
+import toast from "react-hot-toast";
+
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const lastPage = location.state?.from || "/";
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+  // useEffect(() => {
+  //   const userToken = checkUserTocken();
+  //   if (userToken) {
+  //     navigate(lastPage, { replace: true });
+  //   }
+  // }, [navigate, lastPage]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle login logic here
-    console.log("Form submitted:", formData);
+  const onSubmit = async (data) => {
+    if (loading) return;
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (!result.status) {
+        toast.error(result.message || "login failed. Please try again.");
+        setLoading(false);
+        return;
+      }
+      console.log("Form submitted:", data);
+      localStorage.setItem("userToken", result.token);
+      reset();
+      toast.success("Login successfully");
+      setLoading(false);
+      navigate(lastPage);
+    } catch (error) {
+      toast.error("Something went wrong. Please try again later.");
+      setLoading(false);
+      console.error("Signup error:", error.message);
+    }
   };
 
   return (
@@ -47,40 +77,63 @@ const Login = () => {
             <p className="text-gray-500">Please login here</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
               <label className="block text-sm font-medium">Email Address</label>
               <input
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
+                  },
+                })}
                 placeholder="name@gmail.com"
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                required
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
               <label className="block text-sm font-medium">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="••••••••••••••"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                required
-              />
+              <div className="relative">
+                <input
+                  type="password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 5,
+                      message: "Password must be at least 5 characters",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Password cannot exceed 10 characters",
+                    },
+                    pattern: {
+                      value: /^(?=.*[A-Z])(?=.*\d).+$/,
+                      message:
+                        "Password must contain at least one uppercase letter and one number",
+                    },
+                  })}
+                  placeholder="••••••••••••••"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+              {errors.password && (
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
+                  {...register("rememberMe")}
                   className="rounded border-gray-300 text-amber-600 focus:ring-amber-500"
                 />
                 <span className="text-sm">Remember Me</span>
