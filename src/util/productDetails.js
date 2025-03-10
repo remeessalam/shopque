@@ -61,50 +61,6 @@ export const productDetails = [
   },
 ];
 
-// export const products = [
-//   {
-//     id: 1,
-//     title: "Remote Control Cat Interactive Moving Toy with 2-Speed Adjustment",
-//     price: 29.99,
-//     image: remotecar,
-//     stock: false,
-//   },
-//   {
-//     id: 2,
-//     title: "JoyZZZ Automatic Cat Laser Toy, Interactive Cat Toy",
-//     price: 19.99,
-//     image: catlaser,
-//     stock: false,
-//   },
-//   {
-//     id: 3,
-//     title: "Cat Laser Toy, Automatic Rotating Laser Pointer for Cats",
-//     price: 25.99,
-//     image: catelaserautomatic,
-//     stock: true,
-//   },
-//   {
-//     id: 4,
-//     title: "Premium Cat Food",
-//     price: 10.99,
-//     image: preimumcatfood,
-//     stock: true,
-//   },
-//   { id: 5, title: "Dog Bowl", price: 4.99, image: dogbowl, stock: true },
-//   { id: 6, title: "Cat Bag Luggage", price: 49.99, image: catbag, stock: true },
-//   { id: 7, title: "Dog Leash", price: 9.95, image: dogleash, stock: true },
-//   { id: 8, title: "Dog Bed", price: 49.99, image: dogbed, stock: true },
-//   {
-//     id: 9,
-//     title: "Premium Dog Food",
-//     price: 59.99,
-//     image: premiumdogfood,
-//     stock: true,
-//   },
-//   { id: 10, title: "Dog Hoodie", price: 29.99, image: doghoodies, stock: true },
-//   { id: 11, title: "Dog Food", price: 24.99, image: dogfood, stock: true },
-// ];
-
 export const products = [
   {
     id: 1,
