@@ -72,7 +72,10 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/shop" className="text-gray-600 hover:text-gray-900">
+                <Link
+                  to="/products"
+                  className="text-gray-600 hover:text-gray-900"
+                >
                   Products
                 </Link>
               </li>
@@ -84,11 +87,7 @@ const Footer = () => {
                   Cart
                 </Link>
               </li>
-              <li>
-                <Link to="/shop" className="text-gray-600 hover:text-gray-900">
-                  Shop
-                </Link>
-              </li>
+
               <li>
                 <Link
                   to="/contact-us"
