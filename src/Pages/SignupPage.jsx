@@ -1,34 +1,53 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import logo from "../assets/images/logo/logo.png";
 import signupimage from "../assets/images/signuppageimage.jpeg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    agreeToTerms: false,
-  });
+  const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const navigate = useNavigate();
+  const lastPage = location.state?.from || "/";
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+  const onSubmit = async (data) => {
+    try {
+      if (loading) return;
+      setLoading(true);
+      const response = await fetch("http://localhost:8080/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle signup logic here
-    console.log("Form submitted:", formData);
+      if (!result.status) {
+        toast.error(result.message || "Signup failed. Please try again.");
+        setLoading(false);
+        return;
+      }
+      localStorage.setItem("userToken", result.token);
+      reset();
+      toast.success("Sign up successfully");
+      setLoading(false);
+      navigate(lastPage);
+    } catch (error) {
+      toast.error("Something went wrong. Please try again later.");
+      setLoading(false);
+      console.error("Signup error:", error.message);
+    }
   };
 
   return (
     <div className="h-screen flex flex-col md:flex-row">
-      {/* Left Section - Image */}
       <div className="md:w-1/2 relative">
         <div className="absolute top-6 left-6">
           <div className="flex items-center gap-2 text-amber-700">
@@ -42,7 +61,6 @@ const SignUp = () => {
         />
       </div>
 
-      {/* Right Section - Signup Form */}
       <div className="md:w-1/2 flex items-center justify-center p-8 md:p-16">
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2">
@@ -50,32 +68,40 @@ const SignUp = () => {
             <p className="text-gray-500">Please enter details</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="block text-sm font-medium">First Name</label>
                 <input
                   type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
+                  {...register("firstName", {
+                    required: "First name is required",
+                  })}
                   placeholder="John"
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  required
                 />
+                {errors.firstName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.firstName.message}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium">Last Name</label>
                 <input
                   type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
+                  {...register("lastName", {
+                    required: "Last name is required",
+                  })}
                   placeholder="Doe"
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  required
                 />
+                {errors.lastName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.lastName.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -83,39 +109,60 @@ const SignUp = () => {
               <label className="block text-sm font-medium">Email Address</label>
               <input
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
+                  },
+                })}
                 placeholder="name@gmail.com"
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                required
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
               <label className="block text-sm font-medium">Password</label>
               <input
                 type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 5,
+                    message: "Password must be at least 5 characters",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "Password cannot exceed 10 characters",
+                  },
+                  pattern: {
+                    value: /^(?=.*[A-Z])(?=.*\d).+$/,
+                    message:
+                      "Password must contain at least one uppercase letter and one number",
+                  },
+                })}
                 placeholder="••••••••••••••"
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                required
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <div className="flex items-start gap-2">
               <input
                 type="checkbox"
-                name="agreeToTerms"
-                id="agreeToTerms"
-                checked={formData.agreeToTerms}
-                onChange={handleChange}
+                {...register("agreeToTerms", {
+                  required: "You must agree to the terms",
+                })}
                 className="mt-1 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
-                required
               />
-              <label htmlFor="agreeToTerms" className="text-sm text-gray-600">
+              <label className="text-sm text-gray-600">
                 I agree to the{" "}
                 <a href="#" className="text-amber-600 hover:text-amber-500">
                   Terms of Service
@@ -126,12 +173,22 @@ const SignUp = () => {
                 </a>
               </label>
             </div>
+            {errors.agreeToTerms && (
+              <p className="text-red-500 text-sm">
+                {errors.agreeToTerms.message}
+              </p>
+            )}
 
             <button
               type="submit"
-              className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+              disabled={loading}
+              className={`w-full py-3 ${
+                loading
+                  ? `bg-black/70 cursor-not-allowed`
+                  : `bg-black hover:bg-gray-800`
+              } text-white rounded-lg  transition-colors`}
             >
-              Create Account
+              {loading ? "Sending... " : "Create Account"}
             </button>
           </form>
 

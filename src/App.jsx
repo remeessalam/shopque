@@ -27,6 +27,7 @@ import AdminProductPage from "./AdminPages/AdminProductPage";
 import ProductPage from "./Pages/ProductPage";
 import WishlistPage from "./Pages/WishlistPage";
 import AdminLogin from "./AdminPages/AdminLogin";
+import ProtectedRoute from "./Layout/ProtectedRoute";
 
 const AppRouter = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -41,14 +42,10 @@ const AppRouter = createBrowserRouter([
       { path: "/", element: <Homepage /> },
       { path: "/about-us", element: <AboutPage /> },
       { path: "/contact-us", element: <ContactUsPage /> },
-      { path: "/cartitems", element: <CartPage /> },
       { path: "/products", element: <ProductPage /> },
       { path: "/product-details/:id", element: <ProductDetails /> },
-      { path: "/checkout", element: <CheckOutPage /> },
-      { path: "/profile", element: <ProfilePage /> },
       { path: "/blogs", element: <BlogPage /> },
       { path: "/faq", element: <FAQPage /> },
-      { path: "/wishlist", element: <WishlistPage /> },
       {
         path: "/order-success",
         element: <OrderStatusPage orderPlaced={true} />,
@@ -67,6 +64,18 @@ const AppRouter = createBrowserRouter([
       },
     ],
   },
+  // Protected Routes
+  {
+    path: "/",
+    element: <ProtectedRoute />,
+    children: [
+      { path: "/cartitems", element: <CartPage /> },
+      { path: "/checkout", element: <CheckOutPage /> },
+      { path: "/profile", element: <ProfilePage /> },
+      { path: "/wishlist", element: <WishlistPage /> },
+    ],
+  },
+
   {
     path: "/admin",
     element: <AdminLayout />,
