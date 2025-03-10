@@ -7,16 +7,16 @@ import wirelessremotecontrol3 from "../assets/images/products/wireless-remote-co
 import pettreat1 from "../assets/images/ProductsImage/pettreat1.png";
 import pettreat2 from "../assets/images/ProductsImage/pettreat2.png";
 import pettreat3 from "../assets/images/ProductsImage/pettreat3.png";
-import pettreat4 from "../assets/images/ProductsImage/pettreat4.png";
+// import pettreat4 from "../assets/images/ProductsImage/pettreat4.png";
 import petchewing1 from "../assets/images/ProductsImage/petchewing1.png";
 import petchewing2 from "../assets/images/ProductsImage/petchewing2.png";
 import petchewing3 from "../assets/images/ProductsImage/petchewing3.png";
-import petchewing4 from "../assets/images/ProductsImage/petchewing4.png";
-import petchewing5 from "../assets/images/ProductsImage/petchewing5.png";
+// import petchewing4 from "../assets/images/ProductsImage/petchewing4.png";
+// import petchewing5 from "../assets/images/ProductsImage/petchewing5.png";
 import saturntoy1 from "../assets/images/ProductsImage/saturntoy1.png";
 import saturntoy2 from "../assets/images/ProductsImage/saturntoy2.png";
 import saturntoy3 from "../assets/images/ProductsImage/saturntoy3.png";
-import saturntoy4 from "../assets/images/ProductsImage/saturntoy4.png";
+// import saturntoy4 from "../assets/images/ProductsImage/saturntoy4.png";
 
 export const productDetails = [
   {
@@ -108,7 +108,7 @@ export const productDetails = [
 export const products = [
   {
     id: 1,
-    images: [petchewing1, petchewing2, petchewing3, petchewing4, petchewing5],
+    images: [petchewing1, petchewing2, petchewing3],
     name: "Pet Chewing Toy - Durable & Fun for Your Furry Friend!",
     description: `Give your pet a fun and engaging chewing experience
 with this high-quality pet chewing toy! Designed for
@@ -146,7 +146,7 @@ your pet entertained while promoting dental health.`,
   },
   {
     id: 2,
-    images: [pettreat1, pettreat2, pettreat3, pettreat4],
+    images: [pettreat1, pettreat2, pettreat3],
     name: "Pet Treat Dispenser Toy - Fun & Engaging for Your Pet!",
     description: `Make playtime exciting and rewarding with this
 interactive pet treat dispenser toy! Designed to
@@ -185,7 +185,7 @@ them active and mentally stimulated.`,
   },
   {
     id: 3,
-    images: [saturntoy1, saturntoy2, saturntoy3, saturntoy4],
+    images: [saturntoy1, saturntoy2, saturntoy3],
     name: "Saturn-Shaped Interactive Pet Treat Dispenser Toy - Fun & Engaging!",
     description: `Give your furry friend an out-of-this-world playtime
 experience with our Saturn-Shaped Interactive Pet
