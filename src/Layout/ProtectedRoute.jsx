@@ -2,11 +2,11 @@ import { Navigate, Outlet } from "react-router-dom";
 import Header from "./Header";
 import ScrollToTop from "../Components/ScrollToTop";
 import Footer from "./Footer";
-import { checkUserTocken } from "../util/helper";
+// import { checkUserTocken } from "../util/helper";
 
 const ProtectedRoute = () => {
-  const userToken = checkUserTocken();
-
+  const userToken = true;
+  // checkUserTocken();
   return userToken ? (
     <>
       <Header />
