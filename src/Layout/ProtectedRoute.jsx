@@ -5,8 +5,8 @@ import Footer from "./Footer";
 import { checkUserTocken } from "../util/helper";
 
 const ProtectedRoute = () => {
-  const userToken = true;
-  checkUserTocken();
+  const userToken = checkUserTocken();
+
   return userToken ? (
     <>
       <Header />
