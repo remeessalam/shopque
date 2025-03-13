@@ -24,7 +24,7 @@ export const navLinks = [
   { path: "/", label: "Home" },
   { path: "/about-us", label: "About Us" },
   { path: "/products", label: "Products" },
-  { path: "/blogs", label: "Blog" },
+  // { path: "/blogs", label: "Blog" },
   { path: "/contact-us", label: "Contact Us" },
 ];
 export const petCareFeatures = [
