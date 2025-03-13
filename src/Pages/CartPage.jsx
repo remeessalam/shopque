@@ -3,32 +3,24 @@ import SectionHeader from "../Components/SectionHeader";
 import { Link } from "react-router-dom";
 import { useCart } from "../Store/CartContext";
 import { CgShoppingCart } from "react-icons/cg";
+import { removeFromCartAPI } from "../api/cartApi";
 
 function CartPage() {
   const { cartItems, removeFromCart } = useCart();
+  console.log(cartItems, "asdfasdfasdf");
 
+  // Calculate subtotal using product.price and cart item quantity
   const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.product.price * item.quantity,
     0
   );
   const tax = 3.0;
   const total = subtotal + tax;
   const shipping = "Free";
-
-  // const updateQuantity = (id, newQuantity) => {
-  //   if (newQuantity < 1) return;
-
-  //   setCartItems(
-  //     cartItems.map((item) =>
-  //       item.id === id ? { ...item, quantity: newQuantity } : item
-  //     )
-  //   );
-  // };
-
-  // const removeItem = (id) => {
-  //   setCartItems(cartItems.filter((item) => item.id !== id));
-  // };
-
+  const removeCartItemApi = (id) => {
+    removeFromCartAPI(id);
+    removeFromCart(id);
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -62,52 +54,36 @@ function CartPage() {
               <div className="border-t border-gray-200">
                 {cartItems.map((item) => (
                   <div
-                    key={item.id}
+                    key={item._id}
                     className="py-6 flex items-center border-b border-gray-200"
                   >
                     <div className="flex-shrink-0 w-24 h-24 rounded-md overflow-hidden">
                       <img
-                        src={item.images[0]}
-                        alt={item.name}
+                        src={item.product.images[0]}
+                        alt={item.product.name}
                         className="w-full h-full object-center object-cover"
                       />
                     </div>
                     <div className="ml-4 flex-1">
                       <div className="flex justify-between">
                         <h3 className="text-base font-medium text-gray-900">
-                          {item.name}
+                          {item.product.name}
                         </h3>
                         <p className="text-base font-medium text-gray-900">
-                          ₹ {item.price.toFixed(2)}
+                          ₹ {item.product.price.toFixed(2)}
                         </p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">
-                        {item.color} {item.size}
+                        {item.product.color || ""} {item.product.size || ""}
                       </p>
                       <div className="flex items-center justify-between mt-4">
                         <div className="flex items-center border border-gray-300 rounded-md">
-                          {/* <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
-                          }
-                          className="p-2 text-gray-600 hover:text-gray-500"
-                        >
-                          <BiMinus className="h-4 w-4" />
-                        </button> */}
                           <span className="px-4 py-1 text-gray-900">
                             {item.quantity}
                           </span>
-                          {/* <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                          className="p-2 text-gray-600 hover:text-gray-500"
-                        >
-                          <BiPlus className="h-4 w-4" />
-                        </button> */}
                         </div>
                         <button
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeCartItemApi(item.product._id)}
                           className="p-2 text-gray-400 hover:text-gray-500 rounded-md"
                         >
                           <BiX className="h-5 w-5" />

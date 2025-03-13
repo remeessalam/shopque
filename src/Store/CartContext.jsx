@@ -1,10 +1,18 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { apiCall } from "../api/apiController";
 
 const CartContext = createContext();
 //eslint-disable-next-line
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      const response = await apiCall({ path: "/cart", method: "GET" });
+      console.log(response.items, "asfasdfasf");
+      setCartItems(response.items);
+    };
+    fetchCartItems();
+  }, []);
   const addToCart = (product) => {
     console.log(product, "asdlkfasjfdkjsf");
     setCartItems((prevCart) => {

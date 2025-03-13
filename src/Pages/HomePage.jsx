@@ -87,7 +87,7 @@ const Homepage = () => {
         <ProductGrid products={products.slice(0, 8)} cardslength={3} />
       </div>
       <Testimonials />
-      <Blogs />
+      {/* <Blogs /> */}
       <JoinSection isShowCategory={true} />
     </div>
   );

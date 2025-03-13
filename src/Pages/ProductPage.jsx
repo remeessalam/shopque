@@ -5,7 +5,7 @@ import ProductGrid from "../Components/ProductGrid";
 import JoinSection from "../Components/JoinSection";
 // import { MdChevronRight } from "react-icons/md";
 import SectionHeader from "../Components/SectionHeader";
-import { getProducts } from "../api/products";
+import { getProducts } from "../api/productsApi";
 import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
 
 const ProductPage = () => {

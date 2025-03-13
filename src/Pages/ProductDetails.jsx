@@ -10,11 +10,13 @@ import ShareModal from "../Components/ShareModal";
 import { Link, useParams } from "react-router-dom";
 import ImageCarousal from "../Components/ImageCarousal";
 import { useCart } from "../Store/CartContext";
-import { getProductById } from "../api/products";
+import { getProductById } from "../api/productsApi";
 import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
 import { useWishlist } from "../Store/WishlistContext";
 import { FaHeart } from "react-icons/fa6";
 import { AiOutlineHeart } from "react-icons/ai";
+import { addToCartAPI } from "../api/cartApi";
+import toast from "react-hot-toast";
 
 function ProductDetails() {
   const [showShare, setShowShare] = useState(false);
@@ -50,13 +52,20 @@ function ProductDetails() {
       setQuantity(quantity - 1);
     }
   };
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const productToAdd = {
       ...productData,
       quantity: quantity,
     };
-
-    addToCart(productToAdd);
+    console.log(productData._id, quantity, "asdfsdfsdfsdf");
+    const response = await addToCartAPI(productData._id, quantity);
+    toast.success("product item added in the cart successfull");
+    if (response.status) {
+      console.log(response, "asdfasdfasdf");
+      addToCart(productToAdd);
+      return;
+    }
+    toast.error("error in adding to cart");
   };
   console.log(showShare, "asdfsadfsdf");
   const isInCart = cartItems.some((item) => item.id === productData?.id);
