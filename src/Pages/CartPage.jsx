@@ -9,18 +9,22 @@ function CartPage() {
   const { cartItems, removeFromCart } = useCart();
   console.log(cartItems, "asdfasdfasdf");
 
-  // Calculate subtotal using product.price and cart item quantity
+  // Calculate subtotal using product.price and cart item quantity safely with optional chaining
   const subtotal = cartItems.reduce(
-    (total, item) => total + item.product.price * item.quantity,
+    (total, item) =>
+      total + (item.product?.price ? item.product.price * item.quantity : 0),
     0
   );
   const tax = 3.0;
   const total = subtotal + tax;
   const shipping = "Free";
-  const removeCartItemApi = (id) => {
-    removeFromCartAPI(id);
-    removeFromCart(id);
+
+  const removeCartItemApi = async (id) => {
+    const response = await removeFromCartAPI(id);
+    console.log(response, "asdfasdfasdf");
+    removeFromCart(response.items);
   };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -59,22 +63,25 @@ function CartPage() {
                   >
                     <div className="flex-shrink-0 w-24 h-24 rounded-md overflow-hidden">
                       <img
-                        src={item.product.images[0]}
-                        alt={item.product.name}
+                        src={item.product?.images[0] || ""}
+                        alt={item.product?.name || "Product image"}
                         className="w-full h-full object-center object-cover"
                       />
                     </div>
                     <div className="ml-4 flex-1">
                       <div className="flex justify-between">
                         <h3 className="text-base font-medium text-gray-900">
-                          {item.product.name}
+                          {item.product?.name || "Product not available"}
                         </h3>
                         <p className="text-base font-medium text-gray-900">
-                          ₹ {item.product.price.toFixed(2)}
+                          ₹{" "}
+                          {item.product?.price
+                            ? item.product.price.toFixed(2)
+                            : "0.00"}
                         </p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">
-                        {item.product.color || ""} {item.product.size || ""}
+                        {item.product?.color || ""} {item.product?.size || ""}
                       </p>
                       <div className="flex items-center justify-between mt-4">
                         <div className="flex items-center border border-gray-300 rounded-md">
@@ -83,7 +90,9 @@ function CartPage() {
                           </span>
                         </div>
                         <button
-                          onClick={() => removeCartItemApi(item.product._id)}
+                          onClick={() =>
+                            removeCartItemApi(item.product?._id || item._id)
+                          }
                           className="p-2 text-gray-400 hover:text-gray-500 rounded-md"
                         >
                           <BiX className="h-5 w-5" />

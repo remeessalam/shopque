@@ -135,7 +135,7 @@ function CheckOutPage() {
             {/* Order Items */}
             <div className="flex items-center gap-4 mb-6">
               <div className="flex gap-2">
-                {cartItems.map((product, index) => (
+                {cartItems.map(({ product }, index) => (
                   <div
                     key={product._id || index}
                     className="w-12 h-12 bg-blue-100 rounded-md flex items-center justify-center"

@@ -24,10 +24,6 @@ export const removeFromCartAPI = async (productId) => {
       path: `/cart/remove/${productId}`,
       method: "DELETE",
     });
-    // const response = await axios.post(`${API_BASE_URL}/cart/add`, {
-    //   productId,
-    //   quantity,
-    // });
 
     return response;
   } catch (error) {

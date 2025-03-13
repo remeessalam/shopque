@@ -53,22 +53,24 @@ function ProductDetails() {
     }
   };
   const handleAddToCart = async () => {
-    const productToAdd = {
-      ...productData,
-      quantity: quantity,
-    };
+    // const productToAdd = {
+    //   ...productData,
+    //   quantity: quantity,
+    // };
     console.log(productData._id, quantity, "asdfsdfsdfsdf");
     const response = await addToCartAPI(productData._id, quantity);
     toast.success("product item added in the cart successfull");
     if (response.status) {
-      console.log(response, "asdfasdfasdf");
-      addToCart(productToAdd);
+      console.log(response.cart.items, "asdfasdfasdf");
+      addToCart(response.cart.items);
       return;
     }
     toast.error("error in adding to cart");
   };
-  console.log(showShare, "asdfsadfsdf");
-  const isInCart = cartItems.some((item) => item.id === productData?.id);
+  console.log(cartItems, "asdfasdfassadfsdf");
+  const isInCart = cartItems.some(
+    (item) => item.product._id === productData?._id
+  );
   const toggleWishlist = (product) => {
     if (wishlist.some((item) => item.id === product.id)) {
       removeFromWishlist(product.id);

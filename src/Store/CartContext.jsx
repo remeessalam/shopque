@@ -15,21 +15,22 @@ export const CartProvider = ({ children }) => {
   }, []);
   const addToCart = (product) => {
     console.log(product, "asdlkfasjfdkjsf");
-    setCartItems((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevCart?.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+    setCartItems(product);
+    // (prevCart) => {
+    //   const existingItem = prevCart.find((item) => item._id === product._id);
+    //   if (existingItem) {
+    //     return prevCart?.map((item) =>
+    //       item.id === product.id
+    //         ? { ...item, quantity: item.quantity + 1 }
+    //         : item
+    //     );
+    //   }
+    //   return [...prevCart, { ...product, quantity: 1 }];
+    // }
   };
 
-  const removeFromCart = (id) => {
-    setCartItems((prevCart) => prevCart.filter((item) => item.id !== id));
+  const removeFromCart = (product) => {
+    setCartItems(product);
   };
 
   const updateQuantity = (id, quantity) => {
