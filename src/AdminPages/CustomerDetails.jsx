@@ -146,7 +146,6 @@ function CustomerDetails() {
                 </tbody>
               </table>
             </div>
-
             {/* Pagination */}
             <div className="px-6 py-4 flex items-center justify-center">
               <nav className="flex items-center space-x-2">

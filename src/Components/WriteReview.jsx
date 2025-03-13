@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { CgClose } from "react-icons/cg";
 
 //eslint-disable-next-line
@@ -31,7 +32,7 @@ function WriteReview({ showReview, setShowReview, productData }) {
         throw new Error("Failed to submit review");
       }
 
-      alert("Review submitted successfully!");
+      toast.success("Review submitted successfully!");
       setShowReview(false);
       reset();
     } catch (error) {

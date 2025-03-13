@@ -30,7 +30,7 @@ function ProductReviewSection({ productData }) {
               }
             </span>
             <span className="ml-2 text-sm text-gray-500">
-              —
+              —{" "}
               {
                 //eslint-disable-next-line
                 productData.reviewsCount
