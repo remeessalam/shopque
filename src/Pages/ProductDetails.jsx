@@ -15,6 +15,7 @@ import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
 import { useWishlist } from "../Store/WishlistContext";
 import { FaHeart } from "react-icons/fa6";
 import { AiOutlineHeart } from "react-icons/ai";
+
 function ProductDetails() {
   const [showShare, setShowShare] = useState(false);
   const { addToCart, cartItems } = useCart();
@@ -90,7 +91,7 @@ function ProductDetails() {
               <div className="flex  bg-gray-200 px-4 items-center py-1 rounded-full">
                 <FiStar className="w-4 h-4 fill-current text-gray-700" />
                 <span className="ml-1 text-sm text-gray-700">
-                  {productData?.rating} — {productData?.reviews} Reviews
+                  {productData?.rating} — {productData?.reviewsCount} Reviews
                 </span>
               </div>
               <span
@@ -240,7 +241,7 @@ function ProductDetails() {
           )}
         </div>
       </div>
-      <div>
+      <div className="mt-[2rem]">
         <div className="wrapper">
           <h1 className="title-heading">You might also like</h1>
           <p className="font-light text-gray-500 mt-4">SIMILAR PRODUCTS</p>

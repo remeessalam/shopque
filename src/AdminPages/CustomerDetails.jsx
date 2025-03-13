@@ -5,6 +5,7 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 import AdminPageHeader from "../AdminComponents/AdminPageHeader";
+import { showNameDP } from "../util/helper";
 
 function CustomerDetails() {
   const customers = [
@@ -115,12 +116,7 @@ function CustomerDetails() {
                           className="h-12 w-12 rounded-md object-cover"
                         /> */}
                         <div className="text-sm font-medium text-blue-600 bg-blue-50 p-4 w-fit">
-                          {product.name
-                            .split(" ") // Split the name into words
-                            .map((word) => word[0]) // Take the first letter of each word
-                            .join("") // Join them together
-                            .toUpperCase()}{" "}
-                          {/* Convert to uppercase */}
+                          {showNameDP(product.name)}{" "}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">

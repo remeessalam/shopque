@@ -1,42 +1,17 @@
 import { useState } from "react";
 import { FiStar } from "react-icons/fi";
 import WriteReview from "./WriteReview";
-function ProductReviewSection() {
-  // Sample reviews data
+import { showNameDP } from "../util/helper";
+
+//eslint-disable-next-line
+function ProductReviewSection({ productData }) {
   const [showReview, setShowReview] = useState(false);
+  console.log(productData, "asdfasdf");
+  //eslint-disable-next-line
+  const [reviews] = useState(productData?.reviews);
 
-  const [reviews] = useState([
-    {
-      id: 1,
-      name: "Emily Davis",
-      initials: "ED",
-      rating: 4,
-      date: "1 WEEK AGO",
-      comment:
-        "This company always goes above and beyond to satisfy their customers.",
-    },
-    {
-      id: 2,
-      name: "Daniel Smith",
-      initials: "ED", // Using ED as shown in the image
-      rating: 4,
-      date: "2 MONTH AGO",
-      comment: "I can't believe how affordable and high-quality this item is!",
-    },
-    {
-      id: 3,
-      name: "Benjamin Clark",
-      initials: "ED", // Using ED as shown in the image
-      rating: 4,
-      date: "23 APRIL",
-      comment: "These guys know their stuff, and it shows in their products.",
-    },
-  ]);
-
-  // State for visible reviews (for load more functionality)
   const [visibleReviews, setVisibleReviews] = useState(3);
 
-  // Function to load more reviews
   const loadMoreReviews = () => {
     setVisibleReviews((prevCount) => prevCount + 3);
   };
@@ -48,8 +23,20 @@ function ProductReviewSection() {
         <div>
           <h2 className="text-xl font-medium text-gray-900">Reviews</h2>
           <div className="flex items-center mt-1">
-            <span className="text-4xl font-bold text-gray-900">4.2</span>
-            <span className="ml-2 text-sm text-gray-500">— 54 Reviews</span>
+            <span className="text-4xl font-bold text-gray-900">
+              {
+                //eslint-disable-next-line
+                productData.rating
+              }
+            </span>
+            <span className="ml-2 text-sm text-gray-500">
+              —
+              {
+                //eslint-disable-next-line
+                productData.reviewsCount
+              }{" "}
+              Reviews
+            </span>
           </div>
         </div>
 
@@ -99,7 +86,7 @@ function ProductReviewSection() {
               <div className="flex-shrink-0">
                 <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
                   <span className="text-sm font-medium text-gray-500">
-                    {review.initials}
+                    {showNameDP(review.fullName)}
                   </span>
                 </div>
               </div>
@@ -108,7 +95,7 @@ function ProductReviewSection() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium text-gray-900">
-                    {review.name}
+                    {review.fullName}
                   </h3>
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
@@ -125,7 +112,7 @@ function ProductReviewSection() {
                 </div>
                 <p className="text-xs text-gray-500 mt-1">{review.date}</p>
                 <div className="mt-2 text-sm text-gray-700">
-                  <p>{review.comment}</p>
+                  <p>{review.review}</p>
                 </div>
               </div>
             </div>
@@ -144,12 +131,12 @@ function ProductReviewSection() {
           </div>
         )}
       </div>
-      <div className="w-fit  mx-auto mt-12">
-        <button className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Load more reviews
-        </button>
-      </div>
-      <WriteReview showReview={showReview} setShowReview={setShowReview} />
+
+      <WriteReview
+        showReview={showReview}
+        setShowReview={setShowReview}
+        productData={productData}
+      />
     </div>
   );
 }

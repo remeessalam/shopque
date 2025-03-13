@@ -5,3 +5,13 @@ export const checkUserTocken = () => {
   }
   return true;
 };
+
+export const showNameDP = (name) => {
+  const twoLetters = name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+
+  return twoLetters;
+};

@@ -1,25 +1,47 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { CgClose } from "react-icons/cg";
 
 //eslint-disable-next-line
-function WriteReview({ showReview, setShowReview }) {
-  //   const [showReview, setShowReview] = useState(false);
+function WriteReview({ showReview, setShowReview, productData }) {
   const [rating, setRating] = useState(0);
-  const [formData, setFormData] = useState({
-    email: "",
-    fullName: "",
-    review: "",
-  });
+  console.log(productData, "asdfsdfsd");
 
-  const handleSubmitReview = (e) => {
-    e.preventDefault();
-    // Handle review submission here
-    setShowReview(false);
+  //eslint-disable-next-line
+  const productId = productData._id;
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("http://localhost:8080/api/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data, rating, productId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit review");
+      }
+
+      alert("Review submitted successfully!");
+      setShowReview(false);
+      reset();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("Error submitting review. Please try again.");
+    }
   };
 
   return (
     <div className="">
-      {/* Review Modal */}
       {showReview && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg w-full max-w-md">
@@ -33,18 +55,17 @@ function WriteReview({ showReview, setShowReview }) {
               </button>
             </div>
 
-            <form onSubmit={handleSubmitReview} className="p-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="p-8">
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">Email</label>
                 <input
                   type="email"
                   className="w-full p-2 border rounded-lg"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  required
+                  {...register("email", { required: "Email is required" })}
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
               </div>
 
               <div className="mb-4">
@@ -54,24 +75,30 @@ function WriteReview({ showReview, setShowReview }) {
                 <input
                   type="text"
                   className="w-full p-2 border rounded-lg"
-                  value={formData.fullName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, fullName: e.target.value })
-                  }
-                  required
+                  {...register("fullName", {
+                    required: "Full name is required",
+                  })}
                 />
+                {errors.fullName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.fullName.message}
+                  </p>
+                )}
               </div>
 
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">Review</label>
                 <textarea
                   className="w-full p-2 border rounded-lg h-32 resize-none"
-                  value={formData.review}
-                  onChange={(e) =>
-                    setFormData({ ...formData, review: e.target.value })
-                  }
-                  required
+                  {...register("review", {
+                    required: "Review cannot be empty",
+                  })}
                 />
+                {errors.review && (
+                  <p className="text-red-500 text-sm">
+                    {errors.review.message}
+                  </p>
+                )}
               </div>
 
               <div className="mb-6">
@@ -80,7 +107,10 @@ function WriteReview({ showReview, setShowReview }) {
                     <button
                       key={star}
                       type="button"
-                      onClick={() => setRating(star)}
+                      onClick={() => {
+                        setRating(star);
+                        setValue("rating", star);
+                      }}
                       className="text-2xl"
                     >
                       {star <= rating ? "★" : "☆"}
