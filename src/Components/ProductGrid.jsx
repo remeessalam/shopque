@@ -26,7 +26,7 @@ const ProductGrid = ({ products, cardslength }) => {
               key={product.id}
               className="group relative border rounded-lg overflow-hidden"
             >
-              <Link to={`/product-details/${product.id}`}>
+              <Link to={`/product-details/${product._id}`}>
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={product.images[0] || "/placeholder.svg"}

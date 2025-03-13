@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { BiMinus, BiPlus, BiX } from "react-icons/bi";
+import { BiX } from "react-icons/bi";
 import SectionHeader from "../Components/SectionHeader";
 import { Link } from "react-router-dom";
 import { useCart } from "../Store/CartContext";
@@ -7,27 +6,6 @@ import { CgShoppingCart } from "react-icons/cg";
 
 function CartPage() {
   const { cartItems, removeFromCart } = useCart();
-
-  // const [cartItems, setCartItems] = useState([
-  //   {
-  //     id: "1",
-  //     name: "Dog Food Dispenser",
-  //     price: 75.0,
-  //     quantity: 1,
-  //     color: "Color:",
-  //     size: "Size: M",
-  //     image: productImages.dogFood,
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "Rotatable Pet Food",
-  //     price: 22.0,
-  //     quantity: 1,
-  //     color: "Color:",
-  //     size: "Size: M",
-  //     image: productImages.petFood,
-  //   },
-  // ]);
 
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -100,7 +78,7 @@ function CartPage() {
                           {item.name}
                         </h3>
                         <p className="text-base font-medium text-gray-900">
-                          ${item.price.toFixed(2)}
+                          ₹ {item.price.toFixed(2)}
                         </p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">
@@ -153,7 +131,7 @@ function CartPage() {
                   <div className="py-4 flex items-center justify-between">
                     <dt className="text-gray-600">Subtotal</dt>
                     <dd className="font-medium text-gray-900">
-                      $ {subtotal.toFixed(2)}
+                      ₹ {subtotal.toFixed(2)}
                     </dd>
                   </div>
                   <div className="py-4 flex items-center justify-between border-t border-gray-200">
@@ -163,7 +141,7 @@ function CartPage() {
                   <div className="py-4 flex items-center justify-between border-t border-gray-200">
                     <dt className="text-gray-600">Tax:</dt>
                     <dd className="font-medium text-gray-900">
-                      $ {tax.toFixed(2)}
+                      ₹ {tax.toFixed(2)}
                     </dd>
                   </div>
                   <div className="py-4 flex items-center justify-between border-t border-gray-200">
@@ -171,7 +149,7 @@ function CartPage() {
                       Total
                     </dt>
                     <dd className="text-base font-medium text-gray-900">
-                      $ {total.toFixed(2)}
+                      ₹ {total.toFixed(2)}
                     </dd>
                   </div>
                 </dl>

@@ -9,6 +9,7 @@ import { useState } from "react";
 import Testimonials from "../Components/Testimonials";
 import Blogs from "../Components/Blogs";
 import JoinSection from "../Components/JoinSection";
+import { Link } from "react-router-dom";
 const Homepage = () => {
   const [isFeatured, setIsFeatured] = useState(true);
   const toggleProducts = () => {
@@ -42,9 +43,12 @@ const Homepage = () => {
                 Pet Products categories.{" "}
               </p>
             </div>
-            <button className="primaryButton flex items-center gap-2 md:mt-0 mt-2">
+            <Link
+              to={"/products"}
+              className="primaryButton flex items-center gap-2 md:mt-0 mt-2"
+            >
               Start Browsing <LuArrowRight />
-            </button>
+            </Link>
           </div>
           <div className=" bg-no-repeat bg-contain bg-bottom flex flex-col justify-end">
             <img

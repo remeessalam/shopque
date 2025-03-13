@@ -80,7 +80,7 @@ const ImageCarousel = ({ productData }) => {
             key={index}
             src={image}
             alt={`Image ${index + 1}`}
-            className="w-full h-full object-cover flex-shrink-0 snap-center"
+            className="w-full h-full max-h-[35rem] object-cover flex-shrink-0 snap-center"
           />
         ))}
       </div>
@@ -91,12 +91,12 @@ const ImageCarousel = ({ productData }) => {
         }
       `}</style>
 
-      <div className="flex justify-center mt-1 space-x-2">
+      <div className="flex justify-center mt-1 space-x-2 select-none">
         {productData?.images?.map((_, index) => (
           <button
             key={index}
             onClick={() => scrollToImage(index)}
-            className={`w-2 h-2 rounded-full transition-colors ${
+            className={`w-2 h-2 rounded-full transition-colors select-none ${
               activeIndex === index ? "bg-gray-500" : "bg-gray-300"
             }`}
             aria-label={`Go to image ${index + 1}`}

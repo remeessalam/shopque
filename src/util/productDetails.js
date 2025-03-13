@@ -1,7 +1,7 @@
-import wirelessremotecontrol from "../assets/images/products/wireless-remote-control.jpeg";
-import wirelessremotecontrol1 from "../assets/images/products/wireless-remote-control1.png";
-import wirelessremotecontrol2 from "../assets/images/products/wireless-remote-control2.jpeg";
-import wirelessremotecontrol3 from "../assets/images/products/wireless-remote-control3.jpeg";
+// import wirelessremotecontrol from "../assets/images/products/wireless-remote-control.jpeg";
+// import wirelessremotecontrol1 from "../assets/images/products/wireless-remote-control1.png";
+// import wirelessremotecontrol2 from "../assets/images/products/wireless-remote-control2.jpeg";
+// import wirelessremotecontrol3 from "../assets/images/products/wireless-remote-control3.jpeg";
 
 // product images
 import pettreat1 from "../assets/images/ProductsImage/pettreat1.png";
@@ -18,48 +18,48 @@ import saturntoy2 from "../assets/images/ProductsImage/saturntoy2.png";
 import saturntoy3 from "../assets/images/ProductsImage/saturntoy3.png";
 // import saturntoy4 from "../assets/images/ProductsImage/saturntoy4.png";
 
-export const productDetails = [
-  {
-    id: 1,
-    productName: "E&E Bestlife Smart Car Remote Control",
-    productImage: wirelessremotecontrol,
+// export const productDetails = [
+//   {
+//     id: 1,
+//     productName: "E&E Bestlife Smart Car Remote Control",
+//     productImage: wirelessremotecontrol,
 
-    discountPer: 61,
-    actualPrice: 199800,
-    mrp: 5100,
-    images: [
-      wirelessremotecontrol1,
-      wirelessremotecontrol2,
-      wirelessremotecontrol3,
-    ],
-    colors: [
-      { name: "Blue", value: "#6B8CDE", selected: true },
-      { name: "Beige", value: "#F8D49A", selected: false },
-      { name: "Green", value: "#7BAF83", selected: false },
-    ],
-    sizes: [
-      { name: "S", selected: true },
-      { name: "M", selected: false },
-      { name: "X", selected: false },
-      { name: "XL", selected: false },
-      { name: "XXL", selected: false },
-    ],
-    rating: 5,
-    description: `The Zippty Interactive Laser Toy keeps your pets entertained, active, and healthy. Designed for both cats and dogs, it projects random laser patterns that trigger their natural chase instincts. Its durable, stable design ensures hours of safe and exciting playtime, making it perfect for energetic pets and multi-pet homes.`,
-    additionalInformation: {
-      "Pet toy type": "Excercise Toy",
-      "Target Species": ["Cat", "Vehicle"],
-      "Recommended Uses": "M",
-      "For Product": "Playing",
-      "Cartoon Character": "No",
-      "Indoor/Outdoor Usage": [
-        "Outdoor",
-        "Blue",
-        "Acrylonitrile Butadiene Styrene",
-      ],
-    },
-  },
-];
+//     discountPer: 61,
+//     actualPrice: 199800,
+//     mrp: 5100,
+//     images: [
+//       wirelessremotecontrol1,
+//       wirelessremotecontrol2,
+//       wirelessremotecontrol3,
+//     ],
+//     colors: [
+//       { name: "Blue", value: "#6B8CDE", },
+//       { name: "Beige", value: "#F8D49A",  },
+//       { name: "Green", value: "#7BAF83",  },
+//     ],
+//     sizes: [
+//       { name: "S", },
+//       { name: "M",  },
+//       { name: "X",  },
+//       { name: "XL",  },
+//       { name: "XXL",  },
+//     ],
+//     rating: 5,
+//     description: `The Zippty Interactive Laser Toy keeps your pets entertained, active, and healthy. Designed for both cats and dogs, it projects random laser patterns that trigger their natural chase instincts. Its durable, stable design ensures hours of safe and exciting playtime, making it perfect for energetic pets and multi-pet homes.`,
+//     additionalInformation: {
+//       "Pet toy type": "Excercise Toy",
+//       "Target Species": ["Cat", "Vehicle"],
+//       "Recommended Uses": "M",
+//       "For Product": "Playing",
+//       "Cartoon Character": "No",
+//       "Indoor/Outdoor Usage": [
+//         "Outdoor",
+//         "Blue",
+//         "Acrylonitrile Butadiene Styrene",
+//       ],
+//     },
+//   },
+// ];
 
 export const products = [
   {
@@ -73,16 +73,16 @@ your pet entertained while promoting dental health.`,
     rating: 4.2,
     reviews: 54,
     colors: [
-      { name: "Blue", value: "#6B8CDE", selected: true },
-      { name: "Beige", value: "#F8D49A", selected: false },
-      { name: "Green", value: "#7BAF83", selected: false },
+      { name: "Blue", value: "#6B8CDE" },
+      { name: "Beige", value: "#F8D49A" },
+      { name: "Green", value: "#7BAF83" },
     ],
     sizes: [
-      { name: "S", selected: true },
-      { name: "M", selected: false },
-      { name: "X", selected: false },
-      { name: "XL", selected: false },
-      { name: "XXL", selected: false },
+      { name: "S" },
+      { name: "M" },
+      { name: "X" },
+      { name: "XL" },
+      { name: "XXL" },
     ],
     price: 1534,
     stock: true,
@@ -112,16 +112,16 @@ them active and mentally stimulated.`,
     rating: 4.2,
     reviews: 54,
     colors: [
-      { name: "Blue", value: "#6B8CDE", selected: true },
-      { name: "Beige", value: "#F8D49A", selected: false },
-      { name: "Green", value: "#7BAF83", selected: false },
+      { name: "Blue", value: "#6B8CDE" },
+      { name: "Beige", value: "#F8D49A" },
+      { name: "Green", value: "#7BAF83" },
     ],
     sizes: [
-      { name: "S", selected: true },
-      { name: "M", selected: false },
-      { name: "X", selected: false },
-      { name: "XL", selected: false },
-      { name: "XXL", selected: false },
+      { name: "S" },
+      { name: "M" },
+      { name: "X" },
+      { name: "XL" },
+      { name: "XXL" },
     ],
     price: 1888,
     stock: false,
@@ -152,16 +152,16 @@ making playtime fun and rewarding.`,
     rating: 4.2,
     reviews: 54,
     colors: [
-      { name: "Blue", value: "#6B8CDE", selected: true },
-      { name: "Beige", value: "#F8D49A", selected: false },
-      { name: "Green", value: "#7BAF83", selected: false },
+      { name: "Blue", value: "#6B8CDE" },
+      { name: "Beige", value: "#F8D49A" },
+      { name: "Green", value: "#7BAF83" },
     ],
     sizes: [
-      { name: "S", selected: true },
-      { name: "M", selected: false },
-      { name: "X", selected: false },
-      { name: "XL", selected: false },
-      { name: "XXL", selected: false },
+      { name: "S" },
+      { name: "M" },
+      { name: "X" },
+      { name: "XL" },
+      { name: "XXL" },
     ],
     price: 2124,
     stock: true,

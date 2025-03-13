@@ -4,6 +4,7 @@ import logo from "../assets/images/logo/logo.png";
 import amex from "../assets/images/amex.png";
 import visa from "../assets/images/visa.png";
 import master from "../assets/images/mastercard.png";
+import { companyDetails } from "../util/contant";
 const Footer = () => {
   const images = [master, amex, visa];
   return (
@@ -17,16 +18,28 @@ const Footer = () => {
               DevCut is a YouTube channel for practical project-based learning.
             </p>
             <div className="flex space-x-4">
-              <Link to="#" className="text-gray-600 hover:text-gray-900">
+              <Link
+                to={companyDetails.facebook}
+                className="text-gray-600 hover:text-gray-900"
+              >
                 <FaFacebook size={20} />
               </Link>
-              <Link to="#" className="text-gray-600 hover:text-gray-900">
+              <Link
+                to={companyDetails.instagram}
+                className="text-gray-600 hover:text-gray-900"
+              >
                 <FaInstagram size={20} />
               </Link>
-              <Link to="#" className="text-gray-600 hover:text-gray-900">
+              <Link
+                to={companyDetails.twitter}
+                className="text-gray-600 hover:text-gray-900"
+              >
                 <FaTwitter size={20} />
               </Link>
-              <Link to="#" className="text-gray-600 hover:text-gray-900">
+              <Link
+                to={companyDetails.youtube}
+                className="text-gray-600 hover:text-gray-900"
+              >
                 <FaYoutube size={20} />
               </Link>
             </div>

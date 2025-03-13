@@ -1,31 +1,44 @@
-"use client";
-
-import { useState } from "react";
-import { FiStar, FiHeart, FiShare2, FiMinus, FiPlus } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { FiStar, FiShare2, FiMinus, FiPlus } from "react-icons/fi";
 import ProductDetailSection from "../Components/ProductDetailSection";
 import ProductReviewSection from "../Components/ProductReviewSection";
 import JoinSection from "../Components/JoinSection";
 import ProductGrid from "../Components/ProductGrid";
 import { products } from "../util/productDetails";
-// import dogfooddispencer from "../assets/images/products/dog-food-dispencer.jpeg";
-// import { MdChevronRight } from "react-icons/md";
 import SectionHeader from "../Components/SectionHeader";
 import ShareModal from "../Components/ShareModal";
 import { Link, useParams } from "react-router-dom";
 import ImageCarousal from "../Components/ImageCarousal";
 import { useCart } from "../Store/CartContext";
+import { getProductById } from "../api/products";
+import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
+import { useWishlist } from "../Store/WishlistContext";
+import { FaHeart } from "react-icons/fa6";
+import { AiOutlineHeart } from "react-icons/ai";
 function ProductDetails() {
-  // Product data object with all details
   const [showShare, setShowShare] = useState(false);
   const { addToCart, cartItems } = useCart();
-
-  const { id } = useParams(); // Get the product ID from the route
-  const productData = products.find((product) => product.id === parseInt(id));
-  console.log(productData, "asdfjaksdflajshdf");
-
+  const [productData, setProductDate] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
+  const [color, setColor] = useState(1);
   const [activeTab, setActiveTab] = useState("details");
+  const { id } = useParams();
+  console.log(productData, "asdfjaksdflajshdf");
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const data = await getProductById(id);
+      setProductDate(data);
+      console.log(data, "askdlfjsldkf");
+    };
+
+    fetchProduct();
+  }, []);
+
+  if (!productData) {
+    return <ShimmerLoadingEffect />;
+  }
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -46,7 +59,13 @@ function ProductDetails() {
   };
   console.log(showShare, "asdfsadfsdf");
   const isInCart = cartItems.some((item) => item.id === productData?.id);
-
+  const toggleWishlist = (product) => {
+    if (wishlist.some((item) => item.id === product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
   return (
     <>
       <ShareModal showShare={showShare} setShowShare={setShowShare} />
@@ -62,7 +81,7 @@ function ProductDetails() {
             <div className="flex justify-between items-start">
               <h1 className="text-2xl font-bold">{productData?.name}</h1>
               <FiShare2
-                className="w-5 h-5 text-gray-500"
+                className="min-w-5 min-h-5 h-5 w-5 text-gray-500 mt-2"
                 onClick={() => setShowShare(!showShare)}
               />
             </div>
@@ -85,7 +104,7 @@ function ProductDetails() {
 
             <div className="mt-6">
               <span className="text-xl font-bold">
-                ${productData?.actualPrice?.toFixed(2)}
+                ₹{productData?.price?.toFixed(2)}
               </span>
             </div>
 
@@ -94,31 +113,30 @@ function ProductDetails() {
                 Available Colors
               </h3>
               <div className="flex mt-2 gap-2">
-                {productData?.colors?.map((color, index) => (
+                {productData?.colors?.map((obj, index) => (
                   <div
                     key={index}
+                    onClick={() => setColor(obj.value)}
                     className={`w-8 h-8 rounded-full cursor-pointer ${
-                      color.selected ? "ring-2 ring-gray-400" : ""
+                      color === obj.value ? "ring-2 ring-primary" : ""
                     }`}
-                    style={{ backgroundColor: color.value }}
+                    style={{ backgroundColor: obj.value }}
                   ></div>
                 ))}
               </div>
             </div>
 
             <div className="mt-6">
-              <h3 className="text-sm text-gray-500 uppercase">Select Size</h3>
+              <h3 className="text-sm text-gray-500 uppercase">Size</h3>
               <div className="flex mt-2 gap-2">
-                {productData?.sizes?.map((size, index) => (
-                  <div
-                    key={index}
-                    className={`w-10 h-10 flex items-center justify-center border rounded-md cursor-pointer ${
-                      size.selected ? "bg-gray-100" : ""
-                    }`}
-                  >
-                    {size.name}
-                  </div>
-                ))}
+                {/* {productData?.sizes?.map((size, index) => (
+                ))} */}
+                <div
+                  // key={index}
+                  className={`w-10 h-10 flex items-center justify-center border rounded-md cursor-pointer `}
+                >
+                  M
+                </div>
               </div>
             </div>
 
@@ -153,14 +171,29 @@ function ProductDetails() {
                 </Link>
               ) : (
                 <button
+                  disabled={!productData?.stock}
                   onClick={handleAddToCart}
-                  className="bg-gray-900 text-white py-3 px-4 rounded w-full"
+                  className={`${
+                    productData?.stock
+                      ? `bg-gray-900`
+                      : `bg-gray-400 cursor-not-allowed`
+                  } text-white py-3 px-4 rounded w-full`}
                 >
                   Add to cart
                 </button>
               )}
-              <button className="border border-gray-300 p-3 rounded">
-                <FiHeart className="w-5 h-5" />
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  toggleWishlist(productData);
+                }}
+                className="z-10 px-2 mb-auto  hover:bg-white/80 border border-gray-300 p-3 rounded"
+              >
+                {wishlist.some((item) => item.id === productData.id) ? (
+                  <FaHeart className="w-5 h-5 text-red-500" />
+                ) : (
+                  <AiOutlineHeart className="w-5 h-5 text-gray-600 hover:scale-125 hoveranim" />
+                )}
               </button>
             </div>
 
@@ -215,8 +248,6 @@ function ProductDetails() {
         <ProductGrid products={products.slice(0, 4)} cardslength={4} />
       </div>
       <JoinSection isShowCategory={true} />
-      {/* {showShare && ( */}
-      {/* )} */}
     </>
   );
 }

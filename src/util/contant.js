@@ -10,6 +10,16 @@ import secure from "../assets/images/icons/secure.png";
 // import toys from "../assets/images/categories/toys.jpeg";
 // import food from "../assets/images/categories/food.jpeg";
 // import cloths from "../assets/images/categories/cloths.jpeg";
+
+export const API_BASE_URL = "http://localhost:8080/api";
+export const companyDetails = {
+  name: "shopque",
+  email: "email@domain.com",
+  facebook: "https://www.facebook.com",
+  instagram: "https://www.instagram.com",
+  twitter: "https://www.x.com",
+  youtube: "https://www.youtube.com",
+};
 export const navLinks = [
   { path: "/", label: "Home" },
   { path: "/about-us", label: "About Us" },

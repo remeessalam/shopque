@@ -1,55 +1,33 @@
+"use client";
+import { useEffect, useState } from "react";
 // import { useState } from "react";
 import ProductGrid from "../Components/ProductGrid";
-import { products } from "../util/productDetails";
 import JoinSection from "../Components/JoinSection";
 // import { MdChevronRight } from "react-icons/md";
 import SectionHeader from "../Components/SectionHeader";
+import { getProducts } from "../api/products";
+import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
 
 const ProductPage = () => {
-  // const [selectedSize, setSelectedSize] = useState("M");
+  const [products, setProducts] = useState([]);
 
-  // const [filters, setFilters] = useState({
-  //   categories: ["Pet Dog Products"],
-  //   size: ["M"],
-  //   price: 890,
-  // });
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      setProducts(data);
+      console.log(data, "askdlfjsldkf");
+    };
 
-  // const removeFilter = (type, value) => {
-  //   if (type === "category") {
-  //     setFilters({
-  //       ...filters,
-  //       categories: filters.categories.filter((cat) => cat !== value),
-  //     });
-  //   } else if (type === "size") {
-  //     setFilters({
-  //       ...filters,
-  //       size: filters.size.filter((s) => s !== value),
-  //     });
-  //   }
-  // };
+    fetchProducts();
+  }, []);
 
-  // const petCategories = [
-  //   { id: "pet-dog-products", label: "Pet Dog Products" },
-  //   { id: "pet-cat-products", label: "Pet Cat Products" },
-  //   { id: "pet-dog-food", label: "Pet Dog Food" },
-  //   { id: "pet-cat-food", label: "Pet Cat Food" },
-  //   { id: "pet-cloths", label: "Pet Cloths" },
-  //   { id: "pet-toys", label: "Pet Toys" },
-  // ];
-  // const sizes = ["S", "M", "L", "XL", "XXL"];
+  if (!products.length) {
+    return <ShimmerLoadingEffect />;
+  }
   return (
     <div className="min-h-screen ">
       {/* Navigation */}
       <SectionHeader section="Search" />
-      {/* <div className="bg-gray-100 py-4 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-sm text-gray-600 flex items-center">
-            <span>Ecommerce</span>
-            <MdChevronRight className="text-2xl" />
-            <span>Search</span>
-          </div>
-        </div>
-      </div> */}
 
       {/* Main Content */}
       <div className="wrapper py-6 ">
@@ -178,7 +156,7 @@ const ProductPage = () => {
 
             {/* Products Grid */}
             <div>
-              <ProductGrid products={products.slice(0, 9)} cardslength={3} />
+              <ProductGrid products={products?.slice(0, 9)} cardslength={3} />
             </div>
           </div>
         </div>

@@ -23,6 +23,9 @@ body {
   background-color: #ffffff;
 }
 @layer utilities {
+  .hoveranim {
+    @apply transition-all duration-300;
+  }
   .wrapper {
     @apply max-w-7xl mx-auto px-4;
   }

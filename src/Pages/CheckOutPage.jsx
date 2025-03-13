@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import SectionHeader from "../Components/SectionHeader";
+import { useCart } from "../Store/CartContext";
 
 function CheckOutPage() {
+  const { cartItems } = useCart();
+  console.log(cartItems, "asdfsdf");
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -121,35 +124,29 @@ function CheckOutPage() {
           <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-sm">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold">Your Order</h2>
-              <button className="text-sm border border-gray-300 rounded px-4 py-2 hover:bg-gray-50">
+              <Link
+                to={"/cartitems"}
+                className="text-sm border border-gray-300 rounded px-4 py-2 hover:bg-gray-50"
+              >
                 Edit Cart
-              </button>
+              </Link>
             </div>
 
             {/* Order Items */}
             <div className="flex items-center gap-4 mb-6">
               <div className="flex gap-2">
-                <div className="w-12 h-12 bg-blue-100 rounded-md flex items-center justify-center">
-                  <img
-                    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                    alt="Blue Shoe"
-                    className="w-10 h-10 object-contain"
-                  />
-                </div>
-                <div className="w-12 h-12 bg-red-100 rounded-md flex items-center justify-center">
-                  <img
-                    src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1112&q=80"
-                    alt="Red Shoe"
-                    className="w-10 h-10 object-contain"
-                  />
-                </div>
-                <div className="w-12 h-12 bg-blue-50 rounded-md flex items-center justify-center">
-                  <img
-                    src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
-                    alt="Shoe Box"
-                    className="w-10 h-10 object-contain"
-                  />
-                </div>
+                {cartItems.map((product, index) => (
+                  <div
+                    key={product._id || index}
+                    className="w-12 h-12 bg-blue-100 rounded-md flex items-center justify-center"
+                  >
+                    <img
+                      src={product.images[0]} // First product image
+                      alt={product.name}
+                      className="w-10 h-10 object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -157,7 +154,9 @@ function CheckOutPage() {
             <div className="border-t border-gray-200 pt-4">
               <div className="flex justify-between py-2">
                 <span className="text-gray-600">Subtotal:</span>
-                <span className="font-medium">$ 75.00</span>
+                <span className="font-medium">
+                  ₹ {cartItems.reduce((acc, item) => acc + item.price, 0)}
+                </span>
               </div>
               <div className="flex justify-between py-2">
                 <span className="text-gray-600">Shipping:</span>
@@ -165,12 +164,14 @@ function CheckOutPage() {
               </div>
               <div className="flex justify-between py-2">
                 <span className="text-gray-600">Tax:</span>
-                <span className="font-medium">$ 3.00</span>
+                <span className="font-medium">₹ 3.00</span>
               </div>
               <div className="border-t border-gray-200 mt-2 pt-4 mb-6">
                 <div className="flex justify-between">
                   <span className="font-medium">Total</span>
-                  <span className="font-bold">$ 78.00</span>
+                  <span className="font-bold">
+                    ₹ {cartItems.reduce((acc, item) => acc + item.price, 0) + 3}
+                  </span>
                 </div>
               </div>
               <Link to={"/order-success"}>
