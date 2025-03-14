@@ -2,16 +2,33 @@ import { LuArrowRight } from "react-icons/lu";
 import HomeBanner from "../Components/HomeBanner";
 import ProductGrid from "../Components/ProductGrid";
 import { features } from "../util/contant";
-import { products } from "../util/productDetails";
+// import { products } from "../util/productDetails";
 import petimage from "../assets/images/petimage.jpeg";
 import HomeAbout from "../Components/HomeAbout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Testimonials from "../Components/Testimonials";
-import Blogs from "../Components/Blogs";
+// import Blogs from "../Components/Blogs";
 import JoinSection from "../Components/JoinSection";
 import { Link } from "react-router-dom";
+import { getProducts } from "../api/productsApi";
+import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
 const Homepage = () => {
   const [isFeatured, setIsFeatured] = useState(true);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      setProducts(data);
+      console.log(data, "askdlfjsldkf");
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (!products.length) {
+    return <ShimmerLoadingEffect />;
+  }
   const toggleProducts = () => {
     setIsFeatured(!isFeatured);
   };

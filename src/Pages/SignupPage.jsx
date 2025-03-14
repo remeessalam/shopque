@@ -4,6 +4,7 @@ import signupimage from "../assets/images/signuppageimage.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { API_BASE_URL } from "../util/contant";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ const SignUp = () => {
     try {
       if (loading) return;
       setLoading(true);
-      const response = await fetch("http://localhost:8080/api/auth/signup", {
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
