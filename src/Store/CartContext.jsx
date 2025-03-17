@@ -13,6 +13,7 @@ export const CartProvider = ({ children }) => {
     };
     fetchCartItems();
   }, []);
+  console.log(cartItems, "asdfasdfsdf");
   const addToCart = (product) => {
     console.log(product, "asdlkfasjfdkjsf");
     setCartItems(product);
@@ -36,7 +37,7 @@ export const CartProvider = ({ children }) => {
   const updateQuantity = (id, quantity) => {
     setCartItems((prevCart) =>
       prevCart?.map((item) =>
-        item.id === id ? { ...item, quantity: Number(quantity) } : item
+        item._id === id ? { ...item, quantity: Number(quantity) } : item
       )
     );
   };

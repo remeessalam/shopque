@@ -1,165 +1,155 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import SectionHeader from "../Components/SectionHeader";
 import { useCart } from "../Store/CartContext";
 import { calcTotalPrice } from "../util/helper";
 import ShippingAddressAll from "../Components/ProfileComponents/ShippingAddressAll";
+import { createOrder, verifyPayment } from "../api/orderApi";
+import toast from "react-hot-toast";
 
 function CheckOutPage() {
-  const { cartItems } = useCart();
-  console.log(cartItems, "asdfsdf");
+  const { cartItems, clearCart } = useCart();
+  console.log(cartItems, "adfasdfasdfasdfasdfsfs");
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [activeStep, setActiveStep] = useState(1);
+
   const tax = 18;
   const totalPrice = calcTotalPrice(cartItems);
-  const findTaxAmount = () => {
-    let totalAmount = (totalPrice * 18) / 100;
-    return totalAmount;
+  const finalAmount = totalPrice + (totalPrice * tax) / 100;
+
+  const handleAddressSelect = (address) => {
+    setSelectedAddress(address);
   };
+
+  const handleContinueToPayment = () => {
+    if (!selectedAddress) {
+      toast.error("Please select a delivery address");
+      return;
+    }
+    setActiveStep(2);
+  };
+
+  const handlePlaceOrder = async () => {
+    if (!selectedAddress) {
+      toast.error("Please select a delivery address");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      const orderData = {
+        totalAmount: Math.round(finalAmount * 100), // Razorpay expects paise
+        currency: "INR",
+        shippingAddress: selectedAddress._id,
+        products: cartItems.map((item) => ({
+          productId: item.product._id,
+          quantity: item.quantity,
+          price: item.product.price,
+        })),
+      };
+
+      const orderResponse = await createOrder(orderData);
+      if (!orderResponse.status) {
+        toast.error(orderResponse.message || "Failed to create order");
+        return;
+      }
+
+      if (!window.Razorpay) {
+        toast.error("Razorpay SDK not loaded. Please try again.");
+        return;
+      }
+
+      const options = {
+        key: "rzp_live_OVypg2kuZcNJKa",
+        amount: orderResponse.data.totalAmount,
+        currency: "INR",
+        name: "Your Store Name",
+        description: "Order Payment",
+        order_id: orderResponse.data.orderId,
+        handler: async function (response) {
+          try {
+            const verifyResponse = await verifyPayment({
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+              orderId: orderResponse.data._id,
+            });
+
+            if (verifyResponse.status) {
+              toast.success("Payment successful! Order placed.");
+              clearCart();
+              navigate("/order-success");
+            } else {
+              toast.error(
+                verifyResponse.message || "Payment verification failed"
+              );
+            }
+          } catch (error) {
+            console.error(error);
+            toast.error("Payment verification failed");
+          }
+        },
+        prefill: {
+          name: selectedAddress.name,
+          contact: selectedAddress.mobile,
+        },
+        theme: { color: "#000000" },
+        modal: { ondismiss: () => setIsLoading(false) },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      clearCart();
+      razorpay.open();
+    } catch (error) {
+      console.error(error);
+
+      toast.error("Failed to place order");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <SectionHeader section="Checkout" />
-
-      {/* Main Content */}
       <div className="max-w-6xl mx-auto py-8 px-4">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Left Column - Shipping Address */}
           <div className="w-full md:w-2/3">
-            <ShippingAddressAll />
-            {/* <h2 className="text-xl font-bold mb-6">Shipping Address</h2>
-            <form>
-              <div className="mb-4">
-                <label
-                  htmlFor="street"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Street Address
-                </label>
-                <input
-                  type="text"
-                  id="street"
-                  className="w-full border border-gray-300 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label
-                    htmlFor="city"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    id="city"
-                    className="w-full border border-gray-300 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="state"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    State
-                  </label>
-                  <input
-                    type="text"
-                    id="state"
-                    className="w-full border border-gray-300 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label
-                    htmlFor="zip"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Zip Code
-                  </label>
-                  <input
-                    type="text"
-                    id="zip"
-                    className="w-full border border-gray-300 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Country
-                  </label>
-                  <input
-                    type="text"
-                    id="country"
-                    className="w-full border border-gray-300 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full border border-gray-300 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="fullName"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Full name
-                  </label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    className="w-full border border-gray-300 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-            </form> */}
+            <ShippingAddressAll
+              onAddressSelect={handleAddressSelect}
+              selectedAddress={selectedAddress}
+              onContinue={handleContinueToPayment}
+              activeStep={activeStep}
+              setActiveStep={setActiveStep}
+            />
           </div>
-
-          {/* Right Column - Order Summary */}
           <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-sm">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold">Your Order</h2>
               <Link
                 to={"/cartitems"}
-                className="text-sm border border-gray-300 rounded px-4 py-2 hover:bg-gray-50"
+                className="text-sm border px-4 py-2 hover:bg-gray-50"
               >
                 Edit Cart
               </Link>
             </div>
-
-            {/* Order Items */}
             <div className="flex items-center gap-4 mb-6">
-              <div className="flex gap-2">
-                {cartItems.map(({ product }, index) => (
-                  <div
-                    key={product._id || index}
-                    className="w-12 h-12 bg-blue-100 rounded-md flex items-center justify-center"
-                  >
-                    <img
-                      src={product.images[0]} // First product image
-                      alt={product.name}
-                      className="w-10 h-10 object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+              {cartItems.map(({ product }, index) => (
+                <div
+                  key={product._id || index}
+                  className="w-12 h-12 bg-blue-100 rounded-md"
+                >
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="w-10 h-10 object-cover"
+                  />
+                </div>
+              ))}
             </div>
-
-            {/* Order Summary */}
             <div className="border-t border-gray-200 pt-4">
               <div className="flex justify-between py-2">
                 <span className="text-gray-600">Subtotal:</span>
@@ -176,16 +166,18 @@ function CheckOutPage() {
               <div className="border-t border-gray-200 mt-2 pt-4 mb-6">
                 <div className="flex justify-between">
                   <span className="font-medium">Total</span>
-                  <span className="font-bold">
-                    ₹ {totalPrice + findTaxAmount()}
-                  </span>
+                  <span className="font-bold">₹ {finalAmount}</span>
                 </div>
               </div>
-              <Link to={"/order-success"}>
-                <button className="w-full bg-gray-900 text-white py-3 rounded font-medium hover:bg-gray-800 transition-colors">
-                  Place Order
+              {activeStep > 1 && (
+                <button
+                  className="w-full bg-gray-900 text-white py-3 rounded font-medium hover:bg-gray-800"
+                  onClick={handlePlaceOrder}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Processing..." : "Place Order"}
                 </button>
-              </Link>
+              )}
             </div>
           </div>
         </div>

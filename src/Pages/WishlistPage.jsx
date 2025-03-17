@@ -2,20 +2,27 @@ import { FiShoppingCart, FiX } from "react-icons/fi";
 import SectionHeader from "../Components/SectionHeader";
 import { useWishlist } from "../Store/WishlistContext";
 import { useCart } from "../Store/CartContext";
+import { addToCartAPI } from "../api/cartApi";
+import toast from "react-hot-toast";
 
 function WishlistPage() {
   const { wishlist, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
 
-  const handleAddToCart = (product) => {
-    // Create a product object with the selected options and quantity
-    const productToAdd = {
-      ...product,
-      quantity: 1, // Add the selected quantity
-      // You might want to add selected color/size here if implemented
-    };
-
-    addToCart(productToAdd);
+  const handleAddToCart = async (productData) => {
+    // const productToAdd = {
+    //   ...productData,
+    //   quantity: quantity,
+    // };
+    console.log(productData._id, "asdfsdfsdfsdf");
+    const response = await addToCartAPI(productData._id, 1);
+    toast.success("product item added in the cart successfull");
+    if (response.status) {
+      console.log(response.cart.items, "asdfasdfasdf");
+      addToCart(response.cart.items);
+      return;
+    }
+    toast.error("error in adding to cart");
   };
   return (
     <>

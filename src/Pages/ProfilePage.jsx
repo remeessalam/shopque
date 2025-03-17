@@ -6,7 +6,7 @@ import { RiKey2Line } from "react-icons/ri";
 import { TfiBackLeft } from "react-icons/tfi";
 import OrderDetails from "../Components/ProfileComponents/OrderDetails";
 import Wishlist from "../Components/ProfileComponents/Wishlist";
-import ShippingAddress from "../Components/ProfileComponents/ShippingAddress";
+// import ShippingAddress from "../Components/ProfileComponents/ShippingAddress";
 import AccountDetails from "../Components/ProfileComponents/AccountDetails";
 import ChangePassword from "../Components/ProfileComponents/ChangePassword";
 import SectionHeader from "../Components/SectionHeader";
@@ -20,7 +20,7 @@ function ProfilePage() {
     { id: "orders", label: "Orders", icon: <GiShoppingCart size={20} /> },
     { id: "return", label: "Return", icon: <TfiBackLeft size={20} /> },
     { id: "wishlist", label: "Wishlist", icon: <CiHeart size={20} /> },
-    { id: "address", label: "Address", icon: <CiDeliveryTruck size={20} /> },
+    // { id: "address", label: "Address", icon: <CiDeliveryTruck size={20} /> },
     { id: "password", label: "Password", icon: <RiKey2Line size={20} /> },
     {
       id: "account detail",
@@ -67,7 +67,7 @@ function ProfilePage() {
           {/* Main Content Area */}
           {selectedTab === "orders" && <OrderDetails isOrders={order} />}
           {selectedTab === "wishlist" && <Wishlist />}
-          {selectedTab === "address" && <ShippingAddress />}
+          {/* {selectedTab === "address" && <ShippingAddress />} */}
           {selectedTab === "shipping address" && <ShippingAddressAll />}
           {selectedTab === "account detail" && <AccountDetails />}
           {selectedTab === "password" && <ChangePassword />}

@@ -36,7 +36,7 @@ export const WishlistProvider = ({ children }) => {
   const removeFromWishlist = async (productId) => {
     try {
       setWishlist((prevWishlist) =>
-        prevWishlist.filter((item) => item.id !== productId)
+        prevWishlist.filter((item) => item._id !== productId)
       );
     } catch (error) {
       console.error("Failed to remove from wishlist:", error);
