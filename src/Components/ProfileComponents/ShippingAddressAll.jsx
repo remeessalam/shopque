@@ -1,26 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { LuWalletCards } from "react-icons/lu";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { addAddress, deleteAddress, getAddAddress } from "../../api/addressApi";
+import toast from "react-hot-toast";
 
 function ShippingAddressAll() {
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [addresses, setAaddresses] = useState([]);
+  useEffect(() => {
+    const fetchaddres = async () => {
+      const response = await getAddAddress();
+      if (response.status) {
+        setAaddresses(response.address);
+      }
+      console.log(response, "asdfjasldkfhaskldfjalksdfj");
+    };
+    fetchaddres();
+  }, []);
 
-  const addresses = [
-    {
-      id: 1,
-      name: "Robert Fox",
-      address: "4517 Washington Ave, Manchester, Kentucky 39495",
-    },
-    {
-      id: 2,
-      name: "John Willions",
-      address: "3891 Ranchview Dr, Richardson, California 62639",
-    },
-  ];
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
+  const onSubmit = async (data) => {
+    try {
+      const response = await addAddress(data);
+      console.log(response, "thisisfsfrespnsondeaddress");
+      if (!response.status) {
+        toast.error("failed to add address please try again");
+        return;
+      }
+      toast.success("Address added successfully");
+      setAaddresses(response.address);
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDeleteAddress = async (id) => {
+    try {
+      const response = await deleteAddress(id);
+      if (!response.status) {
+        toast.error("Failed to remove address please try again");
+        return;
+      }
+      toast.success("successfully address removed");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSelect = (id) => {
     setSelectedAddress(id);
   };
@@ -29,8 +64,8 @@ function ShippingAddressAll() {
     <div className="wrapper py-8 w-full">
       <div className="flex flex-col gap-8">
         <h1 className="text-2xl font-medium mb-6">ShippingAddress</h1>
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="col-span-2">
+        <div className="grid md:grid-cols-1 gap-6">
+          <div className="">
             {/* Progress Steps */}
             <div className="flex justify-between items-center relative mb-8">
               <div className="w-[92%] border border-gray-400 border-dashed absolute bottom-10  left-4" />
@@ -65,41 +100,52 @@ function ShippingAddressAll() {
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                {addresses.map((item) => (
-                  <div key={item.id} className="bg-gray-100 p-4 relative">
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-medium">{item.name}</h3>
-                      <input
-                        type="checkbox"
-                        className="mr-2 accent-black h-4 w-4"
-                        checked={selectedAddress === item.id}
-                        onChange={() => handleSelect(item.id)}
-                      />
-                    </div>
-                    <p className="text-sm text-gray-600 my-3">{item.address}</p>
-                    <div className="mt-4 w-full grid grid-cols-2">
-                      <div className="flex justify-center items-center mr-4 bg-gray-200 py-1 rounded-md cursor-pointer">
-                        <FiEdit />
-                        <span className="text-xs ml-1">Edit</span>
-                      </div>
-                      <div className="flex items-center justify-center bg-red-100 py-1 rounded-md cursor-pointer">
-                        <RiDeleteBin5Line className="text-red-500" />
-                        <span className="text-xs ml-1 text-red-500">
-                          Delete
-                        </span>
-                      </div>
-                    </div>
+                {!addresses?.length > 0 ? (
+                  <div className="text-3xl font-bold text-center col-span-1-1 md:col-span-2 py-4">
+                    Add Address
                   </div>
-                ))}
+                ) : (
+                  addresses?.map((item) => (
+                    <div key={item._id} className="bg-gray-100 p-4 relative">
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-medium">{item.name}</h3>
+                        <input
+                          type="checkbox"
+                          className="mr-2 accent-black h-4 w-4"
+                          checked={selectedAddress?._id === item?._id}
+                          onChange={() => handleSelect(item)}
+                        />
+                      </div>
+                      <p className="text-sm text-gray-600 my-3">
+                        {item.address}
+                      </p>
+                      <div className="mt-4 w-full grid grid-cols-2">
+                        <div className="flex opacity-35 cursor-not-allowed justify-center items-center mr-4 bg-gray-200 py-1 rounded-md ">
+                          <FiEdit />
+                          <span className="text-xs ml-1">Edit</span>
+                        </div>
+                        <div
+                          className="flex items-center justify-center bg-red-100 py-1 rounded-md cursor-pointer"
+                          onClick={() => handleDeleteAddress(item._id)}
+                        >
+                          <RiDeleteBin5Line className="text-red-500" />
+                          <span className="text-xs ml-1 text-red-500">
+                            Delete
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
 
-              <button className="bg-black text-white py-3 px-6 rounded-md w-full md:w-auto">
+              {/* <button className="bg-black text-white py-3 px-6 rounded-md w-full md:w-auto">
                 Deliver Here
-              </button>
+              </button> */}
             </div>
           </div>
           {/* Order Summary */}
-          <div className="w-full ">
+          {/* <div className="w-full ">
             <div className="border border-gray-200 rounded-md p-4">
               <div className="flex justify-between mb-4">
                 <span>Subtotal</span>
@@ -129,19 +175,23 @@ function ShippingAddressAll() {
                 <span className="font-medium">$205.00</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         {/* Add New Address Form */}
         <div>
           <h2 className="text-lg font-medium mb-4">Add a new address</h2>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <label className="block text-sm mb-1">Name</label>
               <input
                 type="text"
                 placeholder="Enter Name"
                 className="w-full border border-gray-300 rounded-md p-2"
+                {...register("name", { required: "Name is required" })}
               />
+              {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )}
             </div>
 
             <div className="mb-4">
@@ -150,7 +200,13 @@ function ShippingAddressAll() {
                 type="text"
                 placeholder="Enter Mobile Number"
                 className="w-full border border-gray-300 rounded-md p-2"
+                {...register("mobile", {
+                  required: "Mobile number is required",
+                })}
               />
+              {errors.mobile && (
+                <p className="text-red-500 text-sm">{errors.mobile.message}</p>
+              )}
             </div>
 
             <div className="mb-4">
@@ -160,7 +216,11 @@ function ShippingAddressAll() {
               <input
                 type="text"
                 className="w-full border border-gray-300 rounded-md p-2"
+                {...register("address", { required: "Address is required" })}
               />
+              {errors.address && (
+                <p className="text-red-500 text-sm">{errors.address.message}</p>
+              )}
             </div>
 
             <div className="mb-4">
@@ -170,19 +230,26 @@ function ShippingAddressAll() {
               <input
                 type="text"
                 className="w-full border border-gray-300 rounded-md p-2"
+                {...register("area", { required: "Area is required" })}
               />
+              {errors.area && (
+                <p className="text-red-500 text-sm">{errors.area.message}</p>
+              )}
             </div>
 
             <div className="mb-4">
               <label className="block text-sm mb-1">City</label>
-              <div className="relative">
-                <select className="w-full border border-gray-300 rounded-md p-2 appearance-none">
-                  <option>Select City</option>
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <i className="fas fa-chevron-down text-gray-400"></i>
-                </div>
-              </div>
+              <select
+                className="w-full border border-gray-300 rounded-md p-2 appearance-none"
+                {...register("city", { required: "City is required" })}
+              >
+                <option value="">Select City</option>
+                <option value="New York">New York</option>
+                <option value="Los Angeles">Los Angeles</option>
+              </select>
+              {errors.city && (
+                <p className="text-red-500 text-sm">{errors.city.message}</p>
+              )}
             </div>
 
             <div className="mb-4">
@@ -191,28 +258,34 @@ function ShippingAddressAll() {
                 type="text"
                 placeholder="Enter Zip Code"
                 className="w-full border border-gray-300 rounded-md p-2"
+                {...register("zip", { required: "Zip code is required" })}
               />
+              {errors.zip && (
+                <p className="text-red-500 text-sm">{errors.zip.message}</p>
+              )}
             </div>
 
             <div className="mb-4">
               <label className="block text-sm mb-1">State</label>
-              <div className="relative">
-                <select className="w-full border border-gray-300 rounded-md p-2 appearance-none">
-                  <option>Select State</option>
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <i className="fas fa-chevron-down text-gray-400"></i>
-                </div>
-              </div>
+              <select
+                className="w-full border border-gray-300 rounded-md p-2 appearance-none"
+                {...register("state", { required: "State is required" })}
+              >
+                <option value="">Select State</option>
+                <option value="California">California</option>
+                <option value="Texas">Texas</option>
+              </select>
+              {errors.state && (
+                <p className="text-red-500 text-sm">{errors.state.message}</p>
+              )}
             </div>
 
             <div className="mb-4 flex items-center">
               <input
                 type="checkbox"
                 className="mr-2 accent-black h-4 w-4"
-                // checked={selectedAddress === item.id}
-                // onChange={() => handleSelect(item.id)}
-              />{" "}
+                {...register("defaultAddress")}
+              />
               <span className="text-sm">Save as my default address</span>
             </div>
 

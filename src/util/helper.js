@@ -15,3 +15,6 @@ export const showNameDP = (name) => {
 
   return twoLetters;
 };
+
+export const calcTotalPrice = (cartItems) =>
+  cartItems.reduce((acc, item) => acc + item.product.price, 0);

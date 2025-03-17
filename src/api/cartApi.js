@@ -7,10 +7,6 @@ export const addToCartAPI = async (productId, quantity = 1) => {
       method: "POST",
       data: { productId, quantity },
     });
-    // const response = await axios.post(`${API_BASE_URL}/cart/add`, {
-    //   productId,
-    //   quantity,
-    // });
 
     return response;
   } catch (error) {

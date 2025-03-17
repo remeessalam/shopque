@@ -1,10 +1,18 @@
 import { Link } from "react-router-dom";
 import SectionHeader from "../Components/SectionHeader";
 import { useCart } from "../Store/CartContext";
+import { calcTotalPrice } from "../util/helper";
+import ShippingAddressAll from "../Components/ProfileComponents/ShippingAddressAll";
 
 function CheckOutPage() {
   const { cartItems } = useCart();
   console.log(cartItems, "asdfsdf");
+  const tax = 18;
+  const totalPrice = calcTotalPrice(cartItems);
+  const findTaxAmount = () => {
+    let totalAmount = (totalPrice * 18) / 100;
+    return totalAmount;
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -15,7 +23,8 @@ function CheckOutPage() {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Left Column - Shipping Address */}
           <div className="w-full md:w-2/3">
-            <h2 className="text-xl font-bold mb-6">Shipping Address</h2>
+            <ShippingAddressAll />
+            {/* <h2 className="text-xl font-bold mb-6">Shipping Address</h2>
             <form>
               <div className="mb-4">
                 <label
@@ -117,7 +126,7 @@ function CheckOutPage() {
                   />
                 </div>
               </div>
-            </form>
+            </form> */}
           </div>
 
           {/* Right Column - Order Summary */}
@@ -154,9 +163,7 @@ function CheckOutPage() {
             <div className="border-t border-gray-200 pt-4">
               <div className="flex justify-between py-2">
                 <span className="text-gray-600">Subtotal:</span>
-                <span className="font-medium">
-                  ₹ {cartItems.reduce((acc, item) => acc + item.price, 0)}
-                </span>
+                <span className="font-medium">₹ {totalPrice}</span>
               </div>
               <div className="flex justify-between py-2">
                 <span className="text-gray-600">Shipping:</span>
@@ -164,13 +171,13 @@ function CheckOutPage() {
               </div>
               <div className="flex justify-between py-2">
                 <span className="text-gray-600">Tax:</span>
-                <span className="font-medium">₹ 3.00</span>
+                <span className="font-medium">{tax} %</span>
               </div>
               <div className="border-t border-gray-200 mt-2 pt-4 mb-6">
                 <div className="flex justify-between">
                   <span className="font-medium">Total</span>
                   <span className="font-bold">
-                    ₹ {cartItems.reduce((acc, item) => acc + item.price, 0) + 3}
+                    ₹ {totalPrice + findTaxAmount()}
                   </span>
                 </div>
               </div>

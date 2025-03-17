@@ -141,8 +141,13 @@ function CartPage() {
                 <div className="mt-6">
                   <Link to={"/checkout"}>
                     <button
+                      disabled={!cartItems.length}
                       type="button"
-                      className="w-full bg-gray-900 border border-transparent rounded-md py-3 px-4 text-base font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                      className={`w-full ${
+                        cartItems.length
+                          ? `bg-gray-900 text-white hover:bg-gray-800`
+                          : `bg-gray-400 text-slate-500 cursor-not-allowed`
+                      } border border-transparent rounded-md py-3 px-4 text-base font-medium  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
                     >
                       Checkout
                     </button>
