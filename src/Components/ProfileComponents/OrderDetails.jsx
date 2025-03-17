@@ -22,7 +22,7 @@ function OrderDetails({ isOrders }) {
 
   return (
     <>
-      {orders?.length < 0 || !orders ? (
+      {orders?.length <= 0 || orders === null ? (
         <div className="w-full md:w-3/4">
           <div className="bg-white rounded-md shadow-sm p-8 flex flex-col items-center justify-center min-h-[400px]">
             <div className="mb-6">
@@ -31,10 +31,13 @@ function OrderDetails({ isOrders }) {
             <p className="text-gray-600 mb-6">
               Your order history is waiting to be filled.
             </p>
-            <button className="bg-gray-900 text-white px-6 py-3 rounded flex items-center gap-2 hover:bg-gray-800 transition-colors">
+            <Link
+              to={"/products"}
+              className="bg-gray-900 text-white px-6 py-3 rounded flex items-center gap-2 hover:bg-gray-800 transition-colors"
+            >
               Start Shopping
               <FaArrowRight size={18} />
-            </button>
+            </Link>
           </div>
         </div>
       ) : (
@@ -77,8 +80,9 @@ function OrderDetails({ isOrders }) {
                                 {new Date(obj.createdAt).toLocaleDateString()}
                               </p>
                               <p className="text-sm text-gray-900 mt-1 mb-3">
-                                ₹ {item.price}
+                                Product price: ₹ {item.price}
                               </p>
+
                               <Link
                                 to={`/product-details/${item._id}`}
                                 className="border border-gray-300  text-gray-700 px-4 py-2 rounded-md text-sm hover:bg-gray-50 transition-colors"
@@ -89,6 +93,12 @@ function OrderDetails({ isOrders }) {
                           </>
                         );
                       })}
+                      <div className="py-3">
+                        <h1>Total Amount (including tax)</h1>
+                        <p className="text-sm text-gray-900 mt-1 mb-3">
+                          ₹ {obj.totalAmount}
+                        </p>
+                      </div>
                     </div>
 
                     <div className="flex w-fit text-center">

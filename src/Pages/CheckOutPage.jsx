@@ -41,7 +41,7 @@ function CheckOutPage() {
       setIsLoading(true);
 
       const orderData = {
-        totalAmount: Math.round(finalAmount * 100), // Razorpay expects paise
+        totalAmount: Math.round(finalAmount), // Razorpay expects paise
         currency: "INR",
         shippingAddress: selectedAddress._id,
         products: cartItems.map((item) => ({
@@ -54,27 +54,38 @@ function CheckOutPage() {
       const orderResponse = await createOrder(orderData);
       if (!orderResponse.status) {
         toast.error(orderResponse.message || "Failed to create order");
+        navigate("/order-failed");
         return;
       }
 
       if (!window.Razorpay) {
         toast.error("Razorpay SDK not loaded. Please try again.");
+        navigate("/order-failed");
+
         return;
       }
-
+      console.log(orderResponse.data.totalAmount, "asdfasdfasdfasdfsd");
       const options = {
-        key: "rzp_live_OVypg2kuZcNJKa",
+        // key: "rzp_live_OVypg2kuZcNJKa",
+        key: "rzp_test_CTdQH1trOpQlIY",
         amount: orderResponse.data.totalAmount,
         currency: "INR",
         name: "Your Store Name",
         description: "Order Payment",
-        order_id: orderResponse.data.orderId,
+        order_id: orderResponse.data.razorpayOrder.id,
         handler: async function (response) {
           try {
+            console.log(
+              orderResponse.data.totalAmount,
+              orderResponse.data.orderId,
+              orderResponse,
+              response,
+              "asdfasdfasdfwjernsdf"
+            );
             const verifyResponse = await verifyPayment({
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
+              paymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              signature: response.razorpay_signature,
               orderId: orderResponse.data._id,
             });
 
@@ -86,10 +97,12 @@ function CheckOutPage() {
               toast.error(
                 verifyResponse.message || "Payment verification failed"
               );
+              navigate("/order-failed");
             }
           } catch (error) {
             console.error(error);
             toast.error("Payment verification failed");
+            navigate("/order-failed");
           }
         },
         prefill: {
@@ -101,7 +114,6 @@ function CheckOutPage() {
       };
 
       const razorpay = new window.Razorpay(options);
-      clearCart();
       razorpay.open();
     } catch (error) {
       console.error(error);
@@ -166,7 +178,7 @@ function CheckOutPage() {
               <div className="border-t border-gray-200 mt-2 pt-4 mb-6">
                 <div className="flex justify-between">
                   <span className="font-medium">Total</span>
-                  <span className="font-bold">₹ {finalAmount}</span>
+                  <span className="font-bold">₹ {finalAmount.toFixed(2)}</span>
                 </div>
               </div>
               {activeStep > 1 && (
