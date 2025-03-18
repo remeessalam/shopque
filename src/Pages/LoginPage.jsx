@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { checkUserTocken } from "../util/helper";
 import toast from "react-hot-toast";
 import { API_BASE_URL } from "../util/contant";
+import ButtonLoadingAnim from "../Components/ButtonLoadingAnim";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -149,9 +150,9 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+              className="w-full flex justify-center items-center py-3 h-11 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
             >
-              Login
+              {loading ? <ButtonLoadingAnim /> : "Login"}
             </button>
           </form>
 

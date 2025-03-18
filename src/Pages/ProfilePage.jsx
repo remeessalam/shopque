@@ -12,9 +12,11 @@ import ChangePassword from "../Components/ProfileComponents/ChangePassword";
 import SectionHeader from "../Components/SectionHeader";
 import ShippingAddressAll from "../Components/ProfileComponents/ShippingAddressAll";
 import ShowOdersPage from "../Components/ReturnOrderComponents/ShowOrdersPage";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState("orders");
-
+  const navigate = useNavigate();
   const order = false;
   const profileTabs = [
     { id: "orders", label: "Orders", icon: <GiShoppingCart size={20} /> },
@@ -35,6 +37,12 @@ function ProfilePage() {
     { id: "logout", label: "Logout", icon: <IoIosLogOut size={20} /> },
   ];
   const handleTabs = (tab) => {
+    if (tab === "logout") {
+      localStorage.removeItem("userToken");
+      toast.success("Logged out successfully");
+      navigate("/");
+      return;
+    }
     setSelectedTab(tab);
   };
   return (

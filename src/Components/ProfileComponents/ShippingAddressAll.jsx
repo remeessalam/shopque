@@ -7,6 +7,7 @@ import { LuWalletCards } from "react-icons/lu";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { addAddress, deleteAddress, getAddAddress } from "../../api/addressApi";
 import toast from "react-hot-toast";
+import CircularLoading from "../CircleLoading";
 /* eslint-disable */
 function ShippingAddressAll({
   onAddressSelect,
@@ -16,13 +17,16 @@ function ShippingAddressAll({
   setActiveStep,
 }) {
   const [addresses, setAddresses] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchAddresses = async () => {
       const response = await getAddAddress();
       if (response.status) {
         setAddresses(response.address);
       }
+      setLoading(false);
     };
     fetchAddresses();
   }, []);
@@ -130,7 +134,7 @@ function ShippingAddressAll({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             {!addresses?.length > 0 ? (
               <div className="text-3xl font-bold text-center col-span-1-1 md:col-span-2 py-4">
-                Add Address
+                {loading ? <CircularLoading /> : `Add Address`}
               </div>
             ) : (
               addresses?.map((item) => (
@@ -185,7 +189,7 @@ function ShippingAddressAll({
             <button
               className="bg-black text-white py-3 px-6 rounded-md w-full md:w-auto"
               onClick={onContinue}
-              disabled={!selectedAddress}
+              // disabled={selectedAddress}
             >
               Continue to Payment
             </button>

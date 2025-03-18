@@ -92,11 +92,11 @@ function WishlistPage() {
                   <div className="md:col-span-2 mb-2 md:mb-0">
                     {product.originalPrice && (
                       <div className="text-sm line-through text-gray-500">
-                        ${product.originalPrice}
+                        ₹ {product.originalPrice}
                       </div>
                     )}
                     <div className="font-medium">
-                      ${product.price?.toFixed(2) || "N/A"}
+                      ₹ {product.price?.toFixed(2) || "N/A"}
                     </div>
                   </div>
 
@@ -127,7 +127,7 @@ function WishlistPage() {
                     <button
                       className="text-gray-400 hover:text-gray-600"
                       onClick={() =>
-                        removeFromWishlist && removeFromWishlist(product.id)
+                        removeFromWishlist && removeFromWishlist(product._id)
                       }
                     >
                       <FiX size={20} />

@@ -17,6 +17,8 @@ import { FaHeart } from "react-icons/fa6";
 import { AiOutlineHeart } from "react-icons/ai";
 import { addToCartAPI } from "../api/cartApi";
 import toast from "react-hot-toast";
+import { getToken } from "../util/auth";
+import ButtonLoadingAnim from "../Components/ButtonLoadingAnim";
 
 function ProductDetails() {
   const [showShare, setShowShare] = useState(false);
@@ -25,6 +27,7 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState(1);
   const [activeTab, setActiveTab] = useState("details");
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   console.log(productData, "asdfjaksdflajshdf");
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
@@ -53,19 +56,24 @@ function ProductDetails() {
     }
   };
   const handleAddToCart = async () => {
-    // const productToAdd = {
-    //   ...productData,
-    //   quantity: quantity,
-    // };
+    if (loading) return;
+    const token = getToken();
+    if (!token) {
+      toast.error("Please Login");
+      return;
+    }
+    setLoading(true);
     console.log(productData._id, quantity, "asdfsdfsdfsdf");
     const response = await addToCartAPI(productData._id, quantity);
     toast.success("product item added in the cart successfull");
     if (response.status) {
       console.log(response.cart.items, "asdfasdfasdf");
       addToCart(response.cart.items);
+      setLoading(false);
       return;
     }
     toast.error("error in adding to cart");
+    setLoading(false);
   };
   console.log(cartItems, "asdfasdfassadfsdf");
   const isInCart = cartItems.some(
@@ -183,7 +191,7 @@ function ProductDetails() {
                 </Link>
               ) : (
                 <button
-                  disabled={!productData?.stock}
+                  disabled={!productData?.stock && !loading}
                   onClick={handleAddToCart}
                   className={`${
                     productData?.stock
@@ -191,7 +199,7 @@ function ProductDetails() {
                       : `bg-gray-400 cursor-not-allowed`
                   } text-white py-3 px-4 rounded w-full`}
                 >
-                  Add to cart
+                  {loading ? <ButtonLoadingAnim /> : `Add to cart`}
                 </button>
               )}
               <button

@@ -11,8 +11,8 @@ import secure from "../assets/images/icons/secure.png";
 // import food from "../assets/images/categories/food.jpeg";
 // import cloths from "../assets/images/categories/cloths.jpeg";
 
-export const API_BASE_URL = "https://shopque-backend.vercel.app/api";
-// export const API_BASE_URL = "http://localhost:8080/api";
+// export const API_BASE_URL = "https://shopque-backend.vercel.app/api";
+export const API_BASE_URL = "http://localhost:8080/api";
 
 export const companyDetails = {
   name: "shopque",

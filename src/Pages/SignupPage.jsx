@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { API_BASE_URL } from "../util/contant";
+import ButtonLoadingAnim from "../Components/ButtonLoadingAnim";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
@@ -183,13 +184,13 @@ const SignUp = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 ${
+              className={`w-full h-11  py-3 ${
                 loading
                   ? `bg-black/70 cursor-not-allowed`
                   : `bg-black hover:bg-gray-800`
               } text-white rounded-lg  transition-colors`}
             >
-              {loading ? "Sending... " : "Create Account"}
+              {loading ? <ButtonLoadingAnim /> : "Create Account"}
             </button>
           </form>
 

@@ -4,8 +4,12 @@ import { Link } from "react-router-dom";
 import { useCart } from "../Store/CartContext";
 import { CgShoppingCart } from "react-icons/cg";
 import { removeFromCartAPI } from "../api/cartApi";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import CircularLoading from "../Components/CircleLoading";
 
 function CartPage() {
+  const [loading, setLoading] = useState(false);
   const { cartItems, removeFromCart } = useCart();
   console.log(cartItems, "asdfasdfasdf");
 
@@ -20,9 +24,17 @@ function CartPage() {
   const shipping = "Free";
 
   const removeCartItemApi = async (id) => {
+    setLoading(true);
     const response = await removeFromCartAPI(id);
-    console.log(response, "asdfasdfasdf");
-    removeFromCart(response.items);
+    console.log(response, "asdfasdasdfsadffasdf");
+    if (!response.status) {
+      toast.error("Request failed");
+      setLoading(false);
+      return;
+    }
+    toast.success("Item removed from cart");
+    removeFromCart(response.cart.items);
+    setLoading(false);
   };
 
   return (
@@ -90,12 +102,17 @@ function CartPage() {
                           </span>
                         </div>
                         <button
+                          disabled={loading}
                           onClick={() =>
                             removeCartItemApi(item.product?._id || item._id)
                           }
                           className="p-2 text-gray-400 hover:text-gray-500 rounded-md"
                         >
-                          <BiX className="h-5 w-5" />
+                          {loading ? (
+                            <CircularLoading />
+                          ) : (
+                            <BiX className="h-5 w-5" />
+                          )}
                         </button>
                       </div>
                     </div>
