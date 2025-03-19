@@ -84,7 +84,7 @@ function ProductDetails() {
       toast.error(response.message || "error in adding to cart");
       setLoading(false);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       toast.error("error in adding to cart");
       setLoading(false);
     }
