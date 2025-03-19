@@ -1,53 +1,27 @@
-import { useState } from "react";
+import { showOrderNumber } from "../../util/helper";
+import { conditionOptions, returnReasonOptions } from "../../util/contant";
+//eslint-disable-next-line
+function StepTwoSelectedOrder({ returnOrderDetails, setReturnOrderDetails }) {
+  const handleConditionSelection = (selectedCondition) => {
+    setReturnOrderDetails((prevDetails) => ({
+      ...prevDetails,
+      reasonToReturn: {
+        ...prevDetails.reasonToReturn,
+        answer1: selectedCondition.label,
+      },
+    }));
+  };
 
-function StepTwoSelectedOrder() {
-  const [currentCondition, setCurrentCondition] = useState("sealed");
-  const [primaryReason, setPrimaryReason] = useState("unsatisfactory");
-  const conditionOptions = [
-    {
-      id: "sealed",
-      label: "I would like to return a sealed product.",
-    },
-    {
-      id: "mistake",
-      label: "I want to return an item ordered by mistake.",
-    },
-    {
-      id: "defective",
-      label: "The product is defective or damaged.",
-    },
-    {
-      id: "unsealed",
-      label: "I wish to return an unsealed but functional product.",
-    },
-    {
-      id: "wrong",
-      label: "Received the wrong product.",
-    },
-  ];
-  const returnReasonOptions = [
-    {
-      id: "unsatisfactory",
-      label: "The product quality is unsatisfactory.",
-    },
-    {
-      id: "non-functional",
-      label: "I need to return a non-functional, unsealed product.",
-    },
-    {
-      id: "changed-mind",
-      label: "I changed my mind or the product was not as expected.",
-    },
-    {
-      id: "misleading",
-      label: "The product information was misleading.",
-    },
-    {
-      id: "not-delivered",
-      label: "The product was not delivered.",
-    },
-  ];
-
+  const handleReasonSelection = (selectedReason) => {
+    setReturnOrderDetails((prevDetails) => ({
+      ...prevDetails,
+      reasonToReturn: {
+        ...prevDetails.reasonToReturn,
+        answer2: selectedReason.label,
+      },
+    }));
+  };
+  console.log(returnOrderDetails, "asdfasdfasdfwerfsdf");
   return (
     <div className="">
       <div className="max-w-4xl mx-auto  rounded-lg  p-6 md:p-8">
@@ -59,7 +33,6 @@ function StepTwoSelectedOrder() {
           questions.
         </p>
 
-        {/* Product Information Table */}
         <div className="overflow-x-auto mb-8 border rounded-lg">
           <table className="w-full">
             <thead>
@@ -76,29 +49,36 @@ function StepTwoSelectedOrder() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-t">
-                <td className="py-4 px-4">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=100&h=100&fit=crop"
-                      alt="Pedigree Pro Dog Food"
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                    <span className="text-gray-900">Pedigree Pro Dog Food</span>
-                  </div>
-                </td>
-                <td className="py-4 px-4 text-right text-gray-900">#65872</td>
-                <td className="py-4 px-4 text-right text-gray-900">
-                  12/06/2020
-                </td>
-              </tr>
+              {
+                //eslint-disable-next-line
+                returnOrderDetails?.orders?.map((order) =>
+                  order.products.map((product) => (
+                    <tr key={product.id} className="border-t">
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-4">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-16 h-16 object-cover rounded"
+                          />
+                          <span className="text-gray-900">{product.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-right text-gray-900">
+                        #{showOrderNumber(order.orderID)}
+                      </td>
+                      <td className="py-4 px-4 text-right text-gray-900">
+                        {product.returnDate}
+                      </td>
+                    </tr>
+                  ))
+                )
+              }
             </tbody>
           </table>
         </div>
 
-        {/* Two Column Layout for Questions */}
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Current Condition */}
           <div>
             <h2 className="text-lg font-medium text-gray-900 mb-4">
               What is the product&apos;s current condition?
@@ -108,19 +88,24 @@ function StepTwoSelectedOrder() {
                 <label
                   key={option.id}
                   className="flex items-center gap-3 cursor-pointer"
-                  onClick={() => setCurrentCondition(option.id)}
+                  onClick={() => handleConditionSelection(option)}
                 >
                   <div
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center 
                 ${
-                  currentCondition === option.id
+                  //eslint-disable-next-line
+                  returnOrderDetails?.reasonToReturn?.answer1 === option.label
                     ? "border-[#7f56D9]"
                     : "border-gray-300"
                 }`}
                   >
-                    {currentCondition === option.id && (
-                      <div className="w-2.5 h-2.5 bg-[#7f56D9] rounded-full" />
-                    )}
+                    {
+                      //eslint-disable-next-line
+                      returnOrderDetails?.reasonToReturn?.answer1 ===
+                        option.label && (
+                        <div className="w-2.5 h-2.5 bg-[#7f56D9] rounded-full" />
+                      )
+                    }
                   </div>
                   <span className="text-gray-700">{option.label}</span>
                 </label>
@@ -128,7 +113,6 @@ function StepTwoSelectedOrder() {
             </div>
           </div>
 
-          {/* Primary Reason */}
           <div>
             <h2 className="text-lg font-medium text-gray-900 mb-4">
               What is the primary reason for returning the product?
@@ -138,12 +122,16 @@ function StepTwoSelectedOrder() {
                 <label
                   key={option.id}
                   className="flex items-center gap-3 cursor-pointer"
-                  onClick={() => setPrimaryReason(option.id)}
+                  onClick={() => handleReasonSelection(option)}
                 >
                   <input
                     type="checkbox"
-                    checked={primaryReason.includes(option.id)}
-                    onChange={() => setPrimaryReason(option.id)}
+                    checked={
+                      //eslint-disable-next-line
+                      returnOrderDetails?.reasonToReturn?.answer2 ===
+                      option.label
+                    }
+                    onChange={() => handleReasonSelection(option)}
                     className="min-w-5 min-h-5 h-5 w-5 rounded border-gray-300 accent-[#7f56D9]"
                   />
                   <span className="text-gray-700">{option.label}</span>

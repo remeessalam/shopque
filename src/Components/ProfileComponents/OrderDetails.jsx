@@ -47,7 +47,7 @@ function OrderDetails({ isOrders }) {
             <div className="space-y-8">
               {orders?.map((obj) => {
                 const product = obj?.products;
-                console.log(obj._id, "asdfasdfasdfasiuwrjthnmsd");
+                console.log(obj?._id, "asdfasdfasdfasiuwrjthnmsd");
                 return (
                   <div
                     key={obj._id}

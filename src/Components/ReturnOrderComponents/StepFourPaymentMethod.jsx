@@ -18,9 +18,14 @@ const paymentMethods = [
   },
 ];
 
-const StepFourPaymentMethod = () => {
-  const [selectPaymentMethod, setSelectPaymentMethod] = useState(0);
-
+const StepFourPaymentMethod = ({
+  //eslint-disable-next-line
+  returnOrderDetails,
+  //eslint-disable-next-line
+  setReturnOrderDetails,
+}) => {
+  const [selectPaymentMethod, setSelectPaymentMethod] = useState();
+  console.log(returnOrderDetails, "asdfasdferwerbdbxxf");
   return (
     <div>
       <h1>Choose the method for receiving payment</h1>
@@ -36,7 +41,13 @@ const StepFourPaymentMethod = () => {
           >
             <label
               className="flex items-start gap-3 cursor-pointer"
-              onClick={() => setSelectPaymentMethod(method.id)}
+              onClick={() => {
+                setSelectPaymentMethod(method.id);
+                setReturnOrderDetails((prev) => ({
+                  ...prev,
+                  returnPaymentMethod: method.title,
+                }));
+              }}
             >
               <div
                 className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${

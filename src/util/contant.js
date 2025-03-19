@@ -91,3 +91,48 @@ export const features = [
     desc: "Your security is our priority. Your payments are secure with us.",
   },
 ];
+
+export const conditionOptions = [
+  {
+    id: "sealed",
+    label: "I would like to return a sealed product.",
+  },
+  {
+    id: "mistake",
+    label: "I want to return an item ordered by mistake.",
+  },
+  {
+    id: "defective",
+    label: "The product is defective or damaged.",
+  },
+  {
+    id: "unsealed",
+    label: "I wish to return an unsealed but functional product.",
+  },
+  {
+    id: "wrong",
+    label: "Received the wrong product.",
+  },
+];
+export const returnReasonOptions = [
+  {
+    id: "unsatisfactory",
+    label: "The product quality is unsatisfactory.",
+  },
+  {
+    id: "non-functional",
+    label: "I need to return a non-functional, unsealed product.",
+  },
+  {
+    id: "changed-mind",
+    label: "I changed my mind or the product was not as expected.",
+  },
+  {
+    id: "misleading",
+    label: "The product information was misleading.",
+  },
+  {
+    id: "not-delivered",
+    label: "The product was not delivered.",
+  },
+];

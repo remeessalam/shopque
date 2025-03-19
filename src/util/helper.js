@@ -38,3 +38,6 @@ export const showDateTime = (dateandtime) => {
   });
   return `${day}-${month}-${year}, ${time}`;
 };
+
+export const showOrderNumber = (orderNumber) =>
+  orderNumber.substring(orderNumber.length - 9);

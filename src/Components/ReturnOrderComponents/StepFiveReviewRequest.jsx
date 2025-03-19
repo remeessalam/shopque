@@ -1,5 +1,7 @@
+import { showOrderNumber } from "../../util/helper";
+
 //eslint-disable-next-line
-const StepFiveReviewRequest = ({ setCurrentStep }) => {
+const StepFiveReviewRequest = ({ returnOrderDetails, setCurrentStep }) => {
   return (
     <div className="">
       <div className="max-w-4xl mx-auto  rounded-lg  p-6 md:p-8">
@@ -24,22 +26,31 @@ const StepFiveReviewRequest = ({ setCurrentStep }) => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-t">
-                <td className="py-4 px-4">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=100&h=100&fit=crop"
-                      alt="Pedigree Pro Dog Food"
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                    <span className="text-gray-900">Pedigree Pro Dog Food</span>
-                  </div>
-                </td>
-                <td className="py-4 px-4 text-right text-gray-900">#65872</td>
-                <td className="py-4 px-4 text-right text-gray-900">
-                  12/06/2020
-                </td>
-              </tr>
+              {
+                //eslint-disable-next-line
+                returnOrderDetails?.orders?.map((order) =>
+                  order.products.map((product) => (
+                    <tr key={product.id} className="border-t">
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-4">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-16 h-16 object-cover rounded"
+                          />
+                          <span className="text-gray-900">{product.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-right text-gray-900">
+                        #{showOrderNumber(order.orderID)}
+                      </td>
+                      <td className="py-4 px-4 text-right text-gray-900">
+                        {product.returnDate}
+                      </td>
+                    </tr>
+                  ))
+                )
+              }
             </tbody>
           </table>
         </div>
@@ -47,35 +58,56 @@ const StepFiveReviewRequest = ({ setCurrentStep }) => {
           <ul className="flex flex-col gap-4">
             <li>
               <h1>
-                Current state of the product:{" "}
+                {
+                  //eslint-disable-next-line
+                  returnOrderDetails.reasonToReturn.question1
+                }
                 <span className="font-medium">
-                  I would like to return a sealed product.
+                  {
+                    //eslint-disable-next-line
+                    returnOrderDetails.reasonToReturn.answer1
+                  }
                 </span>
               </h1>
             </li>
             <li>
               <h1>
-                Main reason for returning the product::{" "}
+                {
+                  //eslint-disable-next-line
+                  returnOrderDetails.reasonToReturn.question2
+                }
                 <span className="font-medium">
-                  The product quality is unsatisfactory.
+                  {
+                    //eslint-disable-next-line
+                    returnOrderDetails.reasonToReturn.answer2
+                  }
                 </span>
               </h1>
             </li>
             <li>
               <h1>
-                Method for returning the product::{" "}
-                <span className="font-medium">Standard Shipping - $40</span>
+                Method for returning the product:{" "}
+                <span className="font-medium">
+                  {
+                    //eslint-disable-next-line
+                    returnOrderDetails.methodForReturning
+                  }
+                </span>
               </h1>
             </li>
             <li>
               <h1>
-                Method for receiving the product::{" "}
+                Method for receiving the product:{" "}
                 <span className="font-medium">
-                  I would like a store voucher
+                  {
+                    //eslint-disable-next-line
+                    returnOrderDetails.returnPaymentMethod
+                  }
                 </span>
               </h1>
             </li>
           </ul>
+
           <button
             className="mt-4 font-medium text-[#7f56D9] p-2"
             onClick={() => setCurrentStep(5)}

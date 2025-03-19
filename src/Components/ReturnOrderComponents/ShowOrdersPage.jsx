@@ -10,10 +10,21 @@ import StepThreeReturnMethod from "./StepThreeReturnMethod";
 import StepFourPaymentMethod from "./StepFourPaymentMethod";
 import StepFiveReviewRequest from "./StepFiveReviewRequest";
 import StepSixReturnOrder from "./StepSixReturnOrder";
+import toast from "react-hot-toast";
 
 function ShowOdersPage() {
   const [currentStep, setCurrentStep] = useState(0);
-
+  const [returnOrderDetails, setReturnOrderDetails] = useState({
+    orders: [],
+    reasonToReturn: {
+      question1: "What is the product's current condition?",
+      answer1: "",
+      question2: "What is the primary reason for returning the product?",
+      answer2: "",
+    },
+    methodForReturning: "",
+    returnPaymentMethod: "",
+  });
   const steps = [
     { icon: <RiShoppingBag3Line />, text: "Your details" },
     { icon: <TfiBackLeft />, text: "Reason for Return" },
@@ -21,7 +32,36 @@ function ShowOdersPage() {
     { icon: <PiHandCoins />, text: "Payment Reimbursement" },
     { icon: <FaRegFileLines />, text: "Review & Submit" },
   ];
-
+  const handleNext = () => {
+    if (currentStep === 0) {
+      if (returnOrderDetails.orders.length <= 0) {
+        toast.error("Please Select product's you want to return.");
+        return;
+      }
+    }
+    if (currentStep === 1) {
+      if (
+        !returnOrderDetails.reasonToReturn.answer1 ||
+        !returnOrderDetails.reasonToReturn.answer2
+      ) {
+        toast.error("Please select the reason for your return.");
+        return;
+      }
+    }
+    if (currentStep === 2) {
+      if (!returnOrderDetails.methodForReturning) {
+        toast.error("Please Choose the method for returning the product.");
+        return;
+      }
+    }
+    if (currentStep === 3) {
+      if (!returnOrderDetails.returnPaymentMethod) {
+        toast.error("Please Choose the method for receiving payment");
+        return;
+      }
+    }
+    setCurrentStep(currentStep + 1);
+  };
   return (
     <div className="min-h-screen w-full px-4 ">
       <div className="">
@@ -46,14 +86,43 @@ function ShowOdersPage() {
           ))}
         </div>
 
-        {currentStep === 0 && <StepOneShowProducts />}
-        {currentStep === 1 && <StepTwoSelectedOrder />}
-        {currentStep === 2 && <StepThreeReturnMethod />}
-        {currentStep === 3 && <StepFourPaymentMethod />}
-        {currentStep === 4 && (
-          <StepFiveReviewRequest setCurrentStep={setCurrentStep} />
+        {currentStep === 0 && (
+          <StepOneShowProducts
+            returnOrderDetails={returnOrderDetails}
+            setReturnOrderDetails={setReturnOrderDetails}
+          />
         )}
-        {currentStep === 5 && <StepSixReturnOrder />}
+        {currentStep === 1 && (
+          <StepTwoSelectedOrder
+            returnOrderDetails={returnOrderDetails}
+            setReturnOrderDetails={setReturnOrderDetails}
+          />
+        )}
+        {currentStep === 2 && (
+          <StepThreeReturnMethod
+            returnOrderDetails={returnOrderDetails}
+            setReturnOrderDetails={setReturnOrderDetails}
+          />
+        )}
+        {currentStep === 3 && (
+          <StepFourPaymentMethod
+            returnOrderDetails={returnOrderDetails}
+            setReturnOrderDetails={setReturnOrderDetails}
+          />
+        )}
+        {currentStep === 4 && (
+          <StepFiveReviewRequest
+            setCurrentStep={setCurrentStep}
+            returnOrderDetails={returnOrderDetails}
+            setReturnOrderDetails={setReturnOrderDetails}
+          />
+        )}
+        {currentStep === 5 && (
+          <StepSixReturnOrder
+            returnOrderDetails={returnOrderDetails}
+            setReturnOrderDetails={setReturnOrderDetails}
+          />
+        )}
 
         {/* Navigation Buttons */}
         <div className="flex justify-end gap-5 mt-5">
@@ -70,7 +139,7 @@ function ShowOdersPage() {
                 Previous
               </button>
               <button
-                onClick={() => setCurrentStep(currentStep + 1)}
+                onClick={handleNext}
                 className="px-4 py-2 bg-[#7f56D9] text-white rounded-md hover:bg-purple-700"
               >
                 Next

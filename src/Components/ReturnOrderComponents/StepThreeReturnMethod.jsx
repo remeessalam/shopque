@@ -3,7 +3,7 @@ import { useState } from "react";
 const returnMethods = [
   {
     id: 0,
-    title: "Standard Shipping - $40",
+    title: "Standard Shipping - ₹40",
     description: "Send it by tomorrow",
   },
   {
@@ -12,10 +12,14 @@ const returnMethods = [
     description: "Send it by 10/11/2024",
   },
 ];
-
-const StepThreeReturnMethod = () => {
-  const [selectReturnMethod, setSelectReturnMethod] = useState(0);
-
+const StepThreeReturnMethod = ({
+  //eslint-disable-next-line
+  returnOrderDetails,
+  //eslint-disable-next-line
+  setReturnOrderDetails,
+}) => {
+  const [selectReturnMethod, setSelectReturnMethod] = useState(null);
+  console.log(returnOrderDetails, "asdfasdfasdfsdf");
   return (
     <div>
       <h1>Choose the method for returning the product</h1>
@@ -31,7 +35,13 @@ const StepThreeReturnMethod = () => {
           >
             <label
               className="flex items-start gap-3 cursor-pointer"
-              onClick={() => setSelectReturnMethod(method.id)}
+              onClick={() => {
+                setSelectReturnMethod(method.id);
+                setReturnOrderDetails((prev) => ({
+                  ...prev,
+                  methodForReturning: method.title,
+                }));
+              }}
             >
               <div
                 className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
