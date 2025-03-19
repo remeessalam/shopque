@@ -19,7 +19,7 @@ function CartPage() {
       total + (item.product?.price ? item.product.price * item.quantity : 0),
     0
   );
-  const tax = 3.0;
+  const tax = 18;
   const total = subtotal + tax;
   const shipping = "Free";
 
