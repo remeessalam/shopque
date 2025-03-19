@@ -15,6 +15,7 @@ function ShippingAddressAll({
   onContinue,
   activeStep,
   setActiveStep,
+  isProfile,
 }) {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -90,39 +91,41 @@ function ShippingAddressAll({
       <h1 className="text-2xl font-medium mb-6">Shipping Address</h1>
       <div className="">
         {/* Progress Steps */}
-        <div className="flex justify-between items-center relative mb-8">
-          <div className="w-[92%] border border-gray-400 border-dashed absolute bottom-10 left-4" />
-          <div className="flex flex-col items-center z-10">
-            <div
-              className={`w-10 h-10 ${
-                activeStep >= 1 ? "bg-black text-white" : "bg-gray-100"
-              } rounded-xl flex items-center justify-center`}
-            >
-              <AiOutlineHome />
+        {!isProfile && (
+          <div className="flex justify-between items-center relative mb-8">
+            <div className="w-[92%] border border-gray-400 border-dashed absolute bottom-10 left-4" />
+            <div className="flex flex-col items-center z-10">
+              <div
+                className={`w-10 h-10 ${
+                  activeStep >= 1 ? "bg-black text-white" : "bg-gray-100"
+                } rounded-xl flex items-center justify-center`}
+              >
+                <AiOutlineHome />
+              </div>
+              <span className="text-sm mt-1">Address</span>
             </div>
-            <span className="text-sm mt-1">Address</span>
-          </div>
-          <div className="flex flex-col items-center z-10">
-            <div
-              className={`w-10 h-10 ${
-                activeStep >= 2 ? "bg-black text-white" : "bg-gray-100"
-              } rounded-xl flex items-center justify-center`}
-            >
-              <LuWalletCards />
+            <div className="flex flex-col items-center z-10">
+              <div
+                className={`w-10 h-10 ${
+                  activeStep >= 2 ? "bg-black text-white" : "bg-gray-100"
+                } rounded-xl flex items-center justify-center`}
+              >
+                <LuWalletCards />
+              </div>
+              <span className="text-sm mt-1">Payment Method</span>
             </div>
-            <span className="text-sm mt-1">Payment Method</span>
-          </div>
-          <div className="flex flex-col items-center z-10">
-            <div
-              className={`w-10 h-10 ${
-                activeStep >= 3 ? "bg-black text-white" : "bg-gray-100"
-              } rounded-xl flex items-center justify-center`}
-            >
-              <BsFileEarmarkText />
+            <div className="flex flex-col items-center z-10">
+              <div
+                className={`w-10 h-10 ${
+                  activeStep >= 3 ? "bg-black text-white" : "bg-gray-100"
+                } rounded-xl flex items-center justify-center`}
+              >
+                <BsFileEarmarkText />
+              </div>
+              <span className="text-sm mt-1">Review</span>
             </div>
-            <span className="text-sm mt-1">Review</span>
           </div>
-        </div>
+        )}
 
         {/* Select Delivery Address */}
         <div className="mb-8">
@@ -153,12 +156,14 @@ function ShippingAddressAll({
                 >
                   <div className="flex justify-between items-center">
                     <h3 className="font-medium">{item.name}</h3>
-                    <input
-                      type="checkbox"
-                      className="mr-2 accent-black h-4 w-4"
-                      checked={selectedAddress?._id === item?._id}
-                      onChange={() => handleSelect(item)}
-                    />
+                    {!isProfile && (
+                      <input
+                        type="checkbox"
+                        className="mr-2 accent-black h-4 w-4"
+                        checked={selectedAddress?._id === item?._id}
+                        onChange={() => handleSelect(item)}
+                      />
+                    )}
                   </div>
                   <p className="text-sm text-gray-600 my-3">{item.address}</p>
                   <p className="text-sm text-gray-600 my-1">{item.area}</p>
@@ -200,7 +205,7 @@ function ShippingAddressAll({
             )}
           </div>
 
-          {addresses?.length > 0 && (
+          {addresses?.length > 0 && !isProfile && (
             <button
               className="bg-black text-white py-3 px-6 rounded-md w-full md:w-auto"
               onClick={onContinue}

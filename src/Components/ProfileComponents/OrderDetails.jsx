@@ -49,10 +49,7 @@ function OrderDetails({ isOrders }) {
                 const product = obj?.products;
                 console.log(obj?._id, "asdfasdfasdfasiuwrjthnmsd");
                 return (
-                  <div
-                    key={obj._id}
-                    className="flex items-start space-x-4 border-b pb-8"
-                  >
+                  <div key={obj._id} className="flex items-start border-b pb-8">
                     <div className="flex flex-col gap-5 w-full">
                       {product?.map((singlePro) => {
                         const item = singlePro?.productId;
@@ -99,15 +96,21 @@ function OrderDetails({ isOrders }) {
                       </div>
                     </div>
 
-                    <div className="flex w-fit text-center">
+                    <div className="flex flex-col gap-5 w-fit text-center">
+                      <div
+                        className={`text-sm px-3 py-1 rounded-full bg-primary text-green-800"
+                        }`}
+                      >
+                        Order Status:{obj.orderStatus}
+                      </div>
                       <span
-                        className={`text-sm px-3 py-1 rounded-full ${
+                        className={`text-sm w-40 px-3 py-1 rounded-full ${
                           obj.paymentStatus === "pending"
                             ? "bg-yellow-100 text-yellow-800"
                             : "bg-green-100 text-green-800"
                         }`}
                       >
-                        Payment {obj.paymentStatus}
+                        Payment: {obj.paymentStatus}
                       </span>
                     </div>
                   </div>

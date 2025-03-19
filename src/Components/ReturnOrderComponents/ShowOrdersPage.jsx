@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { FaRegFileLines } from "react-icons/fa6";
 import { PiHandCoins } from "react-icons/pi";
@@ -11,9 +11,12 @@ import StepFourPaymentMethod from "./StepFourPaymentMethod";
 import StepFiveReviewRequest from "./StepFiveReviewRequest";
 import StepSixReturnOrder from "./StepSixReturnOrder";
 import toast from "react-hot-toast";
+import { getUserOrders } from "../../api/orderApi";
 
 function ShowOdersPage() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [orders, setOrders] = useState([]);
   const [returnOrderDetails, setReturnOrderDetails] = useState({
     orders: [],
     reasonToReturn: {
@@ -25,6 +28,22 @@ function ShowOdersPage() {
     methodForReturning: "",
     returnPaymentMethod: "",
   });
+
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getUserOrders();
+        setOrders(response.data);
+        console.log(response.data, "orders fetched");
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getOrders();
+  }, []);
   const steps = [
     { icon: <RiShoppingBag3Line />, text: "Your details" },
     { icon: <TfiBackLeft />, text: "Reason for Return" },
@@ -62,12 +81,12 @@ function ShowOdersPage() {
     }
     setCurrentStep(currentStep + 1);
   };
+
   return (
     <div className="min-h-screen w-full px-4 ">
       <div className="">
         <h1 className="text-xl font-semibold mb-6">Return my order&apos;s</h1>
 
-        {/* Progress Steps */}
         <div className="flex justify-between items-center mb-8 relative">
           <div className="absolute w-[81%] left-20 border-[.8px] bottom-10 " />
           {steps.map((step, index) => (
@@ -88,6 +107,8 @@ function ShowOdersPage() {
 
         {currentStep === 0 && (
           <StepOneShowProducts
+            isLoading={isLoading}
+            orders={orders}
             returnOrderDetails={returnOrderDetails}
             setReturnOrderDetails={setReturnOrderDetails}
           />
@@ -124,7 +145,6 @@ function ShowOdersPage() {
           />
         )}
 
-        {/* Navigation Buttons */}
         <div className="flex justify-end gap-5 mt-5">
           {currentStep <= 3 && (
             <>

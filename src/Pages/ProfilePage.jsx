@@ -75,7 +75,9 @@ function ProfilePage() {
           {selectedTab === "orders" && <OrderDetails isOrders={order} />}
           {selectedTab === "wishlist" && <Wishlist />}
           {/* {selectedTab === "address" && <ShippingAddress />} */}
-          {selectedTab === "shipping address" && <ShippingAddressAll />}
+          {selectedTab === "shipping address" && (
+            <ShippingAddressAll isProfile={true} />
+          )}
           {/* {selectedTab === "account detail" && <AccountDetails />} */}
           {/* {selectedTab === "password" && <ChangePassword />} */}
           {selectedTab === "return" && <ShowOdersPage />}

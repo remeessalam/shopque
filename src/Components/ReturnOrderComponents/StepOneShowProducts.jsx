@@ -1,109 +1,80 @@
-import { useEffect, useState } from "react";
-import { getUserOrders } from "../../api/orderApi";
+import { useState } from "react";
 import ShimmerLoadingEffect from "../../Components/ShimmerLoadingEffect";
 //eslint-disable-next-line
-const StepOneShowProducts = ({ returnOrderDetails, setReturnOrderDetails }) => {
+const StepOneShowProducts = ({ orders, isLoading, setReturnOrderDetails }) => {
   const [selectedItems, setSelectedItems] = useState([]);
-  const [orders, setOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const getOrders = async () => {
-      try {
-        setIsLoading(true);
-        const response = await getUserOrders();
-        setOrders(response.data);
-        console.log(response.data, "orders fetched");
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getOrders();
-  }, []);
-
-  const handleCheckboxChange = (item) => {
-    console.log(item, "asdkfjweirnerwewer");
-    setSelectedItems((prev) =>
-      prev.includes(item.id)
-        ? prev.filter((id) => id !== item.id)
-        : [...prev, item.id]
+  const handleCheckboxChange = (orderID, products) => {
+    const hasSelectedProducts = products.some((item) =>
+      selectedItems.includes(item.id)
     );
-    setReturnOrderDetails((prevState) => {
-      // Check if the orderID already exists in returnOrderDetails.orders
-      const existingOrder = prevState.orders.find(
-        (order) => order.orderID === item.orderID
+
+    if (hasSelectedProducts) {
+      setSelectedItems((prev) =>
+        prev.filter((id) => !products.some((item) => item.id === id))
       );
 
-      if (existingOrder) {
-        // If the item is already selected, remove it; otherwise, add it
-        const updatedProducts = existingOrder.products.some(
-          (product) => product.id === item.id
-        )
-          ? existingOrder.products.filter((product) => product.id !== item.id)
-          : [
-              ...existingOrder.products,
-              {
-                id: item.id,
-                name: item.name,
-                image: item.image,
-                price: item.price,
-                quantity: item.quantity,
-                returnDate: item.returnDate,
-              },
-            ];
+      setReturnOrderDetails((prevState) => ({
+        ...prevState,
+        orders: prevState.orders.filter((order) => order.orderID !== orderID),
+      }));
+    } else {
+      setSelectedItems((prev) => [...prev, ...products.map((item) => item.id)]);
 
-        // If no products remain, remove the order; otherwise, update the products
-        const updatedOrders =
-          updatedProducts.length > 0
-            ? prevState.orders.map((order) =>
-                order.orderID === item.orderID
-                  ? { ...order, products: updatedProducts }
-                  : order
-              )
-            : prevState.orders.filter(
-                (order) => order.orderID !== item.orderID
-              );
+      setReturnOrderDetails((prevState) => {
+        const productDetails = products.map((item) => ({
+          id: item.id,
+          name: item.name,
+          image: item.image,
+          price: item.price,
+          quantity: item.quantity,
+          returnDate: item.returnDate,
+        }));
 
-        return { ...prevState, orders: updatedOrders };
-      } else {
-        // If the orderID doesn't exist, add a new order with the selected product
         return {
           ...prevState,
           orders: [
-            ...prevState.orders,
+            ...prevState.orders.filter((order) => order.orderID !== orderID),
             {
-              orderID: item.orderID,
-              products: [
-                {
-                  id: item.id,
-                  name: item.name,
-                  image: item.image,
-                  price: item.price,
-                  quantity: item.quantity,
-                  returnDate: item.returnDate,
-                },
-              ],
+              orderID: orderID,
+              products: productDetails,
             },
           ],
         };
-      }
-    });
+      });
+    }
   };
-  console.log(returnOrderDetails, "asdfwerwemnbmwer");
+
+  console.log(orders, "asdfwerwemnbmwer");
+  //eslint-disable-next-line
   const formattedOrders = orders.flatMap((order) =>
-    order.products.map((product) => ({
-      id: product._id,
-      orderID: order._id,
-      image: product.productId.images[0],
-      name: product.productId.name,
-      orderNumber: `#${order._id.substring(order._id.length - 9)}`,
-      returnDate: new Date(order.createdAt).toLocaleDateString("en-GB"),
-      price: product.price,
-      quantity: product.quantity,
-    }))
+    order.products
+      //eslint-disable-next-line
+      .filter((product) => order.orderStatus !== "return")
+      .map((product) => ({
+        id: product._id,
+        orderID: order._id,
+        image: product.productId.images[0],
+        name: product.productId.name,
+        orderNumber: `#${order._id.substring(order._id.length - 9)}`,
+        returnDate: new Date(order.createdAt).toLocaleDateString("en-GB"),
+        price: product.price,
+        quantity: product.quantity,
+      }))
   );
+
+  const groupedByOrder = formattedOrders.reduce((acc, item) => {
+    if (!acc[item.orderID]) {
+      acc[item.orderID] = {
+        orderID: item.orderID,
+        orderNumber: item.orderNumber,
+        returnDate: item.returnDate,
+        products: [],
+      };
+    }
+    acc[item.orderID].products.push(item);
+    return acc;
+  }, {});
 
   return (
     <div className="mb-8">
@@ -132,35 +103,46 @@ const StepOneShowProducts = ({ returnOrderDetails, setReturnOrderDetails }) => {
               </tr>
             </thead>
             <tbody>
-              {formattedOrders.map((item) => (
-                <tr
-                  key={item.id}
-                  className="border-b last:border-b-0 hover:bg-gray-50"
-                >
-                  <td className="p-3 align-middle">
-                    <input
-                      type="checkbox"
-                      checked={selectedItems.includes(item.id)}
-                      onChange={() => handleCheckboxChange(item)}
-                      className="w-5 h-5 rounded border-gray-300 accent-[#7f56D9]"
-                    />
-                  </td>
-                  <td className="p-3 flex items-center space-x-4">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                    <span className="text-sm font-medium">{item.name}</span>
-                  </td>
-                  <td className="p-3 text-sm text-gray-600">
-                    {item.orderNumber}
-                  </td>
-                  <td className="p-3 text-sm text-gray-600">
-                    {item.returnDate}
-                  </td>
-                </tr>
-              ))}
+              {Object.values(groupedByOrder).map((orderGroup) =>
+                orderGroup.products.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className="border-b last:border-b-0 hover:bg-gray-50"
+                  >
+                    <td className="p-3 align-middle">
+                      {index === 0 && (
+                        <input
+                          type="checkbox"
+                          checked={orderGroup.products.some((product) =>
+                            selectedItems.includes(product.id)
+                          )}
+                          onChange={() =>
+                            handleCheckboxChange(
+                              orderGroup.orderID,
+                              orderGroup.products
+                            )
+                          }
+                          className="w-5 h-5 rounded border-gray-300 accent-[#7f56D9]"
+                        />
+                      )}
+                    </td>
+                    <td className="p-3 flex items-center space-x-4">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                      <span className="text-sm font-medium">{item.name}</span>
+                    </td>
+                    <td className="p-3 text-sm text-gray-600">
+                      {item.orderNumber}
+                    </td>
+                    <td className="p-3 text-sm text-gray-600">
+                      {item.returnDate}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

@@ -8,9 +8,9 @@ const StepSixReturnOrder = () => {
         We are currently reviewing your request to return your items. You can
         track the progress for updates.
       </p>
-      <button className="w-fit font-medium text-[#7f56D9]">
+      {/* <button to className="w-fit font-medium text-[#7f56D9]">
         Track Return Status
-      </button>
+      </button> */}
     </div>
   );
 };

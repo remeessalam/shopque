@@ -1,7 +1,19 @@
+import toast from "react-hot-toast";
+import { submitReturnRequest } from "../../api/productReturnApi";
 import { showOrderNumber } from "../../util/helper";
 
 //eslint-disable-next-line
 const StepFiveReviewRequest = ({ returnOrderDetails, setCurrentStep }) => {
+  const handleSumbit = async () => {
+    const response = await submitReturnRequest(returnOrderDetails);
+    console.log(response, "asdfasdfwerwerdbx");
+    if (!response.status) {
+      toast.error(response.message);
+      return;
+    }
+    toast.success(response.message);
+    setCurrentStep(5);
+  };
   return (
     <div className="">
       <div className="max-w-4xl mx-auto  rounded-lg  p-6 md:p-8">
@@ -110,7 +122,7 @@ const StepFiveReviewRequest = ({ returnOrderDetails, setCurrentStep }) => {
 
           <button
             className="mt-4 font-medium text-[#7f56D9] p-2"
-            onClick={() => setCurrentStep(5)}
+            onClick={handleSumbit}
           >
             Submit
           </button>
