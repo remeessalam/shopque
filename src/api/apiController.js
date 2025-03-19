@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getToken } from "../util/auth";
 import { API_BASE_URL } from "../util/contant";
+import toast from "react-hot-toast";
 
 const defaultHeaders = () => {
   const token = getToken();
@@ -28,6 +29,8 @@ export const apiCall = async ({ path, method = "GET", data = {} }) => {
       headers: defaultHeaders(),
       ...(method.toUpperCase() === "GET" ? { params: data } : { data: data }),
     });
+    if (response.data.message === "Token expired")
+      toast.error("token expired login again");
     return response.data;
   } catch (error) {
     console.error("Error calling API:", error);
