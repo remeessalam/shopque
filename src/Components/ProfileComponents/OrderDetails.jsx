@@ -1,17 +1,16 @@
 import { FaArrowRight, FaBoxOpen } from "react-icons/fa";
-import { apiCall } from "../../api/apiController";
+// import { apiCall } from "../../api/apiController";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { showDateTime } from "../../util/helper";
+import { getUserOrders } from "../../api/orderApi";
 //eslint-disable-next-line
 function OrderDetails({ isOrders }) {
   // Sample order data
   const [orders, setOrders] = useState(null);
   useEffect(() => {
     const getorder = async () => {
-      const response = await apiCall({
-        path: "/orders/user-orders",
-        method: "GET",
-      });
+      const response = await getUserOrders();
       setOrders(response.data);
       console.log(response, "asdfasdfsdf");
     };
@@ -76,8 +75,7 @@ function OrderDetails({ isOrders }) {
                                 {item.name}
                               </h2>
                               <p className="text-sm text-gray-600 mt-1">
-                                Ordered On:{" "}
-                                {new Date(obj.createdAt).toLocaleDateString()}
+                                Ordered On: {showDateTime(obj.createdAt)}
                               </p>
                               <p className="text-sm text-gray-900 mt-1 mb-3">
                                 Product price: ₹ {item.price}

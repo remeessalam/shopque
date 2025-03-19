@@ -4,6 +4,7 @@ import { useWishlist } from "../Store/WishlistContext";
 import { useCart } from "../Store/CartContext";
 import { addToCartAPI } from "../api/cartApi";
 import toast from "react-hot-toast";
+import EmptyProducts from "../Components/EmptyProducts";
 
 function WishlistPage() {
   const { wishlist, removeFromWishlist } = useWishlist();
@@ -28,35 +29,33 @@ function WishlistPage() {
     <>
       <SectionHeader section={"Wishlist"} />
       <div className="wrapper my-10">
-        <div className="border border-gray-200 rounded">
-          <div className="p-4 border-b border-gray-200">
-            <h1 className="text-xl font-medium">Wishlist</h1>
-          </div>
+        {wishlist.length === 0 ? (
+          <EmptyProducts title="wishlist" redirect="/products" />
+        ) : (
+          <div className="border border-gray-200 rounded">
+            <div className="p-4 border-b border-gray-200">
+              <h1 className="text-xl font-medium">Wishlist</h1>
+            </div>
 
-          <div className="bg-gray-100 hidden md:block">
-            <div className="grid grid-cols-12 py-3 px-4">
-              <div className="col-span-6 font-medium text-gray-700 text-sm">
-                PRODUCTS
-              </div>
-              <div className="col-span-2 font-medium text-gray-700 text-sm">
-                PRICE
-              </div>
-              <div className="col-span-2 font-medium text-gray-700 text-sm">
-                STOCK STATUS
-              </div>
-              <div className="col-span-2 font-medium text-gray-700 text-sm">
-                ACTIONS
+            <div className="bg-gray-100 hidden md:block">
+              <div className="grid grid-cols-12 py-3 px-4">
+                <div className="col-span-6 font-medium text-gray-700 text-sm">
+                  PRODUCTS
+                </div>
+                <div className="col-span-2 font-medium text-gray-700 text-sm">
+                  PRICE
+                </div>
+                <div className="col-span-2 font-medium text-gray-700 text-sm">
+                  STOCK STATUS
+                </div>
+                <div className="col-span-2 font-medium text-gray-700 text-sm">
+                  ACTIONS
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="divide-y divide-gray-200">
-            {wishlist.length === 0 ? (
-              <div className="py-8 px-4 text-center text-gray-500">
-                Your wishlist is empty
-              </div>
-            ) : (
-              wishlist.map((product, index) => (
+            <div className="divide-y divide-gray-200">
+              {wishlist.map((product, index) => (
                 <div
                   key={product.id}
                   className={`grid grid-cols-1 md:grid-cols-12 py-4 px-4 items-center ${
@@ -134,10 +133,10 @@ function WishlistPage() {
                     </button>
                   </div>
                 </div>
-              ))
-            )}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

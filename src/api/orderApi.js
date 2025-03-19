@@ -87,3 +87,19 @@ export const getOrderById = async (orderId) => {
     };
   }
 };
+// cancel order
+export const cancelOrderAPI = async (orderId) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_BASE_URL}/orders/${orderId}/cancel`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error cancelling order", error);
+  }
+};

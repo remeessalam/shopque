@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { CiDeliveryTruck, CiHeart, CiUser } from "react-icons/ci";
+import { CiDeliveryTruck, CiHeart } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { IoIosLogOut } from "react-icons/io";
-import { RiKey2Line } from "react-icons/ri";
 import { TfiBackLeft } from "react-icons/tfi";
 import OrderDetails from "../Components/ProfileComponents/OrderDetails";
 import Wishlist from "../Components/ProfileComponents/Wishlist";
 // import ShippingAddress from "../Components/ProfileComponents/ShippingAddress";
-import AccountDetails from "../Components/ProfileComponents/AccountDetails";
-import ChangePassword from "../Components/ProfileComponents/ChangePassword";
+// import AccountDetails from "../Components/ProfileComponents/AccountDetails";
+// import ChangePassword from "../Components/ProfileComponents/ChangePassword";
 import SectionHeader from "../Components/SectionHeader";
 import ShippingAddressAll from "../Components/ProfileComponents/ShippingAddressAll";
 import ShowOdersPage from "../Components/ReturnOrderComponents/ShowOrdersPage";
@@ -23,12 +22,12 @@ function ProfilePage() {
     { id: "return", label: "Return", icon: <TfiBackLeft size={20} /> },
     { id: "wishlist", label: "Wishlist", icon: <CiHeart size={20} /> },
     // { id: "address", label: "Address", icon: <CiDeliveryTruck size={20} /> },
-    { id: "password", label: "Password", icon: <RiKey2Line size={20} /> },
-    {
-      id: "account detail",
-      label: "Account Detail",
-      icon: <CiUser size={20} />,
-    },
+    // { id: "password", label: "Password", icon: <RiKey2Line size={20} /> },
+    // {
+    //   id: "account detail",
+    //   label: "Account Detail",
+    //   icon: <CiUser size={20} />,
+    // },
     {
       id: "shipping address",
       label: "Shipping Address",
@@ -60,7 +59,7 @@ function ProfilePage() {
                   <button
                     key={id}
                     onClick={() => handleTabs(id)}
-                    className={`flex items-center rounded-lg gap-3 px-6 py-4 hover:bg-gray-100 text-left ${
+                    className={`flex items-center rounded-lg gap-3 px-4 py-4 hover:bg-gray-100 text-left ${
                       selectedTab === id ? "bg-gray-100" : ""
                     }`}
                   >
@@ -77,8 +76,8 @@ function ProfilePage() {
           {selectedTab === "wishlist" && <Wishlist />}
           {/* {selectedTab === "address" && <ShippingAddress />} */}
           {selectedTab === "shipping address" && <ShippingAddressAll />}
-          {selectedTab === "account detail" && <AccountDetails />}
-          {selectedTab === "password" && <ChangePassword />}
+          {/* {selectedTab === "account detail" && <AccountDetails />} */}
+          {/* {selectedTab === "password" && <ChangePassword />} */}
           {selectedTab === "return" && <ShowOdersPage />}
         </div>
       </div>

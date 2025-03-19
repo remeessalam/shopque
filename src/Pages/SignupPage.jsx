@@ -6,9 +6,11 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { API_BASE_URL } from "../util/contant";
 import ButtonLoadingAnim from "../Components/ButtonLoadingAnim";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
+  const [isHide, setIsHide] = useState(true);
   const {
     register,
     handleSubmit,
@@ -128,27 +130,35 @@ const SignUp = () => {
 
             <div className="space-y-2">
               <label className="block text-sm font-medium">Password</label>
-              <input
-                type="password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 5,
-                    message: "Password must be at least 5 characters",
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: "Password cannot exceed 10 characters",
-                  },
-                  pattern: {
-                    value: /^(?=.*[A-Z])(?=.*\d).+$/,
-                    message:
-                      "Password must contain at least one uppercase letter and one number",
-                  },
-                })}
-                placeholder="••••••••••••••"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-              />
+              <div className="relative">
+                <input
+                  type={isHide ? "password" : "text"}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 5,
+                      message: "Password must be at least 5 characters",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Password cannot exceed 10 characters",
+                    },
+                    pattern: {
+                      value: /^(?=.*[A-Z])(?=.*\d).+$/,
+                      message:
+                        "Password must contain at least one uppercase letter and one number",
+                    },
+                  })}
+                  placeholder="••••••••••••••"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+                <span
+                  className="absolute inset-y-0 right-4 flex items-center cursor-pointer"
+                  onClick={() => setIsHide((prev) => !prev)}
+                >
+                  {isHide ? <FaRegEyeSlash /> : <FaRegEye />}
+                </span>
+              </div>
               {errors.password && (
                 <p className="text-red-500 text-sm">
                   {errors.password.message}
@@ -156,39 +166,14 @@ const SignUp = () => {
               )}
             </div>
 
-            <div className="flex items-start gap-2">
-              <input
-                type="checkbox"
-                {...register("agreeToTerms", {
-                  required: "You must agree to the terms",
-                })}
-                className="mt-1 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
-              />
-              <label className="text-sm text-gray-600">
-                I agree to the{" "}
-                <a href="#" className="text-amber-600 hover:text-amber-500">
-                  Terms of Service
-                </a>{" "}
-                and{" "}
-                <a href="#" className="text-amber-600 hover:text-amber-500">
-                  Privacy Policy
-                </a>
-              </label>
-            </div>
-            {errors.agreeToTerms && (
-              <p className="text-red-500 text-sm">
-                {errors.agreeToTerms.message}
-              </p>
-            )}
-
             <button
               type="submit"
               disabled={loading}
-              className={`w-full h-11  py-3 ${
+              className={`w-full h-11 py-3 ${
                 loading
                   ? `bg-black/70 cursor-not-allowed`
                   : `bg-black hover:bg-gray-800`
-              } text-white rounded-lg  transition-colors`}
+              } text-white rounded-lg transition-colors`}
             >
               {loading ? <ButtonLoadingAnim /> : "Create Account"}
             </button>

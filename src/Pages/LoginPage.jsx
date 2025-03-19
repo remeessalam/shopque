@@ -7,10 +7,12 @@ import { checkUserTocken } from "../util/helper";
 import toast from "react-hot-toast";
 import { API_BASE_URL } from "../util/contant";
 import ButtonLoadingAnim from "../Components/ButtonLoadingAnim";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [isHide, setIsHide] = useState(true);
   const lastPage = location.state?.from || "/";
   const {
     register,
@@ -42,7 +44,6 @@ const Login = () => {
         setLoading(false);
         return;
       }
-      console.log("Form submitted:", data);
       localStorage.setItem("userToken", result.token);
       reset();
       toast.success("Login successfully");
@@ -103,7 +104,7 @@ const Login = () => {
               <label className="block text-sm font-medium">Password</label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={isHide ? "password" : "text"}
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -123,6 +124,12 @@ const Login = () => {
                   placeholder="••••••••••••••"
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
+                <span
+                  className="absolute inset-y-0 right-4 flex items-center cursor-pointer"
+                  onClick={() => setIsHide((prev) => !prev)}
+                >
+                  {isHide ? <FaRegEyeSlash /> : <FaRegEye />}
+                </span>
               </div>
               {errors.password && (
                 <p className="text-red-500 text-sm">
@@ -130,23 +137,6 @@ const Login = () => {
                 </p>
               )}
             </div>
-
-            {/* <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  {...register("rememberMe")}
-                  className="rounded border-gray-300 text-amber-600 focus:ring-amber-500"
-                />
-                <span className="text-sm">Remember Me</span>
-              </label>
-              <Link
-                to="/forgot-password"
-                className="text-sm text-amber-600 hover:text-amber-500"
-              >
-                Forgot Password?
-              </Link>
-            </div> */}
 
             <button
               type="submit"

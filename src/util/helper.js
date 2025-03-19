@@ -18,3 +18,23 @@ export const showNameDP = (name) => {
 
 export const calcTotalPrice = (cartItems) =>
   cartItems.reduce((acc, item) => acc + item.product.price, 0);
+
+export const checkWishlist = (items, productId) => {
+  return items.some((item) => item._id === productId);
+};
+
+export const showDateTime = (dateandtime) => {
+  const date = new Date(dateandtime);
+  const day = date.getDate();
+  const month = date
+    .toLocaleString("default", {
+      month: "long",
+    })
+    .toLowerCase();
+  const year = date.getFullYear();
+  const time = date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return `${day}-${month}-${year}, ${time}`;
+};

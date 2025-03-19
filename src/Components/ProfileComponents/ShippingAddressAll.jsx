@@ -18,6 +18,7 @@ function ShippingAddressAll({
 }) {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [delloading, setDelLoading] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -55,13 +56,14 @@ function ShippingAddressAll({
 
   const handleDeleteAddress = async (id) => {
     try {
+      setDelLoading(id);
       const response = await deleteAddress(id);
       if (!response.status) {
         toast.error("Failed to remove address please try again");
+        setDelLoading("");
         return;
       }
       toast.success("Successfully address removed");
-
       // Refresh addresses
       const updatedAddresses = await getAddAddress();
       if (updatedAddresses.status) {
@@ -71,9 +73,11 @@ function ShippingAddressAll({
       // If deleted address was selected, clear selection
       if (selectedAddress && selectedAddress._id === id) {
         onAddressSelect(null);
+        setDelLoading("");
       }
     } catch (error) {
-      console.log(error);
+      setDelLoading(false);
+      console.log("");
     }
   };
 
@@ -140,10 +144,10 @@ function ShippingAddressAll({
               addresses?.map((item) => (
                 <div
                   key={item._id}
-                  className={`bg-gray-100 p-4 relative cursor-pointer ${
+                  className={`bg-gray-100 border p-4 rounded-xl relative cursor-pointer ${
                     selectedAddress?._id === item?._id
-                      ? "border-2 border-black"
-                      : ""
+                      ? " border-slate-300"
+                      : "border-transparent"
                   }`}
                   onClick={() => handleSelect(item)}
                 >
@@ -169,16 +173,27 @@ function ShippingAddressAll({
                       <FiEdit />
                       <span className="text-xs ml-1">Edit</span>
                     </div>
-                    <div
-                      className="flex items-center justify-center bg-red-100 py-1 rounded-md cursor-pointer"
+                    <button
+                      className="flex h-8 items-center justify-center bg-red-100 py-1 rounded-md cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDeleteAddress(item._id);
                       }}
+                      disabled={delloading === item._id}
                     >
-                      <RiDeleteBin5Line className="text-red-500" />
-                      <span className="text-xs ml-1 text-red-500">Delete</span>
-                    </div>
+                      {delloading === item._id ? (
+                        ""
+                      ) : (
+                        <RiDeleteBin5Line className="text-red-500" />
+                      )}
+                      <span className="text-xs ml-1 text-red-500">
+                        {delloading === item._id ? (
+                          <CircularLoading />
+                        ) : (
+                          "Delete"
+                        )}
+                      </span>
+                    </button>
                   </div>
                 </div>
               ))
@@ -259,14 +274,12 @@ function ShippingAddressAll({
 
           <div className="mb-4">
             <label className="block text-sm mb-1">City</label>
-            <select
+            <input
+              type="text"
               className="w-full border border-gray-300 rounded-md p-2 appearance-none"
+              placeholder="Enter City"
               {...register("city", { required: "City is required" })}
-            >
-              <option value="">Select City</option>
-              <option value="New York">New York</option>
-              <option value="Los Angeles">Los Angeles</option>
-            </select>
+            />
             {errors.city && (
               <p className="text-red-500 text-sm">{errors.city.message}</p>
             )}
@@ -287,14 +300,12 @@ function ShippingAddressAll({
 
           <div className="mb-4">
             <label className="block text-sm mb-1">State</label>
-            <select
+            <input
+              type="text"
               className="w-full border border-gray-300 rounded-md p-2 appearance-none"
+              placeholder="Enter State"
               {...register("state", { required: "State is required" })}
-            >
-              <option value="">Select State</option>
-              <option value="California">California</option>
-              <option value="Texas">Texas</option>
-            </select>
+            />
             {errors.state && (
               <p className="text-red-500 text-sm">{errors.state.message}</p>
             )}

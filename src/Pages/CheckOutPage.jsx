@@ -4,7 +4,7 @@ import SectionHeader from "../Components/SectionHeader";
 import { useCart } from "../Store/CartContext";
 import { calcTotalPrice } from "../util/helper";
 import ShippingAddressAll from "../Components/ProfileComponents/ShippingAddressAll";
-import { createOrder, verifyPayment } from "../api/orderApi";
+import { cancelOrderAPI, createOrder, verifyPayment } from "../api/orderApi";
 import toast from "react-hot-toast";
 
 function CheckOutPage() {
@@ -54,12 +54,16 @@ function CheckOutPage() {
       const orderResponse = await createOrder(orderData);
       if (!orderResponse.status) {
         toast.error(orderResponse.message || "Failed to create order");
+        const response = await cancelOrderAPI();
+        console.log(response, "responsiveasdfsdfs");
         navigate("/order-failed");
         return;
       }
 
       if (!window.Razorpay) {
         toast.error("Razorpay SDK not loaded. Please try again.");
+        const response = await cancelOrderAPI();
+        console.log(response, "responsiveasdfsdfs");
         navigate("/order-failed");
 
         return;
@@ -97,11 +101,15 @@ function CheckOutPage() {
               toast.error(
                 verifyResponse.message || "Payment verification failed"
               );
+              const response = await cancelOrderAPI();
+              console.log(response, "responsiveasdfsdfs");
               navigate("/order-failed");
             }
           } catch (error) {
             console.error(error);
             toast.error("Payment verification failed");
+            const response = await cancelOrderAPI();
+            console.log(response, "responsiveasdfsdfs");
             navigate("/order-failed");
           }
         },
@@ -110,7 +118,14 @@ function CheckOutPage() {
           contact: selectedAddress.mobile,
         },
         theme: { color: "#000000" },
-        modal: { ondismiss: () => setIsLoading(false) },
+        modal: {
+          ondismiss: async () => {
+            setIsLoading(false);
+            await cancelOrderAPI(orderResponse.data._id);
+            toast.error("Order cancelled due to payment modal dismissal");
+            navigate("/order-failed");
+          },
+        },
       };
 
       const razorpay = new window.Razorpay(options);
@@ -152,12 +167,12 @@ function CheckOutPage() {
               {cartItems.map(({ product }, index) => (
                 <div
                   key={product._id || index}
-                  className="w-12 h-12 bg-blue-100 rounded-md"
+                  className="w-12 h-12 bg-blue-100 rounded-md overflow-hidden"
                 >
                   <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="w-10 h-10 object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               ))}

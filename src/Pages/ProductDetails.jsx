@@ -4,13 +4,12 @@ import ProductDetailSection from "../Components/ProductDetailSection";
 import ProductReviewSection from "../Components/ProductReviewSection";
 import JoinSection from "../Components/JoinSection";
 import ProductGrid from "../Components/ProductGrid";
-import { products } from "../util/productDetails";
 import SectionHeader from "../Components/SectionHeader";
 import ShareModal from "../Components/ShareModal";
 import { Link, useParams } from "react-router-dom";
 import ImageCarousal from "../Components/ImageCarousal";
 import { useCart } from "../Store/CartContext";
-import { getProductById } from "../api/productsApi";
+import { getProductById, getProducts } from "../api/productsApi";
 import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
 import { useWishlist } from "../Store/WishlistContext";
 import { FaHeart } from "react-icons/fa6";
@@ -19,11 +18,13 @@ import { addToCartAPI } from "../api/cartApi";
 import toast from "react-hot-toast";
 import { getToken } from "../util/auth";
 import ButtonLoadingAnim from "../Components/ButtonLoadingAnim";
+import { checkWishlist } from "../util/helper";
 
 function ProductDetails() {
   const [showShare, setShowShare] = useState(false);
   const { addToCart, cartItems } = useCart();
   const [productData, setProductDate] = useState(null);
+  const [products, setProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState(1);
   const [activeTab, setActiveTab] = useState("details");
@@ -38,9 +39,15 @@ function ProductDetails() {
       setProductDate(data);
       console.log(data, "askdlfjsldkf");
     };
-
     fetchProduct();
-  }, []);
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      console.log(productData, "askdlfjsldkf");
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, [id]);
 
   if (!productData) {
     return <ShimmerLoadingEffect />;
@@ -55,6 +62,7 @@ function ProductDetails() {
       setQuantity(quantity - 1);
     }
   };
+
   const handleAddToCart = async () => {
     if (loading) return;
     const token = getToken();
@@ -75,17 +83,20 @@ function ProductDetails() {
     toast.error("error in adding to cart");
     setLoading(false);
   };
+
   console.log(cartItems, "asdfasdfassadfsdf");
   const isInCart = cartItems.some(
     (item) => item.product._id === productData?._id
   );
+
   const toggleWishlist = (product) => {
-    if (wishlist.some((item) => item.id === product.id)) {
-      removeFromWishlist(product.id);
+    if (checkWishlist(wishlist, product._id)) {
+      removeFromWishlist(product._id);
     } else {
       addToWishlist(product);
     }
   };
+
   return (
     <>
       <ShareModal showShare={showShare} setShowShare={setShowShare} />
@@ -93,7 +104,7 @@ function ProductDetails() {
       <SectionHeader section={productData?.name} />
 
       <div className="wrapper">
-        <div className=" grid md:grid-cols-2 gap-8 mt-8">
+        <div className="grid md:grid-cols-2 gap-8 mt-8">
           {/* Product Image Section */}
           <ImageCarousal productData={productData} />
           {/* Product Details Section */}
@@ -107,7 +118,7 @@ function ProductDetails() {
             </div>
 
             <div className="flex items-center mt-2 ">
-              <div className="flex  bg-gray-200 px-4 items-center py-1 rounded-full">
+              <div className="flex bg-gray-200 px-4 items-center py-1 rounded-full">
                 <FiStar className="w-4 h-4 fill-current text-gray-700" />
                 <span className="ml-1 text-sm text-gray-700">
                   {productData?.rating} — {productData?.reviewsCount} Reviews
@@ -115,8 +126,8 @@ function ProductDetails() {
               </div>
               <span
                 className={`ml-4 text-sm ${
-                  productData?.stock ? `text-green-500` : `text-red-500`
-                } border  px-4 py-1 rounded-full`}
+                  productData?.stock ? "text-green-500" : "text-red-500"
+                } border px-4 py-1 rounded-full`}
               >
                 {productData?.stock ? "Available" : "UnAvailable"}
               </span>
@@ -149,12 +160,7 @@ function ProductDetails() {
             <div className="mt-6">
               <h3 className="text-sm text-gray-500 uppercase">Size</h3>
               <div className="flex mt-2 gap-2">
-                {/* {productData?.sizes?.map((size, index) => (
-                ))} */}
-                <div
-                  // key={index}
-                  className={`w-10 h-10 flex items-center justify-center border rounded-md cursor-pointer `}
-                >
+                <div className="w-10 h-10 flex items-center justify-center border rounded-md cursor-pointer">
                   M
                 </div>
               </div>
@@ -195,11 +201,11 @@ function ProductDetails() {
                   onClick={handleAddToCart}
                   className={`${
                     productData?.stock
-                      ? `bg-gray-900`
-                      : `bg-gray-400 cursor-not-allowed`
+                      ? "bg-gray-900"
+                      : "bg-gray-400 cursor-not-allowed"
                   } text-white py-3 px-4 rounded w-full`}
                 >
-                  {loading ? <ButtonLoadingAnim /> : `Add to cart`}
+                  {loading ? <ButtonLoadingAnim /> : "Add to cart"}
                 </button>
               )}
               <button
@@ -207,9 +213,9 @@ function ProductDetails() {
                   e.preventDefault();
                   toggleWishlist(productData);
                 }}
-                className="z-10 px-2 mb-auto  hover:bg-white/80 border border-gray-300 p-3 rounded"
+                className="z-10 px-2 mb-auto hover:bg-white/80 border border-gray-300 p-3 rounded"
               >
-                {wishlist.some((item) => item.id === productData.id) ? (
+                {checkWishlist(wishlist, productData._id) ? (
                   <FaHeart className="w-5 h-5 text-red-500" />
                 ) : (
                   <AiOutlineHeart className="w-5 h-5 text-gray-600 hover:scale-125 hoveranim" />
@@ -218,7 +224,7 @@ function ProductDetails() {
             </div>
 
             <div className="mt-4 text-sm text-gray-500 flex items-center">
-              <span>— FREE SHIPPING ON ORDERS $100+</span>
+              <span>— FREE SHIPPING ON ORDERS ₹100+</span>
             </div>
           </div>
         </div>
@@ -226,7 +232,7 @@ function ProductDetails() {
         {/* Detail Section */}
         <div className="grid md:grid-cols-3 md:gap-5">
           {/* Tabs */}
-          <div className="mt-12  w-full ">
+          <div className="mt-12 w-full">
             <div className="border-b md:border-none w-full">
               <div className="flex md:flex-col">
                 <button
@@ -265,7 +271,12 @@ function ProductDetails() {
           <h1 className="title-heading">You might also like</h1>
           <p className="font-light text-gray-500 mt-4">SIMILAR PRODUCTS</p>
         </div>
-        <ProductGrid products={products.slice(0, 4)} cardslength={4} />
+        <ProductGrid
+          products={products
+            ?.filter((prod) => prod._id !== productData._id)
+            .slice(0, 4)}
+          cardslength={4}
+        />
       </div>
       <JoinSection isShowCategory={true} />
     </>

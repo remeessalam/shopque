@@ -41,7 +41,7 @@ function OrderStatusPage({ orderPlaced }) {
           </p>
 
           {/* Go to account button */}
-          <Link to={"/profile"}>
+          <Link to={orderPlaced ? "/profile" : "/cartitems"}>
             <button className="bg-[#111827] text-white px-6 py-3 rounded flex items-center justify-center space-x-2 hover:bg-[#1f2937] transition-colors">
               <span>{orderPlaced ? "Go to my account" : "Reorder"}</span>
               <FaArrowRight size={18} />

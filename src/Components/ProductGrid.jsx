@@ -7,8 +7,8 @@ const ProductGrid = ({ products, cardslength }) => {
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   const toggleWishlist = (product) => {
-    if (wishlist.some((item) => item.id === product.id)) {
-      removeFromWishlist(product.id);
+    if (wishlist.some((item) => item._id === product._id)) {
+      removeFromWishlist(product._id);
     } else {
       addToWishlist(product);
     }
@@ -46,7 +46,7 @@ const ProductGrid = ({ products, cardslength }) => {
                       }}
                       className="z-10 px-2 mb-auto rounded-full hover:bg-white/80"
                     >
-                      {wishlist.some((item) => item.id === product.id) ? (
+                      {wishlist.some((item) => item._id === product._id) ? (
                         <FaHeart className="w-5 h-5 text-red-500" />
                       ) : (
                         <AiOutlineHeart className="w-5 h-5 text-gray-600 hover:text-orange-500" />
