@@ -13,7 +13,6 @@ function CartPage() {
   const { cartItems, removeFromCart } = useCart();
   console.log(cartItems, "asdfasdfasdf");
 
-  // Calculate subtotal using product.price and cart item quantity safely with optional chaining
   const subtotal = cartItems.reduce(
     (total, item) =>
       total + (item.product?.price ? item.product.price * item.quantity : 0),
@@ -39,13 +38,10 @@ function CartPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <SectionHeader section="Cart" />
 
-      {/* Main Content */}
       <div className="wrapper pb-24 mt-5">
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-          {/* Cart Items */}
           <div className="lg:col-span-8">
             <h2 className="text-lg font-medium text-gray-900 mb-6">
               Your cart
@@ -108,7 +104,6 @@ function CartPage() {
             )}
           </div>
 
-          {/* Order Summary */}
           <div className="mt-16 lg:mt-0 lg:col-span-4">
             <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-medium text-gray-900 mb-6">

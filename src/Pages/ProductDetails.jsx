@@ -64,24 +64,30 @@ function ProductDetails() {
   };
 
   const handleAddToCart = async () => {
-    if (loading) return;
-    const token = getToken();
-    if (!token) {
-      toast.error("Please Login");
-      return;
-    }
-    setLoading(true);
-    console.log(productData._id, quantity, "asdfsdfsdfsdf");
-    const response = await addToCartAPI(productData._id, quantity);
-    toast.success("product item added in the cart successfull");
-    if (response.status) {
-      console.log(response.cart.items, "asdfasdfasdf");
-      addToCart(response.cart.items);
+    try {
+      if (loading) return;
+      const token = getToken();
+      if (!token) {
+        toast.error("Please Login");
+        return;
+      }
+      setLoading(true);
+      console.log(productData._id, quantity, "asdfsdfsdfsdf");
+      const response = await addToCartAPI(productData._id, quantity);
+      toast.success("product item added in the cart successfull");
+      if (response.status) {
+        console.log(response.cart.items, "asdfasdfasdf");
+        addToCart(response.cart.items);
+        setLoading(false);
+        return;
+      }
+      toast.error("error in adding to cart");
       setLoading(false);
-      return;
+    } catch (error) {
+      console.error(error);
+      toast.error("error in adding to cart");
+      setLoading(false);
     }
-    toast.error("error in adding to cart");
-    setLoading(false);
   };
 
   console.log(cartItems, "asdfasdfassadfsdf");

@@ -41,7 +41,7 @@ function CheckOutPage() {
       setIsLoading(true);
 
       const orderData = {
-        totalAmount: Math.round(finalAmount), // Razorpay expects paise
+        totalAmount: Math.round(finalAmount), // exepting paisa
         currency: "INR",
         shippingAddress: selectedAddress._id,
         products: cartItems.map((item) => ({
