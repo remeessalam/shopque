@@ -54,17 +54,23 @@ function ProfilePage() {
           {/* Sidebar Navigation */}
           <div className="w-full md:w-1/4">
             <div className=" rounded-md ">
-              <nav className="flex flex-col">
+              <nav className="flex flex-row sm:flex-col">
                 {profileTabs?.map(({ id, label, icon }) => (
                   <button
                     key={id}
                     onClick={() => handleTabs(id)}
-                    className={`flex items-center rounded-lg gap-3 px-4 py-4 hover:bg-gray-100 text-left ${
+                    className={`flex items-center rounded-lg gap-3 hoveranim px-4 py-4 hover:bg-gray-100 text-left ${
                       selectedTab === id ? "bg-gray-100" : ""
                     }`}
                   >
                     {icon}
-                    <span className="font-medium">{label}</span>
+                    <span
+                      className={`font-medium sm:flex hoveranim ${
+                        selectedTab === id ? `` : `hidden`
+                      }`}
+                    >
+                      {label}
+                    </span>
                   </button>
                 ))}
               </nav>

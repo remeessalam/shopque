@@ -87,8 +87,8 @@ function ShowOdersPage() {
       <div className="">
         <h1 className="text-xl font-semibold mb-6">Return my order&apos;s</h1>
 
-        <div className="flex justify-between items-center mb-8 relative">
-          <div className="absolute w-[81%] left-20 border-[.8px] bottom-10 " />
+        <div className="flex justify-between items-top sm:items-center mb-8 relative">
+          <div className="absolute w-[81%] left-8 sm:left-20 border-[.8px] bottom-[4.5rem] sm:bottom-10 " />
           {steps.map((step, index) => (
             <div key={index} className="flex flex-col items-center flex-1 ">
               <div
