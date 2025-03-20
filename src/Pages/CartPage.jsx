@@ -19,7 +19,7 @@ function CartPage() {
     0
   );
   const tax = 18;
-  const total = subtotal + tax;
+  const total = subtotal + (subtotal * tax) / 100;
   const shipping = "Free";
 
   const removeCartItemApi = async (id) => {
@@ -37,7 +37,7 @@ function CartPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className=" bg-gray-50">
       <SectionHeader section="Cart" />
 
       <div className="wrapper pb-24 mt-5">
@@ -53,21 +53,21 @@ function CartPage() {
                 {cartItems.map((item) => (
                   <div
                     key={item._id}
-                    className="py-6 flex items-center border-b border-gray-200"
+                    className="py-4 sm:py-6 flex flex-col sm:flex-row items-start sm:items-center border-b border-gray-200"
                   >
-                    <div className="flex-shrink-0 w-24 h-24 rounded-md overflow-hidden">
+                    <div className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-md overflow-hidden">
                       <img
                         src={item.product?.images[0] || ""}
                         alt={item.product?.name || "Product image"}
                         className="w-full h-full object-center object-cover"
                       />
                     </div>
-                    <div className="ml-4 flex-1">
-                      <div className="flex justify-between">
+                    <div className="mt-3 sm:mt-0 sm:ml-4 flex-1 w-full">
+                      <div className="flex flex-col sm:flex-row sm:justify-between">
                         <h3 className="text-base font-medium text-gray-900">
                           {item.product?.name || "Product not available"}
                         </h3>
-                        <p className="text-base font-medium text-gray-900">
+                        <p className="text-base font-medium text-gray-900 mt-1 sm:mt-0">
                           ₹{" "}
                           {item.product?.price
                             ? item.product.price.toFixed(2)
@@ -77,9 +77,9 @@ function CartPage() {
                       <p className="mt-1 text-sm text-gray-500">
                         {item.product?.color || ""} {item.product?.size || ""}
                       </p>
-                      <div className="flex items-center justify-between mt-4">
+                      <div className="flex items-center justify-between mt-3 sm:mt-4">
                         <div className="flex items-center border border-gray-300 rounded-md">
-                          <span className="px-4 py-1 text-gray-900">
+                          <span className="px-3 sm:px-4 py-1 text-gray-900">
                             {item.quantity}
                           </span>
                         </div>
@@ -123,9 +123,7 @@ function CartPage() {
                   </div>
                   <div className="py-4 flex items-center justify-between border-t border-gray-200">
                     <dt className="text-gray-600">Tax:</dt>
-                    <dd className="font-medium text-gray-900">
-                      ₹ {tax.toFixed(2)}
-                    </dd>
+                    <dd className="font-medium text-gray-900">{tax} %</dd>
                   </div>
                   <div className="py-4 flex items-center justify-between border-t border-gray-200">
                     <dt className="text-base font-medium text-gray-900">

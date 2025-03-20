@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <footer className="relative bg-white py-[7rem] overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 sm:justify-items-center">
           {/* Company Info */}
           <div className="">
             <img src={logo} alt="Shopque Nest LLP" className="h-16 mb-4" />
@@ -45,9 +45,8 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Company Links */}
           <div className="flex flex-col items-start">
-            <h3 className="font-light text-gray-500 text-lg mb-4">SUPPORT</h3>
+            <h3 className="font-normal text-gray-900 text-lg mb-4">SUPPORT</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/faq" className="text-gray-600 hover:text-gray-900">
@@ -72,9 +71,8 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          {/* Company Links */}
           <div className="flex flex-col items-start">
-            <h3 className="font-light text-gray-500 text-lg mb-4">COMPANY</h3>
+            <h3 className="font-normal text-gray-900 text-lg mb-4">COMPANY</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -111,9 +109,8 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          {/* Shop */}
           <div className="flex flex-col items-start">
-            <h3 className="font-light text-gray-500 text-lg mb-4">SHOP</h3>
+            <h3 className="font-normal text-gray-900 text-lg mb-4">SHOP</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -136,7 +133,7 @@ const Footer = () => {
 
           {/* Store Info */}
           <div>
-            <h3 className="font-light text-gray-500 text-lg mb-4">
+            <h3 className="font-normal text-gray-900 text-lg mb-4">
               ACCEPTED PAYMENTS
             </h3>
             <div className="flex gap-2">

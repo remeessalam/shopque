@@ -145,7 +145,7 @@ function ShowOdersPage() {
           />
         )}
 
-        <div className="flex justify-end gap-5 mt-5">
+        <div className="flex justify-center sm:justify-end gap-5 mt-5">
           {currentStep <= 3 && (
             <>
               <button

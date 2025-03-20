@@ -6,6 +6,7 @@ import { calcTotalPrice } from "../util/helper";
 import ShippingAddressAll from "../Components/ProfileComponents/ShippingAddressAll";
 import { cancelOrderAPI, createOrder, verifyPayment } from "../api/orderApi";
 import toast from "react-hot-toast";
+import CircularLoading from "../Components/CircleLoading";
 
 function CheckOutPage() {
   const { cartItems, clearCart } = useCart();
@@ -29,6 +30,12 @@ function CheckOutPage() {
       return;
     }
     setActiveStep(2);
+    setTimeout(() => {
+      const placeOrderSection = document.getElementById("place-order-section");
+      if (placeOrderSection) {
+        placeOrderSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   const handlePlaceOrder = async () => {
@@ -153,60 +160,69 @@ function CheckOutPage() {
               setActiveStep={setActiveStep}
             />
           </div>
-          <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-sm">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold">Your Order</h2>
-              <Link
-                to={"/cartitems"}
-                className="text-sm border px-4 py-2 hover:bg-gray-50"
-              >
-                Edit Cart
-              </Link>
-            </div>
-            <div className="flex items-center gap-4 mb-6">
-              {cartItems.map(({ product }, index) => (
-                <div
-                  key={product._id || index}
-                  className="w-12 h-12 bg-blue-100 rounded-md overflow-hidden"
+          {isLoading ? (
+            <CircularLoading />
+          ) : (
+            <div
+              id="place-order-section"
+              className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-sm"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold">Your Order</h2>
+                <Link
+                  to={"/cartitems"}
+                  className="text-sm border px-4 py-2 hover:bg-gray-50"
                 >
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
+                  Edit Cart
+                </Link>
+              </div>
+              <div className="flex items-center gap-4 mb-6">
+                {cartItems.map(({ product }, index) => (
+                  <div
+                    key={product._id || index}
+                    className="w-12 h-12 bg-blue-100 rounded-md overflow-hidden"
+                  >
+                    <img
+                      src={product.images[0]}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="border-t border-gray-200 pt-4">
+                <div className="flex justify-between py-2">
+                  <span className="text-gray-600">Subtotal:</span>
+                  <span className="font-medium">₹ {totalPrice}</span>
                 </div>
-              ))}
-            </div>
-            <div className="border-t border-gray-200 pt-4">
-              <div className="flex justify-between py-2">
-                <span className="text-gray-600">Subtotal:</span>
-                <span className="font-medium">₹ {totalPrice}</span>
-              </div>
-              <div className="flex justify-between py-2">
-                <span className="text-gray-600">Shipping:</span>
-                <span className="font-medium text-green-600">Free</span>
-              </div>
-              <div className="flex justify-between py-2">
-                <span className="text-gray-600">Tax:</span>
-                <span className="font-medium">{tax} %</span>
-              </div>
-              <div className="border-t border-gray-200 mt-2 pt-4 mb-6">
-                <div className="flex justify-between">
-                  <span className="font-medium">Total</span>
-                  <span className="font-bold">₹ {finalAmount.toFixed(2)}</span>
+                <div className="flex justify-between py-2">
+                  <span className="text-gray-600">Shipping:</span>
+                  <span className="font-medium text-green-600">Free</span>
                 </div>
+                <div className="flex justify-between py-2">
+                  <span className="text-gray-600">Tax:</span>
+                  <span className="font-medium">{tax} %</span>
+                </div>
+                <div className="border-t border-gray-200 mt-2 pt-4 mb-6">
+                  <div className="flex justify-between">
+                    <span className="font-medium">Total</span>
+                    <span className="font-bold">
+                      ₹ {finalAmount.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+                {activeStep > 1 && (
+                  <button
+                    className="w-full bg-gray-900 text-white py-3 rounded font-medium hover:bg-gray-800"
+                    onClick={handlePlaceOrder}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Processing..." : "Place Order"}
+                  </button>
+                )}
               </div>
-              {activeStep > 1 && (
-                <button
-                  className="w-full bg-gray-900 text-white py-3 rounded font-medium hover:bg-gray-800"
-                  onClick={handlePlaceOrder}
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Processing..." : "Place Order"}
-                </button>
-              )}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
