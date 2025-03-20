@@ -103,3 +103,19 @@ export const cancelOrderAPI = async (orderId) => {
     console.error("Error cancelling order", error);
   }
 };
+
+// Update this function in your api/orderApi.js file
+export const getAllOrders = async (page = 1, limit = 10, searchParam = "") => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/orders?page=${page}&limit=${limit}${searchParam}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch orders");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error in getAllOrders:", error);
+    return { status: false, message: error.message };
+  }
+};

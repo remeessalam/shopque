@@ -1,86 +1,27 @@
-import {
-  FiSearch,
-  FiMoreHorizontal,
-  FiChevronLeft,
-  FiChevronRight,
-} from "react-icons/fi";
+import { FiSearch, FiMoreHorizontal, FiChevronLeft } from "react-icons/fi";
 import AdminPageHeader from "../AdminComponents/AdminPageHeader";
+import { useEffect, useState } from "react";
+import { getProducts } from "../api/productsApi";
+import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
 
 function AdminProductPage() {
-  const products = [
-    {
-      id: 1,
-      name: "Dog Foof Container",
-      sku: "47514501",
-      price: "$75.00",
-      stock: "Unavailable",
-      category: "Pet Products",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 2,
-      name: "Rotatable Dog food feedee",
-      sku: "47514501",
-      price: "$35.00",
-      stock: "Unavailable",
-      category: "Pet Products",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 3,
-      name: "Rubber Toys For Cats",
-      sku: "47514501",
-      price: "$27.00",
-      stock: "Unavailable",
-      category: "Pet Products",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 4,
-      name: "Pedigree Dog Food",
-      sku: "47514501",
-      price: "$22.00",
-      stock: "Unavailable",
-      category: "Pet Food",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 5,
-      name: "Dog Food Tray",
-      sku: "47514501",
-      price: "$43.00",
-      stock: "Unavailable",
-      category: "Pet Products",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 6,
-      name: "Portable Pet Suitcase",
-      sku: "47514501",
-      price: "$35.00",
-      stock: "Unavailable",
-      category: "Pet Products",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 7,
-      name: "Dog Leash",
-      sku: "47514501",
-      price: "$57.00",
-      stock: "Unavailable",
-      category: "Pet Products",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 8,
-      name: "Cat Food",
-      sku: "47514501",
-      price: "$30.00",
-      stock: "Unavailable",
-      category: "Pet Products",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, []);
+  if (!products.length) {
+    return (
+      <div className="w-full h-full">
+        <ShimmerLoadingEffect />
+      </div>
+    );
+  }
+  console.log(products, "askdlasdfsdfsfjsldkf", products[0].stock);
 
   return (
     <div className="flex w-full h-screen bg-gray-50">
@@ -121,18 +62,14 @@ function AdminProductPage() {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Name
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      SKU
-                    </th>
+
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Price
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Stock
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Categories
-                    </th>
+
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Action
                     </th>
@@ -143,7 +80,7 @@ function AdminProductPage() {
                     <tr key={product.id}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.images[0] || "/placeholder.svg"}
                           alt={product.name}
                           className="h-12 w-12 rounded-md"
                         />
@@ -153,24 +90,20 @@ function AdminProductPage() {
                           {product.name}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">
-                          {product.sku}
-                        </div>
-                      </td>
+
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {product.price}
+                          ₹ {product.price}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                          {product.stock}
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800`}
+                        >
+                          {product.stock ? "Available" : "Unavailable"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {product.category}
-                      </td>
+
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <FiMoreHorizontal
                           size={20}
@@ -184,7 +117,7 @@ function AdminProductPage() {
             </div>
 
             {/* Pagination */}
-            <div className="px-6 py-4 flex items-center justify-center">
+            {/* <div className="px-6 py-4 flex items-center justify-center">
               <nav className="flex items-center space-x-2">
                 <button className="p-2 rounded-md border border-gray-300">
                   <FiChevronLeft size={16} />
@@ -206,7 +139,7 @@ function AdminProductPage() {
                   <FiChevronRight size={16} />
                 </button>
               </nav>
-            </div>
+            </div> */}
           </div>
         </main>
       </div>
