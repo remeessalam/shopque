@@ -77,8 +77,8 @@ function CheckOutPage() {
       }
       console.log(orderResponse.data.totalAmount, "asdfasdfasdfasdfsd");
       const options = {
-        // key: "rzp_live_OVypg2kuZcNJKa",
-        key: "rzp_test_CTdQH1trOpQlIY",
+        key: "rzp_live_OVypg2kuZcNJKa",
+        // key: "rzp_test_CTdQH1trOpQlIY",
         amount: orderResponse.data.totalAmount,
         currency: "INR",
         name: "Your Store Name",
