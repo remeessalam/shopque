@@ -18,7 +18,7 @@ function CartPage() {
       total + (item.product?.price ? item.product.price * item.quantity : 0),
     0
   );
-  const tax = 18;
+  const tax = 0;
   const total = subtotal + (subtotal * tax) / 100;
   const shipping = "Free";
 
@@ -123,7 +123,9 @@ function CartPage() {
                   </div>
                   <div className="py-4 flex items-center justify-between border-t border-gray-200">
                     <dt className="text-gray-600">Tax:</dt>
-                    <dd className="font-medium text-gray-900">{tax} %</dd>
+                    <dd className="font-medium text-gray-900">
+                      {tax} Incl. Tax.
+                    </dd>
                   </div>
                   <div className="py-4 flex items-center justify-between border-t border-gray-200">
                     <dt className="text-base font-medium text-gray-900">

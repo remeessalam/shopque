@@ -16,7 +16,7 @@ function CheckOutPage() {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [activeStep, setActiveStep] = useState(1);
 
-  const tax = 18;
+  const tax = 0;
   const totalPrice = calcTotalPrice(cartItems);
   const finalAmount = totalPrice + (totalPrice * tax) / 100;
 
@@ -201,7 +201,7 @@ function CheckOutPage() {
                 </div>
                 <div className="flex justify-between py-2">
                   <span className="text-gray-600">Tax:</span>
-                  <span className="font-medium">{tax} %</span>
+                  <span className="font-medium">{tax} Incl. Tax.</span>
                 </div>
                 <div className="border-t border-gray-200 mt-2 pt-4 mb-6">
                   <div className="flex justify-between">
