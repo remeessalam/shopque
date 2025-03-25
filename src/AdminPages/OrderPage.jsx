@@ -9,9 +9,10 @@ import {
 import AdminPageHeader from "../AdminComponents/AdminPageHeader";
 import { dogfeed } from "../util/productDetails";
 import { useEffect, useState } from "react";
-import { getAllOrders } from "../api/orderApi";
+import { getAllOrders, updateOrderStatus } from "../api/orderApi";
 import ShimmerLoadingEffect from "../Components/ShimmerLoadingEffect";
 import toast from "react-hot-toast";
+import OrderModal from "../AdminComponents/OrderModal";
 
 function OrderPage() {
   const [orders, setOrders] = useState([]);
@@ -19,7 +20,8 @@ function OrderPage() {
   const [expandedOrders, setExpandedOrders] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
-
+  const [orderdetail, setOrderDetail] = useState({});
+  const [openModel, setOpenModal] = useState(false);
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -182,6 +184,31 @@ function OrderPage() {
         return "bg-gray-100 text-gray-800";
     }
   };
+  const handleOpenModel = (order) => {
+    setOrderDetail(order);
+    setOpenModal(true);
+  };
+  const handleUpdateStatus = async (orderid, updatedStatus) => {
+    setLoading(true);
+    try {
+      const result = await updateOrderStatus(orderid, updatedStatus);
+      console.log(result, "update result");
+      if (result.status) {
+        toast.success("Order status updated successfully.");
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order._id === orderid ? result.data : order
+          )
+        );
+      } else {
+        toast.error(result.message);
+      }
+      //eslint-disable-next-line
+    } catch (error) {
+      toast.error("An error occurred while updating the status.");
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="flex w-full h-screen bg-gray-50">
@@ -239,7 +266,10 @@ function OrderPage() {
                   {orders.map((order) => (
                     <>
                       <tr key={order._id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td
+                          className="px-6 py-4 whitespace-nowrap cursor-pointer"
+                          onClick={() => handleOpenModel(order)}
+                        >
                           {order.products.length > 1 ? (
                             <button
                               className="mr-2 focus:outline-none"
@@ -270,7 +300,7 @@ function OrderPage() {
                             className="h-12 w-12 rounded-md object-cover inline-block"
                           />
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
                           <div className="text-sm font-medium text-gray-900">
                             {order.products[0]?.productId?.name ||
                               "Unknown Product"}
@@ -293,7 +323,7 @@ function OrderPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
+                            className={`px-2 cursor-pointer inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
                               order.orderStatus
                             )}`}
                           >
@@ -417,6 +447,13 @@ function OrderPage() {
           </div>
         </main>
       </div>
+      {openModel && (
+        <OrderModal
+          orderData={orderdetail}
+          closeModal={() => setOpenModal(false)}
+          handleUpdateStatus={handleUpdateStatus}
+        />
+      )}{" "}
     </div>
   );
 }

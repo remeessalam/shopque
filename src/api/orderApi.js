@@ -119,3 +119,26 @@ export const getAllOrders = async (page = 1, limit = 10, searchParam = "") => {
     return { status: false, message: error.message };
   }
 };
+
+export const updateOrderStatus = async (orderId, newStatus) => {
+  try {
+    const token = getToken();
+    const response = await axios.patch(
+      `${API_BASE_URL}/orders/${orderId}/status`,
+      { orderStatus: newStatus },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    return {
+      status: false,
+      message: error.response?.data?.message || "Failed to update order status",
+    };
+  }
+};
